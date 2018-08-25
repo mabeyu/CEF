@@ -1,0 +1,633 @@
+/**
+ * Admui v1.0.0 (http://www.admui.com/)
+ * Copyright 2015-2017 Admui Team
+ * Licensed under the Admui License 1.0 (http://www.admui.com/about/#license)
+ */
+$(function () {
+    'use strict';
+    var urlLink = {
+        personPlatform: window.iwePath + '/task/personPlatform',
+        personPlatformOma: window.omaPath + '/cs/personPlatform'
+
+    };
+    var indexMainone = "";
+    window.msgOperator = {
+        handHome: function (isFirst) {
+            var query = {
+                roleNameList: loginUser.roleNames.join(",")
+            };
+            var roleNames = loginUser.roleNames;
+            for (var i = 0; i < roleNames.length; i++) {
+                msgOperator.currentRoleMap.set(roleNames[i], '1');
+            }
+            var list = {};
+            msgOperator.reset(isFirst);//重置
+            common.request({
+                url: urlLink.personPlatform,
+                data: query,
+                type: "POST",
+                dataType: "json",
+                success: function (res) {
+                    list = res;
+                    for (var i = 0; i < list.length; i++) {
+                        //if(list[i].roleName != '订单工程师') {//排除iwe里面的订单工程师数据
+                            msgOperator.messageMap.get(list[i].roleName).finish = parseInt(list[i].finish);
+                            msgOperator.messageMap.get(list[i].roleName).notFinish = parseInt(list[i].notFinish);
+                        //}
+                    }
+                    msgOperator.showOther();
+                    msgOperator.showTip();
+                }
+            });
+            /*common.request({
+                url: urlLink.personPlatformOma,
+                data: query,
+                type: "POST",
+                dataType: "json",
+                success: function (res) {
+                    list = res;
+                    for (var i = 0; i < list.length; i++) {
+                        msgOperator.messageMap.get(list[i].roleName).finish = parseInt(list[i].finish);
+                        msgOperator.messageMap.get(list[i].roleName).notFinish = parseInt(list[i].notFinish);
+                    }
+
+
+                    common.request({
+                        url: urlLink.personPlatform,
+                        data: query,
+                        type: "POST",
+                        dataType: "json",
+                        success: function (res) {
+                            list = res;
+                            for (var i = 0; i < list.length; i++) {
+                                if(list[i].roleName != '订单工程师') {//排除iwe里面的订单工程师数据
+                                    msgOperator.messageMap.get(list[i].roleName).finish = parseInt(list[i].finish);
+                                    msgOperator.messageMap.get(list[i].roleName).notFinish = parseInt(list[i].notFinish);
+                                }
+                            }
+                            msgOperator.showOther();
+                            msgOperator.showTip();
+                        }
+                    });
+                }
+            });*/
+
+            /*common.request({
+                url: urlLink.personPlatformOma,
+                data: query,
+                type: "POST",
+                dataType: "json",
+                success: function (res) {
+                    msgOperator.messageMap.get('订单工程师').finish = parseInt(res[0].finish);
+                    msgOperator.messageMap.get('订单工程师').notFinish = parseInt(res[0].notFinish);
+                    msgOperator.showOrder();
+                    msgOperator.showTip();
+                }
+            });
+            common.request({
+                url: urlLink.personPlatform,
+                data: query,
+                type: "POST",
+                dataType: "json",
+                success: function (res) {
+                    for (var i = 0; i < res.length; i++) {
+                        msgOperator.messageMap.get(res[i].roleName).finish = parseInt(res[i].finish);
+                        msgOperator.messageMap.get(res[i].roleName).notFinish = parseInt(res[i].notFinish);
+                    }
+                    msgOperator.showOther();
+                    msgOperator.showTip();
+                }
+            });*/
+
+        },
+        messageMap: new Map([
+            ["款式录入工程师", {finish: 0, notFinish: 0, newly: 0, url: '/console/page/style/styleList', name: '款式管理'}],
+            ["款式制版工程师", {finish: 0, notFinish: 0, newly: 0, url: '/console/page/bds/design/gradeStandard', name: 'MTM智能制版文件维护'}],
+            ["款式绣花工程师", {finish: 0, notFinish: 0, newly: 0, url: '/console/page/bds/design/embroideryStandard', name: 'EDS智能绣花文件维护'}],
+            ["款式BOM工程师", {finish: 0, notFinish: 0, newly: 0, url: '/console/page/style/styBomList', name: '款式物料总览'}],
+            ["款式工艺工程师", {finish: 0, notFinish: 0, newly: 0, url: '/console/page/style/styCraftList', name: '款式工艺分配'}],
+            ["订单录入工程师", {finish: 0, notFinish: 0, newly: 0, url: '/console/page/oma/orderStartList', name: '订单录入'}],
+            ["订单3d设计工程师", {finish: 0, notFinish: 0, newly: 0, url: '/console/page/oma/designList', name: '设计调整'}],
+            ["订单生产审核工程师", {finish: 0, notFinish: 0, newly: 0, url: '/console/page/oma/orderAuditList', name: '订单生产审核'}],
+            ["订单商务审核工程师", {finish: 0, notFinish: 0, newly: 0, url: '/console/page/oma/orderCombineAuditList', name: '订单商务审核'}],
+            ["生产制版工程师", {finish: 0, notFinish: 0, newly: 0, url: '/console/page/idc/design/gradeList', name: 'MTM智能制版'}],
+            ["生产绣花工程师", {finish: 0, notFinish: 0, newly: 0, url: '/console/page/idc/design/embroideryList', name: 'EDS智能绣花'}],
+            ["生产计划工程师", {finish: 0, notFinish: 0, newly: 0, url: '/console/page/aps/apsTask/taskList', name: 'APS智能排程'}],
+            ["生产排料工程师", {finish: 0, notFinish: 0, newly: 0, url: '/console/page/idc/design/maskList', name: 'AMS智能排料'}],
+            ["生产出库工程师", {finish: 0, notFinish: 0, newly: 0, url: '/console/page/wms/manager/outTaskList', name: '出库任务'}],
+            ["生产工艺工程师", {finish: 0, notFinish: 0, newly: 0, url: '/console/page/pis/orderCraftList', name: '订单工艺分配'}],
+            ["生产BOM工程师", {finish: 0, notFinish: 0, newly: 0, url: '/console/page/mis/orderBomList', name: '订单物料确认'}],
+            ["裁剪操作工程师", {finish: 0, notFinish: 0, newly: 0, url: '/console/page/idc/design/maskOperateListV1', name: 'AMS裁剪操作'}],
+            ["绣花操作工程师", {finish: 0, notFinish: 0, newly: 0, url: '/console/page/idc/design/embroideryOperateList', name: 'EDS绣花操作'}],
+        ]),
+        currentRoleMap: new Map(),
+        showOrder: function () {
+            //显示订单角色
+            /*if (this.currentRoleMap.has('订单工程师')) {
+                var html = "";
+                var curGsS = 0, curGsy = 0;
+                var newlyHtml = '';
+                if (msgOperator.messageMap.get('订单工程师').newly > 0) {
+                    newlyHtml = '<span style="position: absolute;top: 10px;right: 10px;color: #12b7f5">NEW<span class="badge badge-danger up msg-num margin-left-5">' + msgOperator.messageMap.get('订单工程师').newly + '</span></span>';
+                }
+                html += '<div class="grid-stack-item" data-gs-x="' + curGsS + '" data-gs-y="' + curGsy + '" data-gs-width="3" data-gs-height="2">' +
+                    '<div class="grid-stack-item-content panel font-size-14" style="box-shadow: 3px 3px 3px 3px #ccc;">' +
+                    '<a class="list-group-item" style="height: 100%" href="' + msgOperator.messageMap.get('订单工程师').url + '" data-pjax target="_blank">' +
+                    newlyHtml +
+                    '<div>未完成<span class="font-size-18" style="color: red;">' + (msgOperator.messageMap.get('订单工程师').notFinish + msgOperator.messageMap.get('订单工程师').newly) + '</span>项</div>' +
+                    '<div>已完成<span class="font-size-18" style="color: #36ab7a;">' + msgOperator.messageMap.get('订单工程师').finish + '</span>项</div>' +
+                    '<h1>' + msgOperator.messageMap.get('订单工程师').name + '</h1>' +
+                    '<div style="position: absolute;bottom: 0px;left: 0px;right: 0px;">角色：<span>' + '订单工程师' + '</span></div>' +
+                    '</a>' +
+                    '</div>' +
+                    '</div>';
+                html = ' <div class="grid-stack margin-bottom-20" data-plugin="gridstack" data-gs-width="12" data-gs-animate="yes" >' + html;
+                html = html + '</div>';
+
+                if ($('#homeMain-one').length > 0) {//显示首页
+                    $("#homeMain-one").html(html);
+                }
+                if ($('#indexMain-one').length > 0) {//显示右上角方形
+                    $("#indexMain-one").html(html);
+                }
+            }*/
+            $.components.init('gridstack');
+        },
+
+        showOther: function () {
+            //显示其他角色
+            var html = "";
+            var progressListhtml = "";
+            var curGsS = 0, curGsy = 0;
+            var newlyHtml = '';
+            this.currentRoleMap.forEach(function (value, key) {
+                if (msgOperator.messageMap.has(key)) {
+                    newlyHtml = '';
+                    if (msgOperator.messageMap.get(key).newly > 0) {
+                        newlyHtml = '<span style="position: absolute;top: 10px;right: 10px;color: #12b7f5">NEW<span class="badge badge-danger up msg-num margin-left-5">' + msgOperator.messageMap.get(key).newly + '</span></span>';
+                    }
+                    html += '<div class="grid-stack-item" data-gs-x="' + curGsS + '" data-gs-y="' + curGsy + '" data-gs-width="3" data-gs-height="2">' +
+                        '<div class="grid-stack-item-content panel font-size-14" style="box-shadow: 3px 3px 3px 3px #ccc;">' +
+                        '<a class="list-group-item" style="height: 100%" href="' + msgOperator.messageMap.get(key).url + '" data-pjax target="_blank">' +
+                        newlyHtml +
+                        '<div>未完成<span class="font-size-18" style="color: red;">' + msgOperator.messageMap.get(key).notFinish + '</span>项</div>' +
+                        '<div>已完成<span class="font-size-18" style="color: #36ab7a;">' + msgOperator.messageMap.get(key).finish + '</span>项</div>' +
+                        '<h1>' + msgOperator.messageMap.get(key).name + '</h1>' +
+                        '<div style="position: absolute;bottom: 0px;left: 0px;right: 0px;">角色：<span>' + key + '</span></div>' +
+                        '</a>' +
+                        '</div>' +
+                        '</div>';
+
+                    curGsS += 3;
+                    if (curGsS % 12 == 0) {
+                        curGsS = 0;
+                        curGsy += 3;
+                    }
+                }
+                /*if (key == "裁剪师" || key == "绣花师") {
+                    newlyHtml = '';
+                    if (msgOperator.messageMap.get(key).newly > 0) {
+                        newlyHtml = '<span style="position: absolute;top: 10px;right: 10px;color: #12b7f5">NEW<span class="badge badge-danger up msg-num margin-left-5">' + msgOperator.messageMap.get(key).newly + '</span></span>';
+                    }
+                    html += '<div class="grid-stack-item" data-gs-x="' + curGsS + '" data-gs-y="' + curGsy + '" data-gs-width="3" data-gs-height="2">' +
+                        '<div class="grid-stack-item-content panel font-size-14" style="box-shadow: 3px 3px 3px 3px #ccc;">' +
+                        '<a class="list-group-item" style="height: 100%" href="' + msgOperator.messageMap.get(key).url + '" data-pjax target="_blank">' +
+                        newlyHtml +
+                        '<div style="visibility:hidden;">未完成<span class="font-size-18" style="color: red;">' + (msgOperator.messageMap.get(key).notFinish + msgOperator.messageMap.get(key).newly) + '</span>项</div>' +
+                        '<div style="visibility:hidden;">已完成<span class="font-size-18" style="color: #36ab7a;">' + msgOperator.messageMap.get(key).finish + '</span>项</div>' +
+                        '<h1>' + msgOperator.messageMap.get(key).name + '</h1>' +
+                        '<div style="position: absolute;bottom: 0px;left: 0px;right: 0px;">角色：<span>' + key + '</span></div>' +
+                        '</a>' +
+                        '</div>' +
+                        '</div>';
+
+                    curGsS += 3;
+                    if (curGsS % 12 == 0) {
+                        curGsS = 0;
+                        curGsy += 3;
+                    }
+                }*/
+                progressListhtml = '<div class="grid-stack-item" data-gs-x="' + curGsS + '" data-gs-y="' + curGsy + '" data-gs-width="3" data-gs-height="2">' +
+                    '<div class="grid-stack-item-content panel font-size-14" style="box-shadow: 3px 3px 3px 3px #ccc;">' +
+                    '<a class="list-group-item" style="height: 100%" href="/console/page/oma/progressList" data-pjax target="_blank">'+
+                    '<div style="visibility:hidden;">未完成<span class="font-size-18" style="color: red;"></span>项</div>' +
+                    '<div style="visibility:hidden;">已完成<span class="font-size-18" style="color: #36ab7a;"></span>项</div>' +
+                    '<h1>生产进度查询</h1>' +
+                    '<div style="position: absolute;bottom: 0px;left: 0px;right: 0px;">角色：<span>所有人</span></div>' +
+                    '</a>' +
+                    '</div>' +
+                    '</div>';
+
+                //curGsS += 3;
+                //if (curGsS % 12 == 0) {
+                //    curGsS = 0;
+                //    curGsy += 3;
+                //}
+
+            });
+
+            html = ' <div class="gridhtml grid-stack" data-plugin="gridstack" data-gs-width="12" data-gs-animate="yes" >' + html;
+            html = html + '</div>';
+
+
+            if ($('#homeMain-two').length > 0) {//显示主页
+                $("#homeMain-two").html(html);
+            }
+            if ($('#indexMain-two').length > 0) {//显示右上角方形
+                $("#indexMain-two").html(html);
+            }
+            $(".gridhtml").append(progressListhtml);
+
+            //if(($('#homeMain-two .grid-stack-item').length<3 )){
+            //    $("#admui-unfinishList .dropdown-menu-media").css({"width":"800px","height":"500px"});
+            //    $("#admui-unfinishList #indexMain-one .grid-stack-item").attr("data-gs-width",6);
+            //    $("#admui-unfinishList #indexMain-two .grid-stack-item").attr("data-gs-width",6);
+            //}
+            //if(($('#homeMain-two .grid-stack-item').length<3 )){
+            //    $("#admui-unfinishList .dropdown-menu-media").css({"width":"800px","height":"500px"});
+            //    $("#admui-unfinishList #indexMain-one .grid-stack-item").attr("data-gs-width",6);
+            //    $("#admui-unfinishList #indexMain-two .grid-stack-item").attr("data-gs-width",6);
+            //}
+            $.components.init('gridstack');
+        },
+
+        showHome: function () {
+            this.showOrder();
+            this.showOther();
+        },
+
+        showTip: function () {
+            var html = "";
+            var msgNumber = 0;
+
+            var unfinishmsgNumber = 0, msgnotFinish = 0, msgSum = 0;
+
+            this.currentRoleMap.forEach(function (value, key) {
+                if (msgOperator.messageMap.has(key) && msgOperator.messageMap.get(key).newly > 0) {
+                    html += '<a class="list-group-item" href="' + msgOperator.messageMap.get(key).url + '" target="_blank" data-pjax role="menuitem">' +
+                        '<div class="media">' +
+                        '<div class="media-body">' +
+                        '<h6 class="media-heading col-sm-6" style="display: inline-block">' + msgOperator.messageMap.get(key).name + '</h6>' +
+                        '<div class="media-heading col-sm-6">' +
+                        '<span class="badge badge-danger up msg-num" style="display: inline-block;margin-left: 40%;top: 0px;">' + msgOperator.messageMap.get(key).newly + '</span>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</a>';
+
+                    msgNumber += msgOperator.messageMap.get(key).newly;
+                }
+
+                if (msgOperator.messageMap.has(key) && msgOperator.messageMap.get(key).notFinish > 0) {
+                    unfinishmsgNumber += msgOperator.messageMap.get(key).newly;
+                    msgnotFinish += msgOperator.messageMap.get(key).notFinish;
+                    msgSum = unfinishmsgNumber + msgnotFinish;
+                }
+            });
+            $("#admui-messageContent").html(html);//右上角铃铛区域内容
+            var $msgDom = $('#admui-navbarMessage a[data-toggle="dropdown"]').find('span.msg-num');
+            if (msgNumber == 0) {
+                msgNumber = "";
+                $("#admui-messageContent").html('<p class="text-center height-200 vertical-align"> <small class="vertical-align-middle opacity-four">没有新消息</small> </p>');
+            }
+            $msgDom.text(msgNumber);
+
+            if (msgSum == 0) {
+                msgSum = "";
+            }
+            var $msgunFinishDom = $('#admui-unfinishList a[data-toggle="dropdown"]').find('span.msg-unfinishNum');
+            $msgunFinishDom.text(msgSum);//右上角home copy 总未完成数
+
+        },
+
+        show: function () {
+            //admui-unfinishList
+            //admui-navbarMessage
+            this.showHome();
+            this.showTip();
+        },
+
+        reduceAndShow: function (roleName, count) {
+            //先赋值notFinish，再清空newly
+           /* this.handHome();*/
+         /*   msgOperator.messageMap.get(roleName).notFinish = msgOperator.messageMap.get(roleName).notFinish + msgOperator.messageMap.get(roleName).newly;
+            msgOperator.messageMap.get(roleName).notFinish = msgOperator.messageMap.get(roleName).notFinish - count;
+            if( msgOperator.messageMap.get(roleName).notFinish < 0){
+                msgOperator.messageMap.get(roleName).notFinish = 0;
+            }
+            msgOperator.messageMap.get(roleName).newly = 0;
+            msgOperator.show();*/
+        },
+
+        clearTip: function (roleName) {
+            //先赋值notFinish，再清空newly
+            //msgOperator.messageMap.get(roleName).notFinish = msgOperator.messageMap.get(roleName).notFinish + msgOperator.messageMap.get(roleName).newly;
+            msgOperator.messageMap.get(roleName).newly = 0;
+            msgOperator.show();
+        },
+
+        reset: function (isFirst) {
+            this.messageMap.forEach(function (value, key) {
+                value.finish = 0;
+                value.notFinish = 0;
+                if(isFirst === true){
+                    value.newly = 0;
+                }
+            });
+        },
+    };
+    if($('#admui-siteConTabs .con-tabs').children('li').length > 1){
+        window.msgOperator.handHome();
+    }
+    /**
+     * 消息通知
+     */
+    var notifyMsg = {
+        //handHome: function () {
+        //    var query = {
+        //        roleNameList: loginUser.roleNames.join(",")
+        //    };
+        //    var roleNames = loginUser.roleNames;
+        //    for (var i = 0; i < roleNames.length; i++) {
+        //        msgOperator.currentRoleMap.set(roleNames[i], '1');
+        //    }
+        //    msgOperator.reset();//重置
+        //
+        //    common.request({
+        //        url: urlLink.personPlatformOma,
+        //        data: query,
+        //        type: "POST",
+        //        dataType: "json",
+        //        success: function (res) {
+        //            msgOperator.messageMap.get('订单工程师').finish = parseInt(res[0].finish);
+        //            msgOperator.messageMap.get('订单工程师').notFinish = parseInt(res[0].notFinish);
+        //            msgOperator.showOrder();
+        //            msgOperator.showTip();
+        //        }
+        //    });
+        //    common.request({
+        //        url: urlLink.personPlatform,
+        //        data: query,
+        //        type: "POST",
+        //        dataType: "json",
+        //        success: function (res) {
+        //            for (var i = 0; i < res.length; i++) {
+        //                msgOperator.messageMap.get(res[i].roleName).finish = parseInt(res[i].finish);
+        //                msgOperator.messageMap.get(res[i].roleName).notFinish = parseInt(res[i].notFinish);
+        //            }
+        //            msgOperator.showOther();
+        //            msgOperator.showTip();
+        //        }
+        //    });
+        //
+        //},
+        init: function () {
+            var $msgDom = $('#admui-navbarMessage').find('span.msg-num'),
+                msgNumber = 0;
+            var $msgunFinishDom = $('#admui-unfinishList').find('span.msg-unfinishNum'),
+                unfinishmsgNumber = 0;
+            /*         $.ajax({
+             url: $.ctx + '/message/queryUnreadCount',
+             dataType: 'JSON',
+             success: function (data) {
+             if (data.success) {
+             msgNumber = data.count === 0 ? '' : data.count;
+             /!*   $msgDom.text(msgNumber);*!/
+             } else {
+             toastr.error('出错了，请重试！');
+             }
+             },
+             error: function () {
+             toastr.error('服务器异常，请稍后再试！');
+             }
+             });*/
+
+            var socket = new WebSocket('ws://' + window.location.host + $.ctx + '/socket');
+            socket.onopen = function () {
+
+                socket.onmessage = function (event, data) {
+                    var data = JSON.parse(event.data);
+                    var roleNames = loginUser.roleNames;
+                    for (var i = 0; i < roleNames.length; i++) {
+                        msgOperator.currentRoleMap.set(roleNames[i], '1');
+                    }
+                    if (data) {
+                        msgOperator.messageMap.get(data.title).newly += parseInt(data.content);
+                    }
+
+                    msgOperator.show();
+                };
+
+                socket.onclose = function (event) {
+                    toastr.info('消息通知服务已关闭', event);
+                };
+            };
+        },
+        render: function () {
+            var self = this;
+            template.helper('iconType', function (type) {
+                switch (type) {
+                    case 'SYSTEM':
+                        return 'fa-desktop system';
+                    case 'TASK':
+                        return 'fa-tasks task';
+                    case 'SETTING':
+                        return 'fa-cog setting';
+                    case 'EVENT':
+                        return 'fa-calendar event';
+                    default:
+                        return 'fa-comment-o other';
+                }
+            });
+            template.helper('timeMsg', function (date) {
+                var msgTime, arr,
+                    currentTime = new Date();
+
+                // ios new Data兼容
+                arr = date.split(/[- : \/]/);
+                msgTime = new Date(arr[0], arr[1] - 1, arr[2], arr[3], arr[4], arr[5]);
+
+                return self.timeDistance(msgTime, currentTime);
+
+            });
+        },
+        loading: function () {
+            var html;
+
+            this.render();
+            $.ajax({
+                url: $.ctx + '/message/queryUnread',
+                type: 'GET',
+                dataType: 'JSON',
+                success: function (data) {
+                    if (data.success) {
+                        if (data.msgList.length === 0) {
+                            return;
+                        }
+
+                        html = template('admui-messageTpl', data);
+                        $('#admui-messageContent').html(html);
+
+                    } else {
+                        toastr.error('出错了，请重试！');
+                    }
+                },
+                error: function () {
+                    toastr.error('服务器异常，请稍后再试！');
+                }
+            });
+
+        },
+        timeDistance: function (reference, current) {
+            var distance;
+
+            for (var i = 0; i < 6; i++) {
+                switch (i) {
+                    case 0:
+                        distance = current.getFullYear() - reference.getFullYear();
+                        if (distance !== 0) {
+                            return distance + '年前';
+                        }
+                        break;
+                    case 1:
+                        distance = current.getMonth() - reference.getMonth();
+                        if (distance !== 0) {
+                            return distance + '月前';
+                        }
+                        break;
+                    case 2:
+                        distance = current.getDate() - reference.getDate();
+                        if (distance !== 0) {
+                            return distance + '天前';
+                        }
+                        break;
+                    case 3:
+                        distance = current.getHours() - reference.getHours();
+                        if (distance !== 0) {
+                            return distance + '小时前';
+                        }
+                        break;
+                    case 4:
+                        distance = current.getMinutes() - reference.getMinutes();
+                        if (distance !== 0) {
+                            return distance + '分钟前';
+                        }
+                        break;
+                    case 5:
+                        distance = current.getSeconds() - reference.getSeconds();
+                        if (distance !== 0) {
+                            return distance + '秒前';
+                        }
+                        break;
+                }
+            }
+        }
+    };
+
+    notifyMsg.init();
+    //notifyMsg.handHome();
+
+    $("#admui-toggleMenubar").click();
+
+    $("#admui-signOut").click(function () {
+        alertify.theme('bootstrap')
+            .confirm('是否确认退出？', function () {
+                $.pjax({
+                    url: '/console/system/logout',
+                    container: '#admui-pageContent',
+                    replace: true
+                });
+            }, function () {
+                return false;
+            });
+    });
+
+    $('#admui-unfinishList').unbind().on('click', function () {
+        window.msgOperator.handHome();
+    });
+
+    $("#admuiUpdate").click(function(){
+        var query_f = {
+            "type":"refresh",
+            "data":""
+        };
+        shellWebSocket.send(query_f);
+    });
+    $("#admuiUploadFile").click(function(){
+        var query_f = {
+            "type":"order",
+            "data":""
+        };
+        shellWebSocket.send(query_f);
+    });
+// 获取消息
+    /*    $('#admui-navbarMessage > .msg-btn').on('click', function () {
+     notifyMsg.loading();
+     });*/
+
+
+    /**
+     * 壳ws
+     */
+    var socket = {};
+    window.ws = {};
+    var callBackFncMap = new Map();
+    window.shellWebSocket = {
+
+        init: function () {
+            var self = this;
+            //建立WebSocket
+            try {
+                //socket = new WebSocket("ws://192.168.100.35:8088");
+                //socket = new WebSocket('ws://' + 'localhost:8088');
+                socket = new WebSocket("ws://127.0.0.1:8088");
+                window.ws = socket;
+                //var socket = new WebSocket('ws://' + window.location.host + ':8088');
+                socket.onopen = function () {
+                    socket.onmessage = function (event, data) {
+                        var receiveJson = JSON.parse(event.data);
+                        if(receiveJson.meta){
+                            //二次才是逻辑响应
+                            var callBackFnc = callBackFncMap.get(receiveJson.meta);
+                            callBackFnc(receiveJson);
+                        }else {
+                            if (receiveJson.data == "failed") {
+                                toastr.error('本地壳消息服务处理异常');
+                                return false;
+                            }
+                        }
+
+                        if(receiveJson.type == "readCard"){
+                            //二次才是逻辑响应
+                            var callBackFnc = callBackFncMap.get(receiveJson.type);
+                            callBackFnc(receiveJson);
+                        }
+                    }
+                };
+                socket.onclose = function (event) {
+                    toastr.info('本地壳消息服务已关闭', event);
+                };
+
+            } catch (e) {
+                toastr.error('本地壳消息服务异常');
+            }
+        },
+        //sendJson 格式{type:'',dataxxx:,receive:}
+        //其中receive表示回调
+        send: function (sendJson) {
+            var self = this;
+            if (socket.readyState != 1) {
+                toastr.error('本地壳消息未正常打开，请重新刷新页面');
+                return false;
+            }
+
+            if (callBackFncMap.get(sendJson.type) == null)
+                callBackFncMap.set(sendJson.type, sendJson.receive);
+
+            socket.send(JSON.stringify(sendJson));
+        }
+    };
+
+    shellWebSocket.init();
+})
+;

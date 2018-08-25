@@ -1,0 +1,56 @@
+当前时间：2018/1/31 10:44:11
+异常信息：Unable to locate required Cef/CefSharp dependencies:
+Missing:locales\zh-CN.pak
+Executing Assembly Path:G:\shell\shell1.2\shell\bin\x86\Debug
+
+异常对象：CefSharp
+调用堆栈：
+在 CefSharp.DependencyChecker.AssertAllDependenciesPresent(String locale, String localesDirPath, String resourcesDirPath, Boolean packLoadingDisabled, String browserSubProcessPath) 位置 c:\projects\cefsharp\CefSharp\DependencyChecker.cs:行号 209
+   在 CefSharp.Cef.Initialize(CefSettings cefSettings, Boolean performDependencyCheck, IBrowserProcessHandler browserProcessHandler) 位置 c:\projects\cefsharp\cefsharp.core\cefsettings.h:行号 182
+   在 shell.Form1.cefInit() 位置 G:\shell\shell1.2\shell\UI\Form1.cs:行号 338
+触发方法：Void AssertAllDependenciesPresent(System.String, System.String, System.String, Boolean, System.String)
+
+当前时间：2018/1/31 16:06:11
+异常信息：无效的 URI: 未能确定 URI 的格式。
+异常对象：System
+调用堆栈：
+在 System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind)
+   在 System.Uri..ctor(String uriString)
+   在 System.Net.WebRequest.Create(String requestUriString)
+   在 shell.websocket.DownFile(String path, String adress) 位置 G:\shell\shell1.2\shell\websocket.cs:行号 755
+   在 shell.websocket.ProBoomTempletInfo(JObject JO, Socket socket) 位置 G:\shell\shell1.2\shell\websocket.cs:行号 1242
+触发方法：Void CreateThis(System.String, Boolean, System.UriKind)
+
+当前时间：2018/1/31 16:15:18
+异常信息：无效的 URI: 未能确定 URI 的格式。
+异常对象：System
+调用堆栈：
+在 System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind)
+   在 System.Uri..ctor(String uriString)
+   在 System.Net.WebRequest.Create(String requestUriString)
+   在 shell.websocket.DownFile(String path, String adress) 位置 G:\shell\shell1.2\shell\websocket.cs:行号 755
+   在 shell.websocket.ProBoomTempletInfo(JObject JO, Socket socket) 位置 G:\shell\shell1.2\shell\websocket.cs:行号 1242
+触发方法：Void CreateThis(System.String, Boolean, System.UriKind)
+
+当前时间：2018/1/31 16:16:22
+异常信息：无效的 URI: 未能确定 URI 的格式。
+异常对象：System
+调用堆栈：
+在 System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind)
+   在 System.Uri..ctor(String uriString)
+   在 System.Net.WebRequest.Create(String requestUriString)
+   在 shell.websocket.DownFile(String path, String adress) 位置 G:\shell\shell1.2\shell\websocket.cs:行号 755
+   在 shell.websocket.ProBoomTempletInfo(JObject JO, Socket socket) 位置 G:\shell\shell1.2\shell\websocket.cs:行号 1242
+触发方法：Void CreateThis(System.String, Boolean, System.UriKind)
+
+当前时间：2018/1/31 16:16:24
+异常信息：无效的 URI: 未能确定 URI 的格式。
+异常对象：System
+调用堆栈：
+在 System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind)
+   在 System.Uri..ctor(String uriString)
+   在 System.Net.WebRequest.Create(String requestUriString)
+   在 shell.websocket.DownFile(String path, String adress) 位置 G:\shell\shell1.2\shell\websocket.cs:行号 755
+   在 shell.websocket.ProBoomTempletInfo(JObject JO, Socket socket) 位置 G:\shell\shell1.2\shell\websocket.cs:行号 1242
+触发方法：Void CreateThis(System.String, Boolean, System.UriKind)
+

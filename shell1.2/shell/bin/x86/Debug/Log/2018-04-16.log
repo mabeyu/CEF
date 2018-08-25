@@ -1,0 +1,20 @@
+当前时间：2018/4/16 9:49:25
+异常信息：无法连接到远程服务器
+异常对象：System
+调用堆栈：
+在 System.Net.HttpWebRequest.GetResponse()
+   在 shell.websocket.DownFile(String path, String adress) 位置 G:\git\DPS\shell1.2\shell\websocket.cs:行号 761
+   在 shell.websocket.Dwon(String path, List`1 strList) 位置 G:\git\DPS\shell1.2\shell\websocket.cs:行号 751
+   在 shell.Form1.fileSystemWatcher1_Created(Object sender, FileSystemEventArgs e) 位置 G:\git\DPS\shell1.2\shell\UI\Form1.cs:行号 252
+触发方法：System.Net.WebResponse GetResponse()
+
+当前时间：2018/4/16 9:52:45
+异常信息：无法连接到远程服务器
+异常对象：System
+调用堆栈：
+在 System.Net.HttpWebRequest.GetResponse()
+   在 shell.websocket.DownFile(String path, String adress) 位置 G:\git\DPS\shell1.2\shell\websocket.cs:行号 761
+   在 shell.websocket.Dwon(String path, List`1 strList) 位置 G:\git\DPS\shell1.2\shell\websocket.cs:行号 751
+   在 shell.Form1.fileSystemWatcher1_Created(Object sender, FileSystemEventArgs e) 位置 G:\git\DPS\shell1.2\shell\UI\Form1.cs:行号 252
+触发方法：System.Net.WebResponse GetResponse()
+

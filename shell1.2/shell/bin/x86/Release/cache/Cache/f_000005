@@ -1,0 +1,471 @@
+var common = {
+
+    version: "1.0.1",
+
+    openPage: function (url, data, callback) {
+        $('#main_content').load(url, data, callback);
+    },
+
+    /**
+     * 重新封装jauqery的Ajax方法，方便处理一些公用的状态码
+     * @param options.service 接口地址
+     * @param options.data 参数
+     * @param options.type 请求类型，POST/GET，默认get
+     * @param options.async 是否異步請求，默認true
+     * @param options.success 回调
+     * @param options.error 回调
+     * @param options.loading 是否弹出遮罩层
+     */
+    request: function (options) {
+        var url = options.url,
+            data = options.data || '',
+            type = options.type || 'GET',
+            loading = options.loading || '',
+            success = options.success || '',
+            error = options.error || '',
+            contentType = options.contentType || 'application/x-www-form-urlencoded;charset=utf-8',
+            async = true;
+        if (typeof options.async != "undefined") {
+            async = options.async;
+        }
+        if (loading) {
+            common.loading("show");
+        }
+        $.ajax({
+            url: url,
+            data: data,
+            type: type,
+            async: async,
+            headers: {
+                'Content-Type': contentType,
+                'Accept': "application/json"
+            },
+            dataType: 'json',
+            success: function (response, status, xhr) {
+                if (loading) {
+                    common.loading("hide");
+                }
+                if (xhr.status == 203 || xhr.status == 401) {
+                    window.location.href = window.rootAppPath + "/login";
+                    return;
+                }
+                if (!response.error) {
+                    success(response.data, response.meta);
+                } else {
+                    if (error) {
+                        error(response);
+                    } else {
+                        toastr.error(response.error.message);
+                    }
+                }
+            },
+            error: function (response) {
+                if (loading) {
+                    common.loading("hide");
+                }
+                if (response.status == 203 || response.status == 401) {
+                    window.location.href = window.rootAppPath + "/login";
+                    return;
+                }
+                if (response.status == 404) {
+                    console.error("URL [" + url + "] is not found! ");
+                } else {
+                    console.error("URL [" + url + "] ajax error, code is " + response.status + " , " + type + " " + response.statusText);
+                }
+            }
+        });
+    },
+
+    loading: function (options) {
+        if (options == "show") {
+            var html = '<div class="jz-mask" id="loading"><div class="jz-loading" style="display:block"><img src="/console/res/img/loading.gif"></div></div>';
+            $("body").append(html);
+        } else if (options == "hide") {
+            $("#loading").remove();
+        }
+    },
+
+    //金额的输入检查
+    amountCheck: function (textObject) {
+        if (textObject != null) {
+            try {
+                var textValue = "";
+                textValue = textObject.value;
+                var NumberString = "0123456789.";
+                var intNo;
+
+                intNo = 0;
+
+                for (var i = 0; i < textValue.length; i++) { // loop all character
+                    if (NumberString.indexOf(textValue.substring(i, i + 1)) == -1) {
+                        break;
+                    }
+                    intNo = i + 1;
+                }
+                if (intNo == 0) { // set value = "" if value is "0"
+                    textValue = "";
+                } else {
+                    textValue = textValue.substring(0, intNo);
+                }
+                if (textValue.substring(0, 1) == "0") {
+                    if (textValue.substring(1, 2) == "0") {
+                        textValue = textValue.substring(0, 1);
+                    }
+
+                }
+                if (textValue.substring(0, 1) == ".") {
+                    textValue = "";
+                }
+                if (textValue.indexOf(".") != -1) {
+                    if (textValue.indexOf(".") != textValue.lastIndexOf(".")) {
+                        textValue = textValue.substring(0, textValue.length - 1);
+                    }
+                    if (textValue.indexOf(".") + 3 < textValue.length) {
+                        textValue = textValue.substring(0, textValue.length - 1);
+                    }
+                }
+                if (textValue.indexOf(".") == -1 && textValue.length >= 2) {
+                    if (textValue.substring(0, 1) == "0") {
+                        textValue = textValue.substring(1, textValue.length);
+                    }
+                }
+                textObject.value = textValue;
+            } catch (e) {
+            }
+        }
+    },
+    //列表跳转菜单
+    forwardMenuSelected: function (menuName) {
+        if (menuName != undefined) {
+            var menuId = $("#side-menu").find("li[desc=" + menuName + "]").attr("id");
+            var sessionStorage = window.sessionStorage;
+            sessionStorage.removeItem("id");
+            sessionStorage.setItem("id", menuId);
+        }
+    },
+
+    addCookie: function (name, value, path, expiresHours) {
+        var cookieString = name + "=" + escape(value);
+        //判断是否设置过期时间
+        if (expiresHours > 0) {
+            var date = new Date();
+            date.setTime(date.getTime() + expiresHours * 3600 * 1000);
+            cookieString = cookieString + "; expires=" + date.toGMTString();
+        }
+
+        cookieString += "; path=" + ( path ? path : "/");
+        document.cookie = cookieString;
+    },
+    getCookie: function (name) {
+        var strCookie = document.cookie;
+        var arrCookie = strCookie.split("; ");
+        for (var i = 0; i < arrCookie.length; i++) {
+            var arr = arrCookie[i].split("=");
+            if (arr[0] == name)return arr[1];
+        }
+        return "";
+    },
+    deleteCookie: function (name,path) {
+        common.addCookie(name,'',path,-1);
+    },
+
+    /**
+     * 解析url
+     */
+    parseURL: function (url) {
+        var a = document.createElement('a');
+        a.href = url;
+        return {
+            source: url,
+            protocol: a.protocol.replace(':', ''),
+            host: a.hostname,
+            port: a.port,
+            query: a.search,
+            params: function () {
+                var ret = {},
+                    seg = a.search.replace(/^\?/, '').split('&'),
+                    len = seg.length, i = 0, s;
+                for (; i < len; i++) {
+                    if (!seg[i]) {
+                        continue;
+                    }
+                    s = seg[i].split('=');
+                    ret[s[0]] = s[1];
+                }
+                return ret;
+            }
+        }
+    },
+
+    /**
+     * param 将要转为URL参数字符串的对象
+     * key URL参数字符串的前缀
+     * encode true/false 是否进行URL编码,默认为true
+     *
+     * return URL参数字符串
+     */
+    urlEncode: function (param, key, encode) {
+        if (param == null) return '';
+        var paramStr = '';
+        var t = typeof (param);
+        if (t == 'string' || t == 'number' || t == 'boolean') {
+            paramStr += '&' + key + '=' + ((encode == null || encode) ? encodeURIComponent(param) : param);
+        } else {
+            for (var i in param) {
+                var k = key == null ? i : key + (param instanceof Array ? '[' + i + ']' : '.' + i);
+                paramStr += common.urlEncode(param[i], k, encode);
+            }
+        }
+        return paramStr;
+    },
+
+    /**
+     * //金额格式化函数?
+     */
+    formatMoney: function (s, type) {
+        if (/[^0-9\.]/.test(s))
+            return "0";
+        if (s == null || s == "")
+            return "0";
+        s = Math.round((Number(s) + 0.0000001) * 100) / 100.0;
+        s = s.toString().replace(/^(\d*)$/, "$1.");
+        s = (s + "00").replace(/(\d*\.\d\d)\d*/, "$1");
+        s = s.replace(".", ",");
+        var re = /(\d)(\d{3},)/;
+        while (re.test(s))
+            s = s.replace(re, "$1,$2");
+        s = s.replace(/,(\d\d)$/, ".$1");
+        if (type == 0) {// 不带小数位(默认是有小数位)
+            var a = s.split(".");
+            if (a[1] == "00") {
+                s = a[0];
+            }
+        }
+        return "" + s;
+    },
+
+    // 除法函数，用来得到精确的除法结果
+    // 说明：javascript的除法结果会有误差，在两个浮点数相除的时候会比较明显。这个函数返回较为精确的除法结果。
+    // 调用：accDiv(arg1,arg2)
+    // 返回值：arg1除以arg2的精确结果
+    accDiv: function (arg1, arg2) {
+        var t1 = 0, t2 = 0, r1, r2;
+        try {
+            t1 = arg1.toString().split(".")[1].length
+        } catch (e) {
+        }
+        try {
+            t2 = arg2.toString().split(".")[1].length
+        } catch (e) {
+        }
+        with (Math) {
+            r1 = Number(arg1.toString().replace(".", ""))
+            r2 = Number(arg2.toString().replace(".", ""))
+            return (r1 / r2) * pow(10, t2 - t1);
+        }
+    },
+
+    // 乘法函数，用来得到精确的乘法结果
+    // 说明：javascript的乘法结果会有误差，在两个浮点数相乘的时候会比较明显。这个函数返回较为精确的乘法结果。
+    // 调用：accMul(arg1,arg2)
+    // 返回值：arg1乘以arg2的精确结果
+    accMul: function (arg1, arg2) {
+        var m = 0, s1 = arg1.toString(), s2 = arg2.toString();
+        try {
+            m += s1.split(".")[1].length
+        } catch (e) {
+        }
+        try {
+            m += s2.split(".")[1].length
+        } catch (e) {
+        }
+        return Number(s1.replace(".", "")) * Number(s2.replace(".", ""))
+            / Math.pow(10, m)
+    },
+
+    // 加法函数，用来得到精确的加法结果
+    // 说明：javascript的加法结果会有误差，在两个浮点数相加的时候会比较明显。这个函数返回较为精确的加法结果。
+    // 调用：accAdd(arg1,arg2)
+    // 返回值：arg1加上arg2的精确结果
+    accAdd: function (arg1, arg2) {
+        var r1, r2, m;
+        try {
+            r1 = arg1.toString().split(".")[1].length
+        } catch (e) {
+            r1 = 0
+        }
+        try {
+            r2 = arg2.toString().split(".")[1].length
+        } catch (e) {
+            r2 = 0
+        }
+        m = Math.pow(10, Math.max(r1, r2));
+
+        return common.accDiv((common.accMul(arg1, m) + common.accMul(arg2, m)), m);
+    },
+
+    // 减法函数
+    accSub: function (arg1, arg2) {
+        return common.accAdd(arg1, -arg2);
+    },
+
+    /**
+     * 获取URL参数
+     */
+    getParam: function (key) {
+        var reg = new RegExp('(^|&)' + key + '=([^&]*)(&|$)', 'i');
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) {
+            return unescape(r[2]);
+        }
+        return '';
+    },
+    /**
+     * 获取URL参数
+     */
+    getParamDecodeURI: function (key) {
+        var reg = new RegExp('(^|&)' + key + '=([^&]*)(&|$)', 'i');
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) {
+            return decodeURI(r[2]);
+        }
+        return '';
+    },
+
+    renderList: function (list, contextId, templateId, convert, isAppend) {
+        var html = [];
+        var indx = 0;
+        _.each(list, function (element, index) {
+            element.index = index;
+            convert && convert(element, index);//数据转化处理
+            var item = _.template($('#' + templateId).html());
+            html.push(item(element));
+            indx++;
+        });
+        var $listBox = $('#' + contextId);
+        if (isAppend) {
+            $listBox.append(html.join(""));
+        } else {
+            $listBox.html(html.join(""));
+        }
+    },
+
+    isEmpty: function (mixed_var) {
+        var key;
+        if (typeof mixed_var === 'undefined' || mixed_var === ""|| mixed_var === null || mixed_var === false) {
+            return true;
+        }
+
+        if (typeof mixed_var == 'object') {
+            if (mixed_var.length == 0) {
+                return true;
+            }
+            /* for (key in mixed_var) {
+             var emp = this.isEmpty(mixed_var[key]);
+             if (emp)
+             return true;
+             }
+             return true;*/
+        }
+        return false;
+    },
+
+    isString: function (str) {
+        return (typeof str == 'string') && str.constructor == String;
+    },
+    isObject: function (str) {
+        return (typeof str == 'object');
+    },
+    isReplace: function(data){
+        var str = ['<','>','/','|','"','*','?','#',':','K'];
+        var fileName = "";
+        for(var i = 0;i<str.length;i++){
+            if( str[i] == '/' || str[i] == '<' || str[i] == '>'){
+                var reg = new RegExp(str[i],"g");
+                fileName = data.replace(reg,'_');
+            }
+        }
+        return fileName;
+    }
+
+};
+
+(function ($) {
+    $.fn.serializeJson = function () {
+        var serializeObj = {};
+        var array = this.serializeArray();
+        $(array).each(function () {
+            //判断json中是否有某一属性存在
+            if (serializeObj[this.name]) {
+                //判断是否是数组
+                if ($.isArray(serializeObj[this.name])) {
+                    serializeObj[this.name].push[this.value];
+                } else {
+                    serializeObj[this.name] = [serializeObj[this.name], this.value];
+                }
+            } else {
+                serializeObj[this.name] = this.value;
+            }
+        })
+        return serializeObj;
+    }
+
+    $.fn.clear = function () {
+        $(this).find(":input").each(function () {
+            var _this = this;
+            var type = _this.type.toLowerCase();
+            var disabled = _this.disabled;
+            var tag = _this.tagName.toLowerCase();
+            var readOnly = _this.readOnly;
+            if ((!disabled && !readOnly)) {
+                if (type == 'text' || type == 'hidden' || type == 'textarea' || type == "password") {
+                    _this.value = "";
+                } else if (type == 'checkbox' || 'radio') {
+                    _this.checked = false;
+                } else if (tag == "select") {
+                    _this.selectedIndex = "";
+                }
+            }
+
+        })
+    }
+})(jQuery);
+
+/***  //JSON2String方法定义         ***/
+(function () {
+    var O2String = function (O) {
+        //return JSON.stringify(jsonobj);
+
+        var S = [];
+        var J = "";
+        if (Object.prototype.toString.apply(O) === '[object Array]') {
+            for (var i = 0; i < O.length; i++) {
+                if (typeof (O[i]) == 'string' || typeof (O[i]) == 'number') {//add by sufeng633
+                    S.push('"' + O[i] + '"');
+                } else {
+                    S.push(O2String(O[i]));
+                }
+            }
+            J = '[' + S.join(',') + ']';
+        }
+        else if (Object.prototype.toString.apply(O) === '[object Date]') {
+            J = "new Date(" + O.getTime() + ")";
+        }
+        else if (Object.prototype.toString.apply(O) === '[object RegExp]' || Object.prototype.toString.apply(O) === '[object Function]') {
+            J = O.toString();
+        } else if (O == null || O == '' || O == 'null') {//有值为空时千万不能报错啊
+            J = '""';
+        }
+        else if (Object.prototype.toString.apply(O) === '[object Object]') {
+            for (var i in O) {
+                O[i] = typeof (O[i]) == 'string' ? '"' + O[i] + '"' : (typeof (O[i]) === 'object' ? O2String(O[i]) : O[i]);
+                S.push(i + ':' + O[i]);
+            }
+            J = '{' + S.join(',') + '}';
+        }
+
+        return J;
+    };
+    window.JSON2String = O2String;
+})();
+	

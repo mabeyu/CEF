@@ -1,0 +1,219 @@
+G:\学习\shell 1.0\shell 1.0\shell\shell\bin\x86\Release\shell.exe.config
+G:\学习\shell 1.0\shell 1.0\shell\shell\obj\x86\Release\shell.Form1.resources
+G:\学习\shell 1.0\shell 1.0\shell\shell\obj\x86\Release\shell.Properties.Resources.resources
+G:\学习\shell 1.0\shell 1.0\shell\shell\obj\x86\Release\shell.UpLoad.resources
+G:\学习\shell 1.0\shell 1.0\shell\shell\obj\x86\Release\shell.csproj.GenerateResource.Cache
+G:\学习\shell 1.0\shell 1.0\shell\shell\bin\x86\Release\shell.exe
+G:\学习\shell 1.0\shell 1.0\shell\shell\bin\x86\Release\shell.pdb
+G:\学习\shell 1.0\shell 1.0\shell\shell\bin\x86\Release\CefSharp.BrowserSubprocess.Core.dll
+G:\学习\shell 1.0\shell 1.0\shell\shell\bin\x86\Release\CefSharp.BrowserSubprocess.exe
+G:\学习\shell 1.0\shell 1.0\shell\shell\bin\x86\Release\CefSharp.Core.dll
+G:\学习\shell 1.0\shell 1.0\shell\shell\bin\x86\Release\CefSharp.dll
+G:\学习\shell 1.0\shell 1.0\shell\shell\bin\x86\Release\CefSharp.WinForms.dll
+G:\学习\shell 1.0\shell 1.0\shell\shell\bin\x86\Release\Newtonsoft.Json.dll
+G:\学习\shell 1.0\shell 1.0\shell\shell\bin\x86\Release\CefSharp.WinForms.pdb
+G:\学习\shell 1.0\shell 1.0\shell\shell\bin\x86\Release\CefSharp.WinForms.xml
+G:\学习\shell 1.0\shell 1.0\shell\shell\bin\x86\Release\CefSharp.pdb
+G:\学习\shell 1.0\shell 1.0\shell\shell\bin\x86\Release\CefSharp.xml
+G:\学习\shell 1.0\shell 1.0\shell\shell\bin\x86\Release\CefSharp.Core.pdb
+G:\学习\shell 1.0\shell 1.0\shell\shell\bin\x86\Release\CefSharp.Core.xml
+G:\学习\shell 1.0\shell 1.0\shell\shell\bin\x86\Release\CefSharp.BrowserSubprocess.pdb
+G:\学习\shell 1.0\shell 1.0\shell\shell\bin\x86\Release\CefSharp.BrowserSubprocess.Core.pdb
+G:\学习\shell 1.0\shell 1.0\shell\shell\bin\x86\Release\Newtonsoft.Json.pdb
+G:\学习\shell 1.0\shell 1.0\shell\shell\bin\x86\Release\Newtonsoft.Json.xml
+G:\学习\shell 1.0\shell 1.0\shell\shell\obj\x86\Release\shell.csprojResolveAssemblyReference.cache
+G:\学习\shell 1.0\shell 1.0\shell\shell\obj\x86\Release\shell.exe
+G:\学习\shell 1.0\shell 1.0\shell\shell\obj\x86\Release\shell.pdb
+E:\学习\shell\shell1.0\shell\bin\x86\Release\shell.exe.config
+E:\学习\shell\shell1.0\shell\obj\x86\Release\shell.exe
+E:\学习\shell\shell1.0\shell\obj\x86\Release\shell.pdb
+E:\学习\shell\shell1.0\shell\bin\x86\Release\shell.exe
+E:\学习\shell\shell1.0\shell\bin\x86\Release\shell.pdb
+E:\学习\shell\shell1.0\shell\bin\x86\Release\CefSharp.BrowserSubprocess.Core.dll
+E:\学习\shell\shell1.0\shell\bin\x86\Release\CefSharp.BrowserSubprocess.exe
+E:\学习\shell\shell1.0\shell\bin\x86\Release\CefSharp.Core.dll
+E:\学习\shell\shell1.0\shell\bin\x86\Release\CefSharp.dll
+E:\学习\shell\shell1.0\shell\bin\x86\Release\CefSharp.WinForms.dll
+E:\学习\shell\shell1.0\shell\bin\x86\Release\CefSharp.WinForms.pdb
+E:\学习\shell\shell1.0\shell\bin\x86\Release\CefSharp.WinForms.xml
+E:\学习\shell\shell1.0\shell\bin\x86\Release\CefSharp.pdb
+E:\学习\shell\shell1.0\shell\bin\x86\Release\CefSharp.xml
+E:\学习\shell\shell1.0\shell\bin\x86\Release\CefSharp.Core.pdb
+E:\学习\shell\shell1.0\shell\bin\x86\Release\CefSharp.Core.xml
+E:\学习\shell\shell1.0\shell\bin\x86\Release\CefSharp.BrowserSubprocess.pdb
+E:\学习\shell\shell1.0\shell\bin\x86\Release\CefSharp.BrowserSubprocess.Core.pdb
+E:\学习\shell\shell1.0\shell\bin\x86\Release\Newtonsoft.Json.pdb
+E:\学习\shell\shell1.0\shell\bin\x86\Release\Newtonsoft.Json.xml
+E:\学习\shell\shell1.0\shell\obj\x86\Release\shell.csprojResolveAssemblyReference.cache
+E:\学习\shell\shell1.0\shell\obj\x86\Release\shell.Form1.resources
+E:\学习\shell\shell1.0\shell\obj\x86\Release\shell.Properties.Resources.resources
+E:\学习\shell\shell1.0\shell\obj\x86\Release\shell.UpLoad.resources
+E:\学习\shell\shell1.0\shell\obj\x86\Release\shell.csproj.GenerateResource.Cache
+C:\Users\shallow\Desktop\9.23\shell1.0\shell\bin\x86\Release\shell.exe.config
+C:\Users\shallow\Desktop\9.23\shell1.0\shell\obj\x86\Release\shell.exe
+C:\Users\shallow\Desktop\9.23\shell1.0\shell\obj\x86\Release\shell.pdb
+C:\Users\shallow\Desktop\9.23\shell1.0\shell\bin\x86\Release\shell.exe
+C:\Users\shallow\Desktop\9.23\shell1.0\shell\bin\x86\Release\shell.pdb
+C:\Users\shallow\Desktop\9.23\shell1.0\shell\bin\x86\Release\CefSharp.BrowserSubprocess.Core.dll
+C:\Users\shallow\Desktop\9.23\shell1.0\shell\bin\x86\Release\CefSharp.BrowserSubprocess.exe
+C:\Users\shallow\Desktop\9.23\shell1.0\shell\bin\x86\Release\CefSharp.Core.dll
+C:\Users\shallow\Desktop\9.23\shell1.0\shell\bin\x86\Release\CefSharp.dll
+C:\Users\shallow\Desktop\9.23\shell1.0\shell\bin\x86\Release\CefSharp.WinForms.dll
+C:\Users\shallow\Desktop\9.23\shell1.0\shell\bin\x86\Release\CefSharp.WinForms.pdb
+C:\Users\shallow\Desktop\9.23\shell1.0\shell\bin\x86\Release\CefSharp.WinForms.xml
+C:\Users\shallow\Desktop\9.23\shell1.0\shell\bin\x86\Release\CefSharp.pdb
+C:\Users\shallow\Desktop\9.23\shell1.0\shell\bin\x86\Release\CefSharp.xml
+C:\Users\shallow\Desktop\9.23\shell1.0\shell\bin\x86\Release\CefSharp.Core.pdb
+C:\Users\shallow\Desktop\9.23\shell1.0\shell\bin\x86\Release\CefSharp.Core.xml
+C:\Users\shallow\Desktop\9.23\shell1.0\shell\bin\x86\Release\CefSharp.BrowserSubprocess.pdb
+C:\Users\shallow\Desktop\9.23\shell1.0\shell\bin\x86\Release\CefSharp.BrowserSubprocess.Core.pdb
+C:\Users\shallow\Desktop\9.23\shell1.0\shell\bin\x86\Release\Newtonsoft.Json.pdb
+C:\Users\shallow\Desktop\9.23\shell1.0\shell\bin\x86\Release\Newtonsoft.Json.xml
+C:\Users\shallow\Desktop\9.23\shell1.0\shell\obj\x86\Release\shell.csprojResolveAssemblyReference.cache
+C:\Users\shallow\Desktop\9.23\shell1.0\shell\obj\x86\Release\shell.Form1.resources
+C:\Users\shallow\Desktop\9.23\shell1.0\shell\obj\x86\Release\shell.Properties.Resources.resources
+C:\Users\shallow\Desktop\9.23\shell1.0\shell\obj\x86\Release\shell.UpLoad.resources
+C:\Users\shallow\Desktop\9.23\shell1.0\shell\obj\x86\Release\shell.csproj.GenerateResource.Cache
+G:\学习\shell\shell1.0\shell\bin\x86\Release\shell.exe.config
+G:\学习\shell\shell1.0\shell\obj\x86\Release\shell.exe
+G:\学习\shell\shell1.0\shell\obj\x86\Release\shell.pdb
+G:\学习\shell\shell1.0\shell\bin\x86\Release\shell.exe
+G:\学习\shell\shell1.0\shell\bin\x86\Release\shell.pdb
+G:\学习\shell\shell1.0\shell\bin\x86\Release\CefSharp.BrowserSubprocess.Core.dll
+G:\学习\shell\shell1.0\shell\bin\x86\Release\CefSharp.BrowserSubprocess.exe
+G:\学习\shell\shell1.0\shell\bin\x86\Release\CefSharp.Core.dll
+G:\学习\shell\shell1.0\shell\bin\x86\Release\CefSharp.dll
+G:\学习\shell\shell1.0\shell\bin\x86\Release\CefSharp.WinForms.dll
+G:\学习\shell\shell1.0\shell\bin\x86\Release\CefSharp.WinForms.pdb
+G:\学习\shell\shell1.0\shell\bin\x86\Release\CefSharp.WinForms.xml
+G:\学习\shell\shell1.0\shell\bin\x86\Release\CefSharp.pdb
+G:\学习\shell\shell1.0\shell\bin\x86\Release\CefSharp.xml
+G:\学习\shell\shell1.0\shell\bin\x86\Release\CefSharp.Core.pdb
+G:\学习\shell\shell1.0\shell\bin\x86\Release\CefSharp.Core.xml
+G:\学习\shell\shell1.0\shell\bin\x86\Release\CefSharp.BrowserSubprocess.pdb
+G:\学习\shell\shell1.0\shell\bin\x86\Release\CefSharp.BrowserSubprocess.Core.pdb
+G:\学习\shell\shell1.0\shell\bin\x86\Release\Newtonsoft.Json.pdb
+G:\学习\shell\shell1.0\shell\bin\x86\Release\Newtonsoft.Json.xml
+G:\学习\shell\shell1.0\shell\obj\x86\Release\shell.csprojResolveAssemblyReference.cache
+G:\学习\shell\shell1.0\shell\obj\x86\Release\shell.Form1.resources
+G:\学习\shell\shell1.0\shell\obj\x86\Release\shell.Properties.Resources.resources
+G:\学习\shell\shell1.0\shell\obj\x86\Release\shell.UpLoad.resources
+G:\学习\shell\shell1.0\shell\obj\x86\Release\shell.csproj.GenerateResource.Cache
+G:\shell\shell1.0\shell\bin\x86\Release\CefSharp.BrowserSubprocess.Core.dll
+G:\shell\shell1.0\shell\bin\x86\Release\CefSharp.BrowserSubprocess.exe
+G:\shell\shell1.0\shell\bin\x86\Release\CefSharp.Core.dll
+G:\shell\shell1.0\shell\bin\x86\Release\CefSharp.dll
+G:\shell\shell1.0\shell\bin\x86\Release\CefSharp.WinForms.dll
+G:\shell\shell1.0\shell\bin\x86\Release\CefSharp.WinForms.pdb
+G:\shell\shell1.0\shell\bin\x86\Release\CefSharp.WinForms.xml
+G:\shell\shell1.0\shell\bin\x86\Release\CefSharp.pdb
+G:\shell\shell1.0\shell\bin\x86\Release\CefSharp.xml
+G:\shell\shell1.0\shell\bin\x86\Release\CefSharp.Core.pdb
+G:\shell\shell1.0\shell\bin\x86\Release\CefSharp.Core.xml
+G:\shell\shell1.0\shell\bin\x86\Release\CefSharp.BrowserSubprocess.pdb
+G:\shell\shell1.0\shell\bin\x86\Release\CefSharp.BrowserSubprocess.Core.pdb
+G:\shell\shell1.0\shell\obj\x86\Release\shell.Form1.resources
+G:\shell\shell1.0\shell\obj\x86\Release\shell.Properties.Resources.resources
+G:\shell\shell1.0\shell\obj\x86\Release\shell.UpLoad.resources
+G:\shell\shell1.0\shell\obj\x86\Release\shell.csproj.GenerateResource.Cache
+G:\shell\shell1.0\shell\obj\x86\Release\shell.csprojResolveAssemblyReference.cache
+G:\shell\shell1.0\shell\bin\x86\Release\DPS 2000.exe.config
+G:\shell\shell1.0\shell\bin\x86\Release\DPS 2000.exe
+G:\shell\shell1.0\shell\bin\x86\Release\DPS 2000.pdb
+G:\shell\shell1.0\shell\obj\x86\Release\DPS 2000.exe
+G:\shell\shell1.0\shell\obj\x86\Release\DPS 2000.pdb
+G:\git\shell\shell1.0\shell\bin\x86\Release\DPS 2000.exe.config
+G:\git\shell\shell1.0\shell\obj\x86\Release\DPS 2000.exe
+G:\git\shell\shell1.0\shell\obj\x86\Release\DPS 2000.pdb
+G:\git\shell\shell1.0\shell\bin\x86\Release\DPS 2000.exe
+G:\git\shell\shell1.0\shell\bin\x86\Release\DPS 2000.pdb
+G:\git\shell\shell1.0\shell\bin\x86\Release\CefSharp.BrowserSubprocess.Core.dll
+G:\git\shell\shell1.0\shell\bin\x86\Release\CefSharp.BrowserSubprocess.exe
+G:\git\shell\shell1.0\shell\bin\x86\Release\CefSharp.Core.dll
+G:\git\shell\shell1.0\shell\bin\x86\Release\CefSharp.dll
+G:\git\shell\shell1.0\shell\bin\x86\Release\CefSharp.WinForms.dll
+G:\git\shell\shell1.0\shell\bin\x86\Release\CefSharp.WinForms.pdb
+G:\git\shell\shell1.0\shell\bin\x86\Release\CefSharp.WinForms.xml
+G:\git\shell\shell1.0\shell\bin\x86\Release\CefSharp.pdb
+G:\git\shell\shell1.0\shell\bin\x86\Release\CefSharp.xml
+G:\git\shell\shell1.0\shell\bin\x86\Release\CefSharp.Core.pdb
+G:\git\shell\shell1.0\shell\bin\x86\Release\CefSharp.Core.xml
+G:\git\shell\shell1.0\shell\bin\x86\Release\CefSharp.BrowserSubprocess.pdb
+G:\git\shell\shell1.0\shell\bin\x86\Release\CefSharp.BrowserSubprocess.Core.pdb
+G:\git\shell\shell1.0\shell\obj\x86\Release\shell.csprojResolveAssemblyReference.cache
+G:\git\shell\shell1.0\shell\obj\x86\Release\shell.Form1.resources
+G:\git\shell\shell1.0\shell\obj\x86\Release\shell.Properties.Resources.resources
+G:\git\shell\shell1.0\shell\obj\x86\Release\shell.UpLoad.resources
+G:\git\shell\shell1.0\shell\obj\x86\Release\shell.csproj.GenerateResource.Cache
+G:\git\DPS\shell1.0\shell\bin\x86\Release\DPS 2000.exe.config
+G:\git\DPS\shell1.0\shell\obj\x86\Release\DPS 2000.exe
+G:\git\DPS\shell1.0\shell\obj\x86\Release\DPS 2000.pdb
+G:\git\DPS\shell1.0\shell\bin\x86\Release\DPS 2000.exe
+G:\git\DPS\shell1.0\shell\bin\x86\Release\DPS 2000.pdb
+G:\git\DPS\shell1.0\shell\bin\x86\Release\CefSharp.BrowserSubprocess.Core.dll
+G:\git\DPS\shell1.0\shell\bin\x86\Release\CefSharp.BrowserSubprocess.exe
+G:\git\DPS\shell1.0\shell\bin\x86\Release\CefSharp.Core.dll
+G:\git\DPS\shell1.0\shell\bin\x86\Release\CefSharp.dll
+G:\git\DPS\shell1.0\shell\bin\x86\Release\CefSharp.WinForms.dll
+G:\git\DPS\shell1.0\shell\bin\x86\Release\CefSharp.WinForms.pdb
+G:\git\DPS\shell1.0\shell\bin\x86\Release\CefSharp.WinForms.xml
+G:\git\DPS\shell1.0\shell\bin\x86\Release\CefSharp.pdb
+G:\git\DPS\shell1.0\shell\bin\x86\Release\CefSharp.xml
+G:\git\DPS\shell1.0\shell\bin\x86\Release\CefSharp.Core.pdb
+G:\git\DPS\shell1.0\shell\bin\x86\Release\CefSharp.Core.xml
+G:\git\DPS\shell1.0\shell\bin\x86\Release\CefSharp.BrowserSubprocess.pdb
+G:\git\DPS\shell1.0\shell\bin\x86\Release\CefSharp.BrowserSubprocess.Core.pdb
+G:\git\DPS\shell1.0\shell\obj\x86\Release\shell.csprojResolveAssemblyReference.cache
+G:\git\DPS\shell1.0\shell\obj\x86\Release\shell.Form1.resources
+G:\git\DPS\shell1.0\shell\obj\x86\Release\shell.Properties.Resources.resources
+G:\git\DPS\shell1.0\shell\obj\x86\Release\shell.UpLoad.resources
+G:\git\DPS\shell1.0\shell\obj\x86\Release\shell.csproj.GenerateResource.Cache
+G:\shell\shell1.2\shell\bin\x86\Release\DPS 2000.exe.config
+G:\shell\shell1.2\shell\bin\x86\Release\DPS 2000.exe
+G:\shell\shell1.2\shell\bin\x86\Release\DPS 2000.pdb
+G:\shell\shell1.2\shell\bin\x86\Release\CefSharp.BrowserSubprocess.Core.dll
+G:\shell\shell1.2\shell\bin\x86\Release\CefSharp.BrowserSubprocess.exe
+G:\shell\shell1.2\shell\bin\x86\Release\CefSharp.Core.dll
+G:\shell\shell1.2\shell\bin\x86\Release\CefSharp.dll
+G:\shell\shell1.2\shell\bin\x86\Release\CefSharp.WinForms.dll
+G:\shell\shell1.2\shell\bin\x86\Release\CefSharp.WinForms.pdb
+G:\shell\shell1.2\shell\bin\x86\Release\CefSharp.WinForms.xml
+G:\shell\shell1.2\shell\bin\x86\Release\CefSharp.pdb
+G:\shell\shell1.2\shell\bin\x86\Release\CefSharp.xml
+G:\shell\shell1.2\shell\bin\x86\Release\CefSharp.Core.pdb
+G:\shell\shell1.2\shell\bin\x86\Release\CefSharp.Core.xml
+G:\shell\shell1.2\shell\bin\x86\Release\CefSharp.BrowserSubprocess.pdb
+G:\shell\shell1.2\shell\bin\x86\Release\CefSharp.BrowserSubprocess.Core.pdb
+G:\shell\shell1.2\shell\obj\x86\Release\shell.csprojResolveAssemblyReference.cache
+G:\shell\shell1.2\shell\obj\x86\Release\shell.Form1.resources
+G:\shell\shell1.2\shell\obj\x86\Release\shell.Properties.Resources.resources
+G:\shell\shell1.2\shell\obj\x86\Release\shell.UpLoad.resources
+G:\shell\shell1.2\shell\obj\x86\Release\shell.csproj.GenerateResource.Cache
+G:\shell\shell1.2\shell\obj\x86\Release\DPS 2000.exe
+G:\shell\shell1.2\shell\obj\x86\Release\DPS 2000.pdb
+G:\shell\shell1.2\shell\obj\x86\Release\shell.SnapForm.resources
+G:\git\DPS\shell1.2\shell\bin\x86\Release\DPS 2000.exe.config
+G:\git\DPS\shell1.2\shell\obj\x86\Release\DPS 2000.exe
+G:\git\DPS\shell1.2\shell\obj\x86\Release\DPS 2000.pdb
+G:\git\DPS\shell1.2\shell\obj\x86\Release\shell.csprojResolveAssemblyReference.cache
+G:\git\DPS\shell1.2\shell\obj\x86\Release\shell.Form1.resources
+G:\git\DPS\shell1.2\shell\obj\x86\Release\shell.Properties.Resources.resources
+G:\git\DPS\shell1.2\shell\obj\x86\Release\shell.SnapForm.resources
+G:\git\DPS\shell1.2\shell\obj\x86\Release\shell.UpLoad.resources
+G:\git\DPS\shell1.2\shell\obj\x86\Release\shell.csproj.GenerateResource.Cache
+G:\git\DPS\shell1.2\shell\bin\x86\Release\DPS 2000.exe
+G:\git\DPS\shell1.2\shell\bin\x86\Release\DPS 2000.pdb
+G:\git\DPS\shell1.2\shell\bin\x86\Release\CefSharp.BrowserSubprocess.Core.dll
+G:\git\DPS\shell1.2\shell\bin\x86\Release\CefSharp.BrowserSubprocess.exe
+G:\git\DPS\shell1.2\shell\bin\x86\Release\CefSharp.Core.dll
+G:\git\DPS\shell1.2\shell\bin\x86\Release\CefSharp.dll
+G:\git\DPS\shell1.2\shell\bin\x86\Release\CefSharp.WinForms.dll
+G:\git\DPS\shell1.2\shell\bin\x86\Release\CefSharp.WinForms.pdb
+G:\git\DPS\shell1.2\shell\bin\x86\Release\CefSharp.WinForms.xml
+G:\git\DPS\shell1.2\shell\bin\x86\Release\CefSharp.pdb
+G:\git\DPS\shell1.2\shell\bin\x86\Release\CefSharp.xml
+G:\git\DPS\shell1.2\shell\bin\x86\Release\CefSharp.Core.pdb
+G:\git\DPS\shell1.2\shell\bin\x86\Release\CefSharp.Core.xml
+G:\git\DPS\shell1.2\shell\bin\x86\Release\CefSharp.BrowserSubprocess.pdb
+G:\git\DPS\shell1.2\shell\bin\x86\Release\CefSharp.BrowserSubprocess.Core.pdb
+G:\git\DPS\shell1.2\shell\bin\x86\Release\ComposerSDK.dll

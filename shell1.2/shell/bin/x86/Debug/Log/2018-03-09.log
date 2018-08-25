@@ -1,0 +1,285 @@
+当前时间：2018/3/9 11:04:21
+异常信息：由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+异常对象：System
+调用堆栈：
+在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 ComposerSDK.Util.NetUtil.ReceiveData(Socket socket, Int32 length)
+   在 ComposerSDK.Command.PTL900UDisplayCommand.Invoke(Socket socket)
+   在 ComposerSDK.PTL900U.Invoke(Socket socket)
+   在 ComposerSDK.BusWorker.Run900U()
+触发方法：Int32 Receive(Byte[], Int32, Int32, System.Net.Sockets.SocketFlags)
+
+当前时间：2018/3/9 11:04:23
+异常信息：由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+异常对象：System
+调用堆栈：
+在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 ComposerSDK.Util.NetUtil.ReceiveData(Socket socket, Int32 length)
+   在 ComposerSDK.Command.PTL900UDisplayCommand.Invoke(Socket socket)
+   在 ComposerSDK.PTL900U.Invoke(Socket socket)
+   在 ComposerSDK.BusWorker.Run900U()
+触发方法：Int32 Receive(Byte[], Int32, Int32, System.Net.Sockets.SocketFlags)
+
+当前时间：2018/3/9 11:16:59
+异常信息：由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+异常对象：System
+调用堆栈：
+在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 ComposerSDK.Util.NetUtil.ReceiveData(Socket socket, Int32 length)
+   在 ComposerSDK.Command.PTL900UDisplayCommand.Invoke(Socket socket)
+   在 ComposerSDK.PTL900U.Invoke(Socket socket)
+   在 ComposerSDK.BusWorker.Run900U()
+触发方法：Int32 Receive(Byte[], Int32, Int32, System.Net.Sockets.SocketFlags)
+
+当前时间：2018/3/9 11:17:06
+异常信息：由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+异常对象：System
+调用堆栈：
+在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 ComposerSDK.Util.NetUtil.ReceiveData(Socket socket, Int32 length)
+   在 ComposerSDK.Command.PTL900UDisplayCommand.Invoke(Socket socket)
+   在 ComposerSDK.PTL900U.Invoke(Socket socket)
+   在 ComposerSDK.BusWorker.Run900U()
+触发方法：Int32 Receive(Byte[], Int32, Int32, System.Net.Sockets.SocketFlags)
+
+当前时间：2018/3/9 11:17:12
+异常信息：由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+异常对象：System
+调用堆栈：
+在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 ComposerSDK.Util.NetUtil.ReceiveData(Socket socket, Int32 length)
+   在 ComposerSDK.Command.PTL900UDisplayCommand.Invoke(Socket socket)
+   在 ComposerSDK.PTL900U.Invoke(Socket socket)
+   在 ComposerSDK.BusWorker.Run900U()
+触发方法：Int32 Receive(Byte[], Int32, Int32, System.Net.Sockets.SocketFlags)
+
+当前时间：2018/3/9 11:17:15
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/9 11:17:22
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/9 11:17:29
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/9 11:17:31
+异常信息：由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+异常对象：System
+调用堆栈：
+在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 ComposerSDK.Util.NetUtil.ReceiveData(Socket socket, Int32 length)
+   在 ComposerSDK.Command.PTL900UDisplayCommand.Invoke(Socket socket)
+   在 ComposerSDK.PTL900U.Invoke(Socket socket)
+   在 ComposerSDK.BusWorker.Run900U()
+触发方法：Int32 Receive(Byte[], Int32, Int32, System.Net.Sockets.SocketFlags)
+
+当前时间：2018/3/9 11:17:34
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/9 11:17:39
+异常信息：由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+异常对象：System
+调用堆栈：
+在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 ComposerSDK.Util.NetUtil.ReceiveData(Socket socket, Int32 length)
+   在 ComposerSDK.Command.PTL900UDisplayCommand.Invoke(Socket socket)
+   在 ComposerSDK.PTL900U.Invoke(Socket socket)
+   在 ComposerSDK.BusWorker.Run900U()
+触发方法：Int32 Receive(Byte[], Int32, Int32, System.Net.Sockets.SocketFlags)
+
+当前时间：2018/3/9 11:18:03
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/9 11:18:39
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/9 11:18:45
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/9 12:38:38
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/9 12:39:19
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/9 12:44:18
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/9 12:58:43
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/9 13:01:15
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/9 13:05:05
+异常信息：由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+异常对象：System
+调用堆栈：
+在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 ComposerSDK.Util.NetUtil.ReceiveData(Socket socket, Int32 length)
+   在 ComposerSDK.Command.PTL900UDisplayCommand.Invoke(Socket socket)
+   在 ComposerSDK.PTL900U.Invoke(Socket socket)
+   在 ComposerSDK.BusWorker.Run900U()
+触发方法：Int32 Receive(Byte[], Int32, Int32, System.Net.Sockets.SocketFlags)
+
+当前时间：2018/3/9 13:11:40
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/9 13:11:44
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/9 13:11:50
+异常信息：由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+异常对象：System
+调用堆栈：
+在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 ComposerSDK.Util.NetUtil.ReceiveData(Socket socket, Int32 length)
+   在 ComposerSDK.Command.PTL900UDisplayCommand.Invoke(Socket socket)
+   在 ComposerSDK.PTL900U.Invoke(Socket socket)
+   在 ComposerSDK.BusWorker.Run900U()
+触发方法：Int32 Receive(Byte[], Int32, Int32, System.Net.Sockets.SocketFlags)
+
+当前时间：2018/3/9 13:11:53
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/9 13:15:47
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/9 13:18:44
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/9 13:18:54
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/9 13:18:57
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/9 13:19:01
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/9 13:19:05
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/9 13:19:09
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/9 13:19:13
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/9 13:19:17
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/9 13:34:11
+异常信息：由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+异常对象：System
+调用堆栈：
+在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 ComposerSDK.Util.NetUtil.ReceiveData(Socket socket, Int32 length)
+   在 ComposerSDK.Command.PTL900UDisplayCommand.Invoke(Socket socket)
+   在 ComposerSDK.PTL900U.Invoke(Socket socket)
+   在 ComposerSDK.BusWorker.Run900U()
+触发方法：Int32 Receive(Byte[], Int32, Int32, System.Net.Sockets.SocketFlags)
+
+当前时间：2018/3/9 13:38:27
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+

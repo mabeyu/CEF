@@ -1,0 +1,1280 @@
+
+
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="zh-cn">
+
+<head>
+    <title>主页</title>
+    
+
+
+
+
+
+
+
+
+<script>
+    window.rootAppPath = "http://192.168.33.249/console";
+    window.ctx = "/console";
+    window.omaPath = "http://192.168.33.249/oma";
+    window.idcPath = "http://192.168.33.249/idc";
+    window.apsPath = "http://192.168.33.249/aps";
+    window.misPath = "http://192.168.33.249/mis";
+    window.pisPath = "http://192.168.33.249/pis";
+    window.fdfsPath = "http://192.168.33.249/fdfs";
+    window.wmsPath = "http://192.168.33.249/wms";
+    window.iwePath = "http://192.168.33.249/iwe";
+    window.housePath = "http://localhost:8735/";
+    window.basicPath = "http://192.168.33.249/basic";
+
+    window.fdfsDownPath = "http://192.168.33.252:8091/";
+
+    window.fdfsUploadUrlToC = "http://192.168.33.252:8090/fdfs/firstUpload";
+    window.maskQrcode = "http://192.168.33.249/";
+
+    /*  juicer.set({
+     'tag::operationOpen': '{@',
+     'tag::operationClose': '}',
+     'tag::interpolateOpen': '{$',
+     'tag::interpolateClose': '}',
+     'tag::noneencodeOpen': '{$$',
+     'tag::noneencodeClose': '}',
+     'tag::commentOpen': '{#',
+     'tag::commentClose': '}'
+     });
+
+     var myDate = function(date) {
+     return moment(date).format('YYYY-MM-DD HH:mm:ss');
+     };
+     juicer.register('myDate', myDate);*/
+
+</script>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- 移动设备 viewport -->
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
+<meta name="author" content="admui.com">
+<!-- 360浏览器默认使用Webkit内核 -->
+<meta name="renderer" content="webkit">
+<!-- 禁止搜索引擎抓取 -->
+<meta name="robots" content="nofollow">
+<!-- 禁止百度SiteAPP转码 -->
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<!-- Chrome浏览器添加桌面快捷方式（安卓） -->
+<link rel="icon" type="image/png" href="/console/public/images/favicon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<!-- Safari浏览器添加到主屏幕（IOS） -->
+<link rel="icon" sizes="192x192" href="/console/public/images/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Admui">
+<!-- Win8标题栏及ICON图标 -->
+<link rel="apple-touch-icon-precomposed" href="/console/public/images/apple-touch-icon.png">
+<meta name="msapplication-TileImage" content="/console/public/images/app-icon72x72@2x.png">
+<meta name="msapplication-TileColor" content="#62a8ea">
+<!-- 样式 -->
+<link rel="stylesheet" href="/console/public/themes/classic/base/skins/cyan.css" id="admui-siteStyle">
+<!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0; url='http://www.admui.com/ie/'" />
+<![endif]-->
+<!--[if lt IE 10]>
+<script src="/console/public/vendor/media-match/media.match.min.js"></script>
+<script src="/console/public/vendor/respond/respond.min.js"></script>
+<![endif]-->
+
+
+    <!-- 图标 CSS-->
+    <link rel="stylesheet" href="/console/public/fonts/font-awesome/font-awesome.css">
+    <link rel="stylesheet" href="/console/public/fonts/web-icons/web-icons.css">
+    <!-- 插件 CSS -->
+    <link rel="stylesheet" href="/console/public/vendor/animsition/animsition.css">
+    <link rel="stylesheet" href="/console/public/vendor/toastr/toastr.css">
+
+    <link rel="stylesheet" href="/console/public/css/examples/components/basic/panel-portlets.css">
+    <link rel="stylesheet" href="/console/public/vendor/gridstack/gridstack.css">
+    <link rel="stylesheet" href="/console/public/vendor/alertify-js/alertify.css">
+    <script src="/console/public/vendor/jquery/jquery.min.js"></script>
+    <script src="/console/public/vendor/bootstrap/bootstrap.min.js"></script>
+
+    <!-- 插件 -->
+    <script src="/console/public/vendor/modernizr/modernizr.min.js"></script>
+    <script src="/console/public/vendor/breakpoints/breakpoints.min.js"></script>
+    <script src="/console/public/vendor/artTemplate/template.min.js"></script>
+    <script src="/console/public/vendor/toastr/toastr.min.js"></script>
+
+    <script src="/console/public/vendor/moment/moment.min.js"></script>
+    <script src="/console/res/js/juicer/juicer-min.js"></script>
+    <!-- 核心  -->
+    <script src="/console/public/themes/classic/global/js/core.js"></script>
+    <script src="/console/public/themes/classic/base/js/site.js"></script>
+    <script src="/console/public/themes/classic/global/js/configs/site-configs.js"></script>
+    <script src="/console/public/themes/classic/global/js/components.js"></script>
+
+
+    <script>
+        Breakpoints();
+
+        juicer.set({
+            'tag::operationOpen': '{@',
+            'tag::operationClose': '}',
+            'tag::interpolateOpen': '{$',
+            'tag::interpolateClose': '}',
+            'tag::noneencodeOpen': '{$$',
+            'tag::noneencodeClose': '}',
+            'tag::commentOpen': '{#',
+            'tag::commentClose': '}'
+        });
+
+        var myDate = function (date) {
+            return moment(date).format('YYYY-MM-DD HH:mm:ss');
+        };
+        juicer.register('myDate', myDate);
+
+        loginUser = {};
+        loginUser.loginName = 'huanghaoyu';
+        loginUser.roleNames = [];
+        
+        loginUser.roleNames.push("系统管理员");
+        
+        loginUser.roleNames.push("订单录入工程师");
+        
+        loginUser.roleNames.push("生产制版工程师");
+        
+        loginUser.roleNames.push("生产绣花工程师");
+        
+        loginUser.roleNames.push("生产计划工程师");
+        
+        loginUser.roleNames.push("生产排料工程师");
+        
+        loginUser.roleNames.push("生产出库工程师");
+        
+        loginUser.roleNames.push("生产工艺工程师");
+        
+        loginUser.roleNames.push("生产BOM工程师");
+        
+        loginUser.roleNames.push("款式录入工程师");
+        
+        loginUser.roleNames.push("裁剪操作工程师");
+        
+        loginUser.roleNames.push("绣花操作工程师");
+        
+        loginUser.roleNames.push("生产人员");
+        
+        loginUser.roleNames.push("订单3d设计工程师");
+        
+        loginUser.roleNames.push("款式制版工程师");
+        
+        loginUser.roleNames.push("款式绣花工程师");
+        
+        loginUser.roleNames.push("款式BOM工程师");
+        
+        loginUser.roleNames.push("款式工艺工程师");
+        
+        loginUser.roleNames.push("订单生产审核工程师");
+        
+    </script>
+    <style>
+        /*body{
+            zoom: 90%
+        }*/
+        /*.site-navbar,.site-menubar,.site-contabs,.page-main,.site-footer{*/
+            /*zoom: 0.9;*/
+        /*}*/
+        table.table-bordered tbody th, table.table-bordered tbody td {
+            border-bottom-width: 0;
+            border-left-width: 0;
+            vertical-align: middle;
+        }
+
+        /*加载中*/
+        .jz-mask{
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: -50px;
+            left: 0;
+            opacity: 1;
+            filter: alpha(opacity=60);
+            z-index: 999999;
+        }
+        .jz-loading{text-align: center; position: absolute; top:50%;left:48%;}
+
+        .grid-stack-item-content:hover{
+            transform:scale(1.1,1.1);
+            transition:transform 0.5s;
+        }
+       /* @media screen and (max-width:1920px){
+            #admui-unfinishList .dropdown-menu-media{
+                width: 1200px;
+                height: 800px;
+            }
+        }*/
+        @media screen and (min-width:1440px){
+            #admui-unfinishList .dropdown-menu-media{
+                width: 1200px;
+                height: 800px;
+            }
+        }
+        @media screen and (min-width:992px){
+            #admui-unfinishList .dropdown-menu-media{
+                width: 900px;
+                height: 600px;
+            }
+        }
+        .navbar-menu .nav-tabs{
+            display: none;
+        }
+
+        /*
+        **修改顶部菜单栏的高度
+        */
+        body {
+            padding-top: 75px;
+            overflow-x: hidden;
+        }
+        .navbar-toolbar > li > a {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            line-height: 22px;
+        }
+        .navbar-brand {
+            padding: 12px 20px;
+            font-weight: 700;
+        }
+        .navbar {
+            min-height: 45px;
+        }
+        .site-menubar {
+            position: fixed;
+            top: 45px;
+        }
+        .site-contabs-open .site-contabs {
+            position: fixed;
+            top: 45px;
+        }
+        .site-contabs-open .site-page {
+            height: -webkit-calc(100% - 80px);
+            height: calc(100% - 80px);
+            margin-top: 10px;
+        }
+        .site-menubar{
+            height:100%;
+        }
+      /* *************** */
+
+        .white-space{
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+
+<body class="site-contabs-open site-menubar-unfold site-menubar-keep ">
+
+<nav class="site-navbar navbar navbar-default navbar-fixed-top navbar-inverse bg-cyan-600"
+     role="navigation" style="height: 45px;">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle hamburger hamburger-close navbar-toggle-left hided"
+                data-toggle="menubar">
+            <span class="sr-only">切换菜单</span> <span class="hamburger-bar"></span>
+        </button>
+        <button type="button" class="navbar-toggle collapsed" data-target="#admui-navbarCollapse"
+                data-toggle="collapse">
+            <i class="icon wb-more-horizontal" aria-hidden="true"></i>
+        </button>
+        <div class="navbar-brand navbar-brand-center site-gridmenu-toggle" data-toggle="gridmenu">
+            <img class="navbar-brand-logo visible-lg visible-xs navbar-logo" src="/console/public/images/weiyunlogo.jpg"
+                 title="OMS">
+            <img class="navbar-brand-logo hidden-xs hidden-lg navbar-logo-mini"
+                 src="/console/public/images/weiyunlogo2.jpg" title="OMS">
+        </div>
+    </div>
+    <div class="navbar-container container-fluid">
+        <div class="collapse navbar-collapse navbar-collapse-toolbar" id="admui-navbarCollapse">
+            <ul class="nav navbar-toolbar navbar-left">
+                <li class="hidden-float">
+                    <a data-toggle="menubar" class="hidden-float" href="javascript:;" role="button"
+                       id="admui-toggleMenubar">
+                        <i class="icon hamburger hamburger-arrow-left">
+                            <span class="sr-only">切换目录</span>
+                            <span class="hamburger-bar"></span>
+                        </i>
+                    </a>
+                </li>
+                <li class="navbar-menu nav-tabs-horizontal nav-tabs-animate is-load" id="admui-navMenu">
+                    <ul class="nav navbar-toolbar nav-tabs" role="tablist">
+                        <!-- 顶部菜单 -->
+                        
+                            <li role="presentation"
+                                class="active">
+                                <a data-toggle="tab" href="#admui-navTabsItem-1"
+                                   aria-controls="admui-navTabsItem-1" role="tab" aria-expanded="false">
+                                    <i class="icon fa-bars"></i> <span>系统菜单</span>
+                                </a>
+                            </li>
+                        
+                        <li class="dropdown" id="admui-navbarSubMenu">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" data-animation="slide-bottom"
+                               aria-expanded="true" role="button">
+                                <i class="icon wb-more-vertical"></i>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li class="no-menu" role="presentation">
+                                    <a href="/console/sitemap" target="_blank" role="menuitem" data-pjax>
+                                        <i class="icon wb-list-numbered"></i><span>网站地图</span>
+                                    </a>
+                                </li>
+                                <li class="no-menu" role="presentation">
+                                  
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
+                <li class="dropdown" id="admuiUpdate">
+                    <a data-toggle="dropdown" href="javascript:;" class="msg-btn" aria-expanded="false"
+                       data-animation="scale-up" role="button">
+                        <i class="icon wb-refresh" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li class="dropdown" id="admuiUploadFile">
+                    <a data-toggle="dropdown" href="javascript:;" class="msg-btn" aria-expanded="false"
+                       data-animation="scale-up" role="button">
+                        <i class="icon fa-cloud-upload font-size-16" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li class="dropdown" id="admui-unfinishList">
+                    <a data-toggle="dropdown" href="javascript:;" class="msg-btn" aria-expanded="false"
+                       data-animation="scale-up" role="button">
+                        <i class="icon wb-grid-4" aria-hidden="true"></i> <span
+                            class="badge badge-danger up msg-unfinishNum"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right dropdown-menu-media" role="menu" style="overflow: scroll;">
+                        <h1 class="page-content container-fluid">个人工作台</h1>
+                        <div class="page-content container-fluid" id="indexMain">
+                            <div id="indexMain-one"></div>
+                            <div id="indexMain-two"></div>
+                        </div>
+                        
+                            
+                            
+                        
+                        
+                            
+                                
+                                    
+                                
+                                
+                            
+                        
+                        
+                            
+                                
+                            
+                        
+                    </ul>
+                </li>
+                <li class="dropdown" id="admui-navbarMessage">
+                    <a data-toggle="dropdown" href="javascript:;" class="msg-btn" aria-expanded="false"
+                       data-animation="scale-up" role="button">
+                        <i class="icon wb-bell" aria-hidden="true"></i> <span
+                            class="badge badge-danger up msg-num"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right dropdown-menu-media" role="menu">
+                        <li class="dropdown-menu-header" role="presentation">
+                            <h5>最新消息</h5>
+                            <span class="label label-round label-danger"></span>
+                        </li>
+                        <li class="list-group" role="presentation">
+                            <div id="admui-messageContent" data-height="220px" data-plugin="slimScroll">
+                                <p class="text-center height-200 vertical-align">
+                                    <small class="vertical-align-middle opacity-four">没有新消息</small>
+                                </p>
+                                <div id="admui-messageTpl"></div>
+                                
+                            </div>
+                        </li>
+                        <li class="dropdown-menu-footer" role="presentation">
+                            <a href="/console/system/account/message" target="_blank" data-pjax>
+                                <i class="icon fa-navicon"></i> 所有消息
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                
+                <li class="hidden-xs" id="admui-navbarFullscreen" data-toggle="tooltip" data-placement="bottom"
+                    title="全屏">
+                    <a class="icon icon-fullscreen" data-toggle="fullscreen" href="#" role="button">
+                        <span class="sr-only">全屏</span></a>
+                </li>
+                <li>
+                    <a class="icon fa-sign-out" id="admui-signOut" data-ctx="/console" data-user="27"
+                        role="button">
+                        <span class="sr-only">退出</span></a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+<nav class="site-menubar site-menubar-dark">
+    <div class="site-menubar-body">
+        <div class="tab-content height-full" id="admui-navTabs">
+            <!-- 一级菜单 -->
+            
+                <div class="tab-pane animation-fade height-full active"
+                     id="admui-navTabsItem-1" role="tabpanel">
+                    <div>
+                        <ul class="site-menu">
+                            
+                                <!-- 二级菜单 -->
+                                
+                                    <li class="site-menu-category">系统菜单</li>
+                                    <!-- 三级菜单 -->
+                                    
+                                        
+                                            
+                                            
+                                                <li class="site-menu-item has-sub ">
+                                                    <a href="javascript:;"><i class="site-menu-icon fa-bar-chart"
+                                                                              aria-hidden="true"></i><span
+                                                            class="site-menu-title">统计</span><span
+                                                            class="site-menu-arrow"></span></a>
+                                                    <ul class="site-menu-sub">
+                                                        <!-- 四级菜单 -->
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/count/productShow" target="_blank">
+                                                                        <span class="site-menu-title">生产看板</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/count/keyTarget" target="_blank">
+                                                                        <span class="site-menu-title">生产关键指标</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/count/defectAnalysis" target="_blank">
+                                                                        <span class="site-menu-title">缺陷分析</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/count/compreShow" target="_blank">
+                                                                        <span class="site-menu-title">综合浏览</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                        <!-- 四级菜单 -->
+                                                    </ul>
+                                                </li>
+                                            
+                                        
+                                            
+                                            
+                                                <li class="site-menu-item has-sub ">
+                                                    <a href="javascript:;"><i class="site-menu-icon fa-skyatlas"
+                                                                              aria-hidden="true"></i><span
+                                                            class="site-menu-title">款式管理</span><span
+                                                            class="site-menu-arrow"></span></a>
+                                                    <ul class="site-menu-sub">
+                                                        <!-- 四级菜单 -->
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/style/styleList" target="_blank">
+                                                                        <span class="site-menu-title">款式创建</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                            
+                                                            
+                                                                <li class="site-menu-item has-sub ">
+                                                                    <a href="javascript:;">
+                                                                        <span class="site-menu-title">文件维护</span><span
+                                                                            class="site-menu-arrow"></span></a>
+                                                                    <ul class="site-menu-sub">
+                                                                        <!-- 五级菜单 -->
+                                                                        
+                                                                            <li class="site-menu-item ">
+                                                                                <a data-pjax href="/console/page/bds/design/gradeStandard"
+                                                                                   target="_blank">
+                                                                                    <span class="site-menu-title">制版文件</span>
+                                                                                </a>
+                                                                            </li>
+                                                                        
+                                                                            <li class="site-menu-item ">
+                                                                                <a data-pjax href="/console/page/bds/design/embroideryStandard"
+                                                                                   target="_blank">
+                                                                                    <span class="site-menu-title">绣花文件</span>
+                                                                                </a>
+                                                                            </li>
+                                                                        
+                                                                        <!-- 五级菜单 -->
+                                                                    </ul>
+                                                                </li>
+                                                            
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/style/styBomList" target="_blank">
+                                                                        <span class="site-menu-title">款式物料</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                            
+                                                            
+                                                                <li class="site-menu-item has-sub ">
+                                                                    <a href="javascript:;">
+                                                                        <span class="site-menu-title">款式工艺</span><span
+                                                                            class="site-menu-arrow"></span></a>
+                                                                    <ul class="site-menu-sub">
+                                                                        <!-- 五级菜单 -->
+                                                                        
+                                                                            <li class="site-menu-item ">
+                                                                                <a data-pjax href="/console/page/style/craftDocList"
+                                                                                   target="_blank">
+                                                                                    <span class="site-menu-title">工艺文件</span>
+                                                                                </a>
+                                                                            </li>
+                                                                        
+                                                                            <li class="site-menu-item ">
+                                                                                <a data-pjax href="/console/page/style/styCraftList"
+                                                                                   target="_blank">
+                                                                                    <span class="site-menu-title">工艺分配</span>
+                                                                                </a>
+                                                                            </li>
+                                                                        
+                                                                        <!-- 五级菜单 -->
+                                                                    </ul>
+                                                                </li>
+                                                            
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/bds/design/zoomStandard" target="_blank">
+                                                                        <span class="site-menu-title">缩放设置</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                        <!-- 四级菜单 -->
+                                                    </ul>
+                                                </li>
+                                            
+                                        
+                                            
+                                            
+                                                <li class="site-menu-item has-sub ">
+                                                    <a href="javascript:;"><i class="site-menu-icon fa-database"
+                                                                              aria-hidden="true"></i><span
+                                                            class="site-menu-title">仓储管理</span><span
+                                                            class="site-menu-arrow"></span></a>
+                                                    <ul class="site-menu-sub">
+                                                        <!-- 四级菜单 -->
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/wms/manager/outTaskList" target="_blank">
+                                                                        <span class="site-menu-title">出库任务</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/wms/manager/stockList" target="_blank">
+                                                                        <span class="site-menu-title">仓库物料</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/wms/manager/stock" target="_blank">
+                                                                        <span class="site-menu-title">仓位</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                        <!-- 四级菜单 -->
+                                                    </ul>
+                                                </li>
+                                            
+                                        
+                                            
+                                            
+                                                <li class="site-menu-item has-sub ">
+                                                    <a href="javascript:;"><i class="site-menu-icon fa-shopping-cart"
+                                                                              aria-hidden="true"></i><span
+                                                            class="site-menu-title">订单管理</span><span
+                                                            class="site-menu-arrow"></span></a>
+                                                    <ul class="site-menu-sub">
+                                                        <!-- 四级菜单 -->
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/oma/orderStartList" target="_blank">
+                                                                        <span class="site-menu-title">需求单录入</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/oma/orderAuditList" target="_blank">
+                                                                        <span class="site-menu-title">生产审核</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/oma/designList" target="_blank">
+                                                                        <span class="site-menu-title">设计调整</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/oma/todayShow" target="_blank">
+                                                                        <span class="site-menu-title">今日看板</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/oma/deLiveredList" target="_blank">
+                                                                        <span class="site-menu-title">发货管理</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/oma/progressList" target="_blank">
+                                                                        <span class="site-menu-title">生产进度</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                        <!-- 四级菜单 -->
+                                                    </ul>
+                                                </li>
+                                            
+                                        
+                                            
+                                            
+                                                <li class="site-menu-item has-sub ">
+                                                    <a href="javascript:;"><i class="site-menu-icon fa-file-powerpoint-o"
+                                                                              aria-hidden="true"></i><span
+                                                            class="site-menu-title">订单工艺</span><span
+                                                            class="site-menu-arrow"></span></a>
+                                                    <ul class="site-menu-sub">
+                                                        <!-- 四级菜单 -->
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/pis/orderCraftList" target="_blank">
+                                                                        <span class="site-menu-title">订单工艺确认</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                        <!-- 四级菜单 -->
+                                                    </ul>
+                                                </li>
+                                            
+                                        
+                                            
+                                            
+                                                <li class="site-menu-item has-sub ">
+                                                    <a href="javascript:;"><i class="site-menu-icon fa-list"
+                                                                              aria-hidden="true"></i><span
+                                                            class="site-menu-title">订单物料</span><span
+                                                            class="site-menu-arrow"></span></a>
+                                                    <ul class="site-menu-sub">
+                                                        <!-- 四级菜单 -->
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/mis/orderBomList" target="_blank">
+                                                                        <span class="site-menu-title">订单物料确认</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/mis/purchaseTask" target="_blank">
+                                                                        <span class="site-menu-title">采购需求汇总</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/mis/purchaseProgress" target="_blank">
+                                                                        <span class="site-menu-title">采购进度查询</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                        <!-- 四级菜单 -->
+                                                    </ul>
+                                                </li>
+                                            
+                                        
+                                            
+                                            
+                                                <li class="site-menu-item has-sub ">
+                                                    <a href="javascript:;"><i class="site-menu-icon fa-edit"
+                                                                              aria-hidden="true"></i><span
+                                                            class="site-menu-title">生产中心</span><span
+                                                            class="site-menu-arrow"></span></a>
+                                                    <ul class="site-menu-sub">
+                                                        <!-- 四级菜单 -->
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/idc/design/gradeList" target="_blank">
+                                                                        <span class="site-menu-title">智能制版</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/idc/design/maskList" target="_blank">
+                                                                        <span class="site-menu-title">智能排料</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/idc/design/embroideryList" target="_blank">
+                                                                        <span class="site-menu-title">绣花设计</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/idc/design/embroideryOperateList" target="_blank">
+                                                                        <span class="site-menu-title">绣花操作</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/idc/design/maskOperateListV1" target="_blank">
+                                                                        <span class="site-menu-title">裁剪操作</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                        <!-- 四级菜单 -->
+                                                    </ul>
+                                                </li>
+                                            
+                                        
+                                            
+                                            
+                                                <li class="site-menu-item has-sub ">
+                                                    <a href="javascript:;"><i class="site-menu-icon fa-clock-o"
+                                                                              aria-hidden="true"></i><span
+                                                            class="site-menu-title">计划中心</span><span
+                                                            class="site-menu-arrow"></span></a>
+                                                    <ul class="site-menu-sub">
+                                                        <!-- 四级菜单 -->
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/aps/apsTask/taskList" target="_blank">
+                                                                        <span class="site-menu-title">智能排程</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/aps/apsTask/taskSetting" target="_blank">
+                                                                        <span class="site-menu-title">排程参数</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                        <!-- 四级菜单 -->
+                                                    </ul>
+                                                </li>
+                                            
+                                        
+                                            
+                                            
+                                                <li class="site-menu-item has-sub ">
+                                                    <a href="javascript:;"><i class="site-menu-icon fa-newspaper-o"
+                                                                              aria-hidden="true"></i><span
+                                                            class="site-menu-title">工厂设置</span><span
+                                                            class="site-menu-arrow"></span></a>
+                                                    <ul class="site-menu-sub">
+                                                        <!-- 四级菜单 -->
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/employee/employeeList" target="_blank">
+                                                                        <span class="site-menu-title">员工设置</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/employee/deptList" target="_blank">
+                                                                        <span class="site-menu-title">部门设置</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/employee/factoryList" target="_blank">
+                                                                        <span class="site-menu-title">分厂设置</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/employee/workshopList" target="_blank">
+                                                                        <span class="site-menu-title">车间设置</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/page/employee/lineList" target="_blank">
+                                                                        <span class="site-menu-title">产线管理</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                        <!-- 四级菜单 -->
+                                                    </ul>
+                                                </li>
+                                            
+                                        
+                                            
+                                            
+                                                <li class="site-menu-item has-sub ">
+                                                    <a href="javascript:;"><i class="site-menu-icon fa-cog"
+                                                                              aria-hidden="true"></i><span
+                                                            class="site-menu-title">系统设置</span><span
+                                                            class="site-menu-arrow"></span></a>
+                                                    <ul class="site-menu-sub">
+                                                        <!-- 四级菜单 -->
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/system/menu" target="_blank">
+                                                                        <span class="site-menu-title">菜单管理</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/system/user" target="_blank">
+                                                                        <span class="site-menu-title">用户管理</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/system/log" target="_blank">
+                                                                        <span class="site-menu-title">日志信息</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/system/blacklist" target="_blank">
+                                                                        <span class="site-menu-title">黑名单</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                            
+                                                            
+                                                                <li class="site-menu-item has-sub ">
+                                                                    <a href="javascript:;">
+                                                                        <span class="site-menu-title">系统设置</span><span
+                                                                            class="site-menu-arrow"></span></a>
+                                                                    <ul class="site-menu-sub">
+                                                                        <!-- 五级菜单 -->
+                                                                        
+                                                                            <li class="site-menu-item ">
+                                                                                <a data-pjax href="/console/system/settings/display"
+                                                                                   target="_blank">
+                                                                                    <span class="site-menu-title">显示设置</span>
+                                                                                </a>
+                                                                            </li>
+                                                                        
+                                                                            <li class="site-menu-item ">
+                                                                                <a data-pjax href="/console/system/settings/log"
+                                                                                   target="_blank">
+                                                                                    <span class="site-menu-title">日志设置</span>
+                                                                                </a>
+                                                                            </li>
+                                                                        
+                                                                        <!-- 五级菜单 -->
+                                                                    </ul>
+                                                                </li>
+                                                            
+                                                        
+                                                            
+                                                                <li class="site-menu-item ">
+                                                                    <a data-pjax href="/console/system/account" target="_blank">
+                                                                        <span class="site-menu-title">账户信息</span>
+                                                                    </a>
+                                                                </li>
+                                                            
+                                                            
+                                                        
+                                                        <!-- 四级菜单 -->
+                                                    </ul>
+                                                </li>
+                                            
+                                        
+                                    
+                                    <!-- 三级菜单 -->
+                                
+                                <!-- 二级菜单 -->
+                            
+                        </ul>
+                    </div>
+                </div>
+            
+            <!-- 一级菜单 -->
+        </div>
+    </div>
+</nav>
+<nav class="site-contabs" id="admui-siteConTabs">
+    <button type="button" class="btn btn-icon btn-default pull-left hide">
+        <i class="icon fa-angle-double-left"></i>
+    </button>
+    <div class="contabs-scroll pull-left">
+        <ul class="nav con-tabs">
+            <li class="active">
+                <a data-pjax href="/console/home" rel="contents"><span>首页</span></a>
+            </li>
+        </ul>
+    </div>
+    <div class="btn-group pull-right">
+        <button type="button" class="btn btn-icon btn-default hide">
+            <i class="icon fa-angle-double-right"></i>
+        </button>
+        <button type="button" class="btn btn-default dropdown-toggle btn-outline" data-toggle="dropdown"
+                aria-expanded="false">
+            <span class="caret"></span> <span class="sr-only">切换菜单</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="conTabsDropdown" role="menu">
+            <li class="reload-page" role="presentation">
+                <a href="javascript:;" role="menuitem"><i class="icon wb-reload"></i> 刷新当前</a>
+            </li>
+            <li class="close-other" role="presentation">
+                <a href="javascript:;" role="menuitem"><i class="icon wb-close"></i> 关闭其他</a>
+            </li>
+            <li class="close-all" role="presentation">
+                <a href="javascript:;" role="menuitem"><i class="icon wb-power"></i> 关闭所有</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<main class="site-page">
+    <div class="page-container" id="admui-pageContent">
+        
+            
+                
+
+
+
+
+
+
+
+
+<script>
+    window.rootAppPath = "http://192.168.33.249/console";
+    window.ctx = "/console";
+    window.omaPath = "http://192.168.33.249/oma";
+    window.idcPath = "http://192.168.33.249/idc";
+    window.apsPath = "http://192.168.33.249/aps";
+    window.misPath = "http://192.168.33.249/mis";
+    window.pisPath = "http://192.168.33.249/pis";
+    window.fdfsPath = "http://192.168.33.249/fdfs";
+    window.wmsPath = "http://192.168.33.249/wms";
+    window.iwePath = "http://192.168.33.249/iwe";
+    window.housePath = "http://localhost:8735/";
+    window.basicPath = "http://192.168.33.249/basic";
+
+    window.fdfsDownPath = "http://192.168.33.252:8091/";
+
+    window.fdfsUploadUrlToC = "http://192.168.33.252:8090/fdfs/firstUpload";
+    window.maskQrcode = "http://192.168.33.249/";
+
+    /*  juicer.set({
+     'tag::operationOpen': '{@',
+     'tag::operationClose': '}',
+     'tag::interpolateOpen': '{$',
+     'tag::interpolateClose': '}',
+     'tag::noneencodeOpen': '{$$',
+     'tag::noneencodeClose': '}',
+     'tag::commentOpen': '{#',
+     'tag::commentClose': '}'
+     });
+
+     var myDate = function(date) {
+     return moment(date).format('YYYY-MM-DD HH:mm:ss');
+     };
+     juicer.register('myDate', myDate);*/
+
+</script>
+
+<title>首页</title>
+
+<link rel="stylesheet" href="/console/public/fonts/themify/themify.css">
+<link rel="stylesheet" href="/console/public/css/home.css">
+<link rel="stylesheet" href="/console/public/vendor/gridstack/gridstack.css">
+<link rel="stylesheet" href="/console/public/css/examples/components/basic/panel-portlets.css">
+<link rel="stylesheet" href="/console/public/vendor/datatables-bootstrap/dataTables.bootstrap.css">
+<style>
+    .grid-stack-item-content:hover{
+        transform:scale(1.1,1.1);
+        transition:transform 0.5s;
+    }
+</style>
+
+<div class="page animation-fade page-index">
+    <div class="page-content">
+        <div class="media account-info">
+            <div class="media-left">
+                <div class="avatar avatar-online">
+                    <img src="/console/public/images/avatar.svg" alt="huanghaoyu">
+                    <i class="avatar avatar-busy"></i>
+                </div>
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">
+                    欢迎您，huanghaoyu
+                    <small>
+                        
+                            系统管理员
+                        
+                            订单录入工程师
+                        
+                            生产制版工程师
+                        
+                            生产绣花工程师
+                        
+                            生产计划工程师
+                        
+                            生产排料工程师
+                        
+                            生产出库工程师
+                        
+                            生产工艺工程师
+                        
+                            生产BOM工程师
+                        
+                            款式录入工程师
+                        
+                            裁剪操作工程师
+                        
+                            绣花操作工程师
+                        
+                            生产人员
+                        
+                            订单3d设计工程师
+                        
+                            款式制版工程师
+                        
+                            款式绣花工程师
+                        
+                            款式BOM工程师
+                        
+                            款式工艺工程师
+                        
+                            订单生产审核工程师
+                        
+                    </small>
+                </h4>
+                <p>
+                    <i class="icon icon-color wb-bell" aria-hidden="true"></i> 这是您第 71 次登录，上次登录日期：Apr 18, 2018 4:35:07 PM，详细信息请查看
+                    <a data-pjax href="/console/account/log" target="_blank">日志</a>
+                    ，如果不是您本人登录，请及时
+                    <a data-pjax href="/console/account/password" target="_blank">修改密码</a>
+                    。
+                </p>
+            </div>
+            <div class="media-right">
+                <a href="/console/system/account" data-pjax target="_blank" class="btn btn-outline btn-success btn-outline btn-sm">账户管理</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="page-content">
+        <h1 class="page-content container-fluid">个人工作台</h1>
+        <div class="page-content container-fluid" id="homeMain">
+            <div id="homeMain-one"></div>
+            <div id="homeMain-two"></div>
+        </div>
+    </div>
+    
+
+</div>
+
+<script src="/console/public/vendor/matchheight/jquery.matchHeight.js"></script>
+<script src="/console/public/vendor/lodash/lodash.min.js" data-name="lodash"></script>
+<script src="/console/public/vendor/jquery-ui/jquery-ui.min.js" data-name="jqueryUi"></script>
+<script src="/console/public/vendor/gridstack/gridstack.min.js" data-deps="lodash,jqueryUi"></script>
+
+<script src="/console/public/vendor/jquery-ui/jquery-ui.min.js" data-name="jquery-ui"></script>
+<script src="/console/public/vendor/datatables/jquery.dataTables.min.js" data-name="dataTables"></script>
+<script src="/console/public/vendor/datatables-bootstrap/dataTables.bootstrap.min.js" data-deps="dataTables"></script>
+<script src="/console/public/vendor/datatables-responsive/dataTables.responsive.min.js" data-deps="dataTables"></script>
+<script src="/console/public/vendor/datatables-buttons/dataTables.buttons.min.js" data-deps="dataTables"></script>
+<script src="/console/public/vendor/datatables-buttons/buttons.print.min.js"></script>
+<script src="/console/public/vendor/datatables-buttons/buttons.html5.min.js"></script>
+<script src="/console/public/vendor/blueimp-tmpl/tmpl.min.js"></script>
+<script src="/console/public/vendor/blueimp-file-upload/jquery.fileupload.js" data-name="fileupload"
+        data-deps="jquery-ui"></script>
+<script src="/console/public/vendor/jszip/jszip.min.js"></script>
+<script src="/console/public/vendor/jstree/jstree.min.js"></script>
+<script src="/console/public/vendor/alertify-js/alertify.min.js"></script>
+<script src="/console/public/vendor/jquery-strength/jquery-strength.min.js"></script>
+
+<script src="/console/public/vendor/dropify/dropify.min.js"></script>
+<script src="/console/public/js/examples/forms/dropify.js" data-deps="fileupload"></script>
+<script src="/console/public/vendor/formvalidation/formValidation.min.js" data-name="formValidation"></script>
+<script src="/console/public/vendor/formvalidation/framework/bootstrap.min.js" data-deps="formValidation"></script>
+<script src="/console/public/themes/classic/global/js/plugins/sticky-header.js"></script>
+<script src="/console/public/themes/classic/global/js/plugins/action-btn.js"></script>
+<script src="/console/public/themes/classic/global/js/plugins/selectable.js"></script>
+<script src="/console/public/themes/classic/base/js/app.js" data-name="app"></script>
+
+<script src="/console/public/vendor/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="/console/res/js/ajaxfileupload.js"></script>
+
+<script src="/console/public/vendor/moment/moment.min.js"></script>
+<script src="/console/res/js/common.js"></script>
+<script src="/console/js/home.js" data-deps="app"></script>
+
+            
+            
+        
+    </div>
+    <div class="page-loading vertical-align text-center">
+        <div class="page-loader loader-default loader vertical-align-middle" data-type="default"></div>
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="site-footer-legal">&copy; 2017
+        <a href="#">浙江大学创新技术研究院</a>
+    </div>
+    <div class="site-footer-right">
+        当前版本：v1.0.0
+        <a class="margin-left-5" data-toggle="tooltip" title="升级" href="#">
+            <i class="icon fa-cloud-upload"></i>
+        </a>
+    </div>
+</footer>
+
+<!-- 布局 -->
+<script src="/console/public/themes/classic/base/js/sections/menu.js"></script>
+<script src="/console/public/themes/classic/base/js/sections/media-menu.js"></script>
+<script src="/console/public/themes/classic/base/js/sections/content-tabs.js"></script>
+
+<!-- 插件 -->
+<script src="/console/public/vendor/jquery-pjax/jquery.pjax.js"></script>
+<script src="/console/public/themes/classic/global/js/plugins/responsive-tabs.js"></script>
+<script src="/console/public/vendor/ashoverscroll/jquery-asHoverScroll.min.js"></script>
+<script src="/console/public/vendor/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="/console/public/vendor/screenfull/screenfull.min.js"></script>
+<script src="/console/res/js/laydate/laydate.js" charset="utf-8"></script>
+<script src="/console/res/js/common.js"></script>
+<script src="/console/public/js/notify-msg.js"></script>
+<script src="/console/public/vendor/lodash/lodash.min.js" data-name="lodash"></script>
+<script src="/console/public/vendor/jquery-ui/jquery-ui.min.js" data-name="jqueryUi"></script>
+<script src="/console/public/vendor/gridstack/gridstack.min.js" data-deps="lodash,jqueryUi"></script>
+<script src="/console/public/vendor/alertify-js/alertify.min.js"></script>
+
+<script type="text/javascript" src="/console/res/js/zTree/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/console/res/js/zTree/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="/console/res/js/zTree/jquery.ztree.exedit.js"></script>
+
+<script src="/console/res/js/highcharts/highcharts.js"></script>
+<script src="/console/res/js/highcharts/highcharts-3d.js"></script>
+<script src="/console/res/js/highcharts/exporting.js"></script></body>
+<script src="/console/res/js/highcharts/highcharts-zh_CN.js"></script></body>
+</html>
+

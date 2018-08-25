@@ -1,0 +1,578 @@
+
+
+
+
+
+
+
+
+
+<script>
+    window.rootAppPath = "http://192.168.33.249/console";
+    window.ctx = "/console";
+    window.omaPath = "http://192.168.33.249/oma";
+    window.idcPath = "http://192.168.33.249/idc";
+    window.apsPath = "http://192.168.33.249/aps";
+    window.misPath = "http://192.168.33.249/mis";
+    window.pisPath = "http://192.168.33.249/pis";
+    window.fdfsPath = "http://192.168.33.249/fdfs";
+    window.wmsPath = "http://192.168.33.249/wms";
+    window.iwePath = "http://192.168.33.249/iwe";
+    window.housePath = "http://localhost:8735/";
+    window.basicPath = "http://192.168.33.249/basic";
+
+    window.fdfsDownPath = "http://192.168.33.252:8091/";
+
+    window.fdfsUploadUrlToC = "http://192.168.33.252:8090/fdfs/firstUpload";
+    window.maskQrcode = "http://192.168.33.249/";
+
+    /*  juicer.set({
+     'tag::operationOpen': '{@',
+     'tag::operationClose': '}',
+     'tag::interpolateOpen': '{$',
+     'tag::interpolateClose': '}',
+     'tag::noneencodeOpen': '{$$',
+     'tag::noneencodeClose': '}',
+     'tag::commentOpen': '{#',
+     'tag::commentClose': '}'
+     });
+
+     var myDate = function(date) {
+     return moment(date).format('YYYY-MM-DD HH:mm:ss');
+     };
+     juicer.register('myDate', myDate);*/
+
+</script>
+
+<title>EDS绣花操作</title>
+
+<link rel="stylesheet" href="/console/public/vendor/datatables-bootstrap/dataTables.bootstrap.css">
+<link rel="stylesheet" href="/console/public/vendor/datatables-responsive/dataTables.responsive.css">
+<link rel="stylesheet" href="/console/public/vendor/jstree/jstree.css">
+<link rel="stylesheet" href="/console/public/vendor/alertify-js/alertify.css">
+<link rel="stylesheet" href="/console/public/vendor/multi-select/multi-select.css">
+<link rel="stylesheet" href="/console/public/vendor/jquery-strength/jquery-strength.css">
+<link rel="stylesheet" href="/console/public/vendor/formvalidation/formValidation.css">
+<link rel="stylesheet" href="/console/public/vendor/dropify/dropify.css">
+<link rel="stylesheet" href="/console/public/css/system/user.css">
+<link rel="stylesheet" href="/console/public/vendor/bootstrap-select/bootstrap-select.css">
+
+<style>
+    .alertify .dialog > *{
+        width: 450px;
+    }
+</style>
+
+<div class="page page-full bg-white animation-fade page-users">
+    <div class="page-main">
+        <div class="page-header">
+            <h3 class="page-title">EDS绣花操作</h3>
+        </div>
+        <div class="col-lg-12 row">
+            <img src="/console/res/img/embroideryOperateList.png" alt="" style="width: 90%;margin: 20px 5% 20px;">
+        </div>
+        <div class="example-wrap col-lg-12">
+            <div class="col-lg-12 form-inline clearfix margin-bottom-20" style="min-height: 100px; border: 1px solid #e4eaec;line-height: 100px;">
+                <label class="col-sm-1 control-label text-right font-weight-600" for="searchStyNum">订单号：</label>
+                <div class="col-sm-2 form-group">
+                    <input class="form-control need" id="searchPoNum"/>
+                </div>
+                <label class="col-sm-1 control-label text-right font-weight-600" for="searchStyNum">款号：</label>
+                <div class="col-sm-2 form-group">
+                    <input class="form-control need" id="searchStyNum"/>
+                </div>
+                <button type="button" class="btn btn-sm  btn-success" id="searchBtn">查找</button>
+            </div>
+            <div class="nav-tabs-horizontal nav-tabs-inverse" data-approve="nav-tabs">
+                <ul class="nav nav-tabs" role="tablist" style="margin-left: 20px;">
+                    <li class="active" role="presentation">
+                        <a data-toggle="tab" href="#tab1" aria-controls="tab1" role="tab">
+                            待绣花
+                        </a>
+                    </li>
+                    <li role="presentation">
+                        <a data-toggle="tab" href="#tab2" aria-controls="tab2" role="tab">
+                            已绣花
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab1" role="tabpanel">
+                        <div class="page-content" id="main_tables">
+                            <button type="button" class="btn btn-success margin-bottom-15" id="batchBtn">
+                                批量提交
+                            </button>
+                            <table id="first_table"
+                                   class="table table-bordered table-hover text-nowrap dataTable table-striped margin-vertical-10 width-full print-hidden-first-column print-hidden-last-column"
+                                   data-selectable="selectable">
+                                <thead>
+                                <tr>
+                                    <th rowspan="2" width="20" data-order="false">
+                                        <span class="checkbox-custom checkbox-primary user-select-all">
+                                            <input type="checkbox" class="user-checkbox selectable-all">
+                                            <label></label>
+                                        </span>
+                                    </th>
+                                    <th rowspan="2">序号</th>
+                                    <th rowspan="2">订单号</th>
+                                    <th rowspan="2">款号</th>
+                                    <th rowspan="2">到达时间</th>
+                                    <th rowspan="2">子单数</th>
+                                    <th rowspan="2">尺码信息</th>
+                                    <th rowspan="2">总件数</th>
+                                    <th colspan="2" align="center">目标文件</th>
+                                    <th rowspan="2">操作</th>
+                                </tr>
+                                <tr>
+                                    <th>文件</th>
+                                    <th>打开</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab2" role="tabpanel">
+                        <div class="page-content" id="main_secondtables">
+                            <table id="second_table"
+                                   class="table table-bordered table-hover text-nowrap dataTable table-striped margin-vertical-10 width-full print-hidden-first-column print-hidden-last-column"
+                                   data-selectable="selectable">
+                                <thead>
+                                <tr>
+                                    <th >序号</th>
+                                    <th >订单号</th>
+                                    <th >款号</th>
+                                    <th >到达时间</th>
+                                    <th >子单数</th>
+                                    <th >尺码信息</th>
+                                    <th >总件数</th>
+                                    <th >目标文件</th>
+                                    <th >操作人</th>
+                                    <th >操作时间</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a display="none" download="" href="" target="blank" id="downMultiFile"></a>
+</div>
+
+
+
+<div class="modal fade modal-fade-in-scale-up" id="addUpdateModal" aria-hidden="true" aria-labelledby="addUpdateModal"
+     role="dialog" tabindex="-1">
+    <div class="modal-dialog" style="width: 90%;">
+        <form class="modal-content" action="" id="addUpdateFrom">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="关闭">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">订单来源</h4>
+            </div>
+            <div class="modal-body" id="orderSourceBody">
+                <div class="row form-horizontal">
+                    <label class="col-sm-1 control-label" for="csOrdMainModel-orderSource">订单来源</label>
+                    <div class="col-sm-2 form-group">
+                        <select id="csOrdMainModel-orderSource" class="form-control"
+                                name="csOrdMainModel.orderSource">
+                            <option value="0">未定义</option>
+                            <option value="1">门店</option>
+                            <option value="2">C2M平台</option>
+                        </select>
+                    </div>
+
+
+                    <label class="col-sm-1 control-label" for="csOrdMainModel-storeNum">门店/平台号</label>
+                    <div class="col-sm-2 form-group">
+                        <input class="form-control need" id="csOrdMainModel-storeNum"
+                               name="csOrdMainModel.storeNum"
+                               type="text"
+                               maxlength="50"/>
+                    </div>
+                </div>
+                <div class="row form-horizontal">
+                    <label class="col-sm-1 control-label" for="csOrdMainModel-receiverNum">接单人编号</label>
+                    <div class="col-sm-2 form-group">
+                        <div class="input-search clearfix">
+                            <input class="form-control need" id="csOrdMainModel-receiverNum"
+                                   name="csOrdMainModel.receiverNum" disabled
+                                   type="text" maxlength="50" placeholder="查找..."/>
+                            <button class="input-search-btn" type="button" id="empInfoSearchBtn">
+                                <i class="icon wb-search" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <label class="col-sm-1 control-label" for="csOrdMainModel-receiver">接单人姓名</label>
+                    <div class="col-sm-2 form-group">
+                        <input class="form-control need" id="csOrdMainModel-receiver"
+                               name="csOrdMainModel.receiver"
+                               type="text"
+                               maxlength="50"/>
+                    </div>
+
+                    <label class="col-sm-1 control-label"
+                           for="csOrdMainModel-receiverContact">接单人电话</label>
+                    <div class="col-sm-2 form-group">
+                        <input class="form-control need" id="csOrdMainModel-receiverContact"
+                               name="csOrdMainModel.receiverContact"
+                               type="text" placeholder="电话信息"
+                               maxlength="20"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-header">
+                <h4 class="modal-title">客户基础信息</h4>
+            </div>
+            <div class="modal-body" id="csInfoBody">
+                <div class="row form-horizontal">
+                    <label class="col-sm-1 control-label" for="csInfoModel-csNum">客户编号 <font color="red">*</font></label>
+                    <div class="col-sm-2 form-group">
+                        <div class="input-search clearfix">
+                            <input class="form-control need" id="csInfoModel-csNum"
+                                   name="csInfoModel.csNum" disabled
+                                   type="text" maxlength="50" placeholder="查找..."/>
+                            <button class="input-search-btn" type="button" id="csInfoSearchBtn">
+                                <i class="icon wb-search" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <label class="col-sm-1 control-label" for="csInfoModel-name">姓名 <font color="red">*</font></label>
+                    <div class="col-sm-2 form-group">
+                        <input class="form-control need" id="csInfoModel-name" name="csInfoModel.name"
+                               type="text"
+                               required maxlength="50"
+                        />
+                    </div>
+
+
+                    <label class="col-sm-1 control-label" for="csInfoModel-gender">性别</label>
+                    <div class="col-sm-2 form-group">
+                        <select id="csInfoModel-gender" class="form-control"
+                                name="csInfoModel.gender">
+                            <option value="2">女</option>
+                            <option value="1">男</option>
+                        </select>
+                    </div>
+
+
+                    <label class="col-sm-1 control-label" for="csInfoModel-age">年龄</label>
+                    <div class="col-sm-2 form-group">
+                        <input class="form-control need" id="csInfoModel-age" name="csInfoModel.age"
+                               type="text"
+                        />
+                    </div>
+                </div>
+                <div class="row form-horizontal">
+                    <label class="col-sm-1 control-label" for="csInfoModel-idcNum">身份证号码</label>
+                    <div class="col-sm-2 form-group">
+                        <input class="form-control need" id="csInfoModel-idcNum"
+                               name="csInfoModel.idcNum"
+                               type="text"
+                               maxlength="50"
+                        />
+                    </div>
+
+
+                    <label class="col-sm-1 control-label" for="csInfoModel-phoneNum">手机号 <font color="red">*</font></label>
+                    <div class="col-sm-2 form-group">
+                        <input class="form-control need" id="csInfoModel-phoneNum"
+                               name="csInfoModel.phoneNum"
+                               type="text"
+                               required maxlength="20"
+                        />
+                    </div>
+
+
+                    <label class="col-sm-1 control-label" for="csInfoModel-wechartNum">微信号</label>
+                    <div class="col-sm-2 form-group">
+                        <input class="form-control need" id="csInfoModel-wechartNum"
+                               name="csInfoModel.wechartNum"
+                               type="text"
+                        />
+                    </div>
+
+
+                    <label class="col-sm-1 control-label" for="csInfoModel-contactInfor">联系方式</label>
+                    <div class="col-sm-2 form-group">
+                        <input class="form-control need" id="csInfoModel-contactInfor"
+                               name="csInfoModel.contactInfor" type="text" placeholder="联系地址或者其他"
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-header">
+                <h4 class="modal-title">收货地址信息</h4>
+            </div>
+            <div class="modal-body" id="csAddrBody">
+
+                
+                
+
+                <div class="row form-horizontal">
+
+                    <label class="col-sm-1 control-label" for="csAddrModel-consignee">姓名 <font color="red">*</font></label>
+                    <div class="col-sm-2 form-group">
+                        <input class="form-control need" id="csAddrModel-consignee"
+                               name="csAddrModel.consignee"
+                               type="text"
+                               required maxlength="50"
+                        />
+                    </div>
+
+
+                    <label class="col-sm-1 control-label" for="csAddrModel-consigneePhone">电话</label>
+                    <div class="col-sm-2 form-group">
+                        <input class="form-control need" id="csAddrModel-consigneePhone"
+                               name="csAddrModel.consigneePhone" type="text"
+                               maxlength="20"
+                        />
+                    </div>
+
+
+                    <label class="col-sm-1 control-label"
+                           for="csAddrModel-consigneePhone2">备用电话</label>
+                    <div class="col-sm-2 form-group">
+                        <input class="form-control need" id="csAddrModel-consigneePhone2"
+                               name="csAddrModel.consigneePhone2" type="text"
+                        />
+                    </div>
+
+                </div>
+
+                <div class="row form-horizontal">
+                    <label class="col-sm-1 control-label" for="csAddrModel-receiptAddress">收货地址</label>
+                    <div class="col-sm-4 form-group">
+                        <input class="form-control need" id="csAddrModel-receiptAddress"
+                               name="csAddrModel.receiptAddress" type="text"
+                               maxlength="50"
+                        />
+                    </div>
+                    <div class="col-sm-2 form-group"></div>
+                </div>
+
+
+                <div class="row form-horizontal">
+                    <label class="col-sm-1 control-label" for="csAddrModel-receiptNotes">备注信息</label>
+                    <div class="col-sm-4 form-group">
+                        <input class="form-control need" id="csAddrModel-receiptNotes"
+                               name="csAddrModel.receiptNotes" type="text"
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-header">
+                <h4 class="modal-title">订单基础信息</h4>
+            </div>
+            <div class="modal-body" id="csOrdMainBody">
+                <div class="row form-horizontal">
+                    <label class="col-sm-1 control-label" for="csOrdMainModel-po">订单编号</label>
+                    <div class="col-sm-2 form-group">
+                        <input class="form-control need" id="csOrdMainModel-po" name="csOrdMainModel.po"
+                               type="text"
+                               readonly="readonly" data-toggle="tooltip" data-placement="right" data-trigger="hover"
+                               data-original-title="编号将在保存之后自动生成"/>
+                    </div>
+                    <div class="col-sm-2 form-group"></div>
+                </div>
+                <div class="row form-horizontal">
+                    <label class="col-sm-1 control-label" for="csOrdMainModel-styNum">基础款式 <font color="red">*</font></label>
+                    <div class="col-sm-2 form-group">
+                        <div class="input-search clearfix">
+                            <input class="form-control need" id="csOrdMainModel-styNum" disabled
+                                   name="csOrdMainModel.styNum"
+                                   type="text" placeholder="查找..."/>
+                            <button class="input-search-btn" type="button" id="styInfoSearchBtn">
+                                <i class="icon wb-search" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 form-group"></div>
+                </div>
+
+                <div class="row form-horizontal">
+                    
+                    <label class="col-sm-1 control-label" for="csOrdMainModel-qty">定制数量 <font color="red">*</font></label>
+                    <div class="col-sm-2 form-group">
+                        <input class="form-control need" id="csOrdMainModel-qty" name="csOrdMainModel.qty"
+                               type="text" placeholder="件" aria-required="true"
+                               required />
+                    </div>
+
+                    <label class="col-sm-1 control-label" for="csOrdMainModel-agreedDate">交货时间 <font color="red">*</font></label>
+                    <div class="col-sm-2 form-group">
+                        <input class="form-control need" id="csOrdMainModel-agreedDate"
+                               name="csOrdMainModel.agreedDate" type="text"
+                        />
+                    </div>
+
+                    
+                </div>
+
+                <div id="optionsBody" style="border: 1px solid #e4eaec;margin: 15px 5%;width: 90%;"></div>
+
+                <div class="row form-horizontal">
+                    <label class="col-sm-1 control-label" for="csOrdMainModel-comfortSel">舒适性选型</label>
+                    <div class="col-sm-2 form-group">
+                        <select id="csOrdMainModel-comfortSel" class="form-control"
+                                name="csOrdMainModel.comfortSel">
+                            <option value="0">合体</option>
+                            <option value="1">修身(偏紧)</option>
+                            <option value="2">舒适(宽松)</option>
+                        </select>
+                    </div>
+
+                    <label class="col-sm-1 control-label" for="csOrdMainModel-requirements">定制要求</label>
+                    <div class="col-sm-2 form-group">
+                        <input class="form-control need" id="csOrdMainModel-requirements"
+                               name="csOrdMainModel.requirements" type="text"
+                               maxlength="50" placeholder="特殊定制要求"/>
+                    </div>
+                    <label class="col-sm-1 control-label" for="csOrdSubModel-isUrgent">是否加急 <font color="red">*</font></label>
+                    <div class="col-sm-2 form-group">
+                        <select id="csOrdSubModel-isUrgent" class="form-control"
+                                name="csOrdSubModel.isUrgent">
+                            <option value="1">是</option>
+                            <option value="0">否</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="csSizeDiv">
+                <div class="modal-header">
+                    <h4 class="modal-title">客户体型数据</h4>
+                </div>
+                <div class="modal-body" id="csSizeBody">
+                    <div class="row form-horizontal">
+                        <div id="tpTXHtml" style="border: 1px solid #e4eaec;margin: 15px 5%;width: 90%;"></div>
+                    </div>
+                    <div class="row form-horizontal">
+                        <label class="col-sm-1 control-label">正面照片 </label>
+                        <div class="col-sm-3 form-group">
+                            <div id='csSizeFrontImageDiv'>
+                                
+                                
+                            </div>
+                        </div>
+                        <label class="col-sm-1 control-label">侧面照片 </label>
+                        <div class="col-sm-3 form-group">
+                            <div id='csSizeSideImageDiv'>
+                                
+                                
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row form-horizontal">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="form-group margin-top-25 text-center">
+                    
+                    <button type="button" class="btn btn-default margin-0" data-dismiss="modal">取消</button>
+                    <button class="btn btn-primary margin-right-10" id="save">保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<div class="modal fade modal-fade-in-scale-up" id="styNumModal" aria-hidden="true"
+     aria-labelledby="styNumModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-center" style="width: 40%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                <h4 class="modal-title">尺码信息</h4>
+            </div>
+            <div class="modal-body">
+                <div class="page-content">
+                    <div class="col-lg-12 form-group">
+                        <lable class="control-label col-lg-3 text-right">订单号：</lable>
+                        <div class=" col-lg-3" id="poNumDiv"></div>
+                    </div>
+                    <div class="col-lg-12 form-group">
+                        <lable class="control-label col-lg-3 text-right">款号：</lable>
+                        <div class=" col-lg-3" id="styNumDiv"></div>
+                    </div>
+                    <table id="styNum_table"
+                           class="table table-bordered table-hover text-nowrap dataTable table-striped margin-vertical-10 width-full print-hidden-first-column print-hidden-last-column"
+                           data-selectable="selectable">
+                        <thead>
+                        <tr>
+                            <th>尺码</th>
+                            <th>定制件数</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div>
+    <div class="hidden" id="styNameList"></div>
+</div>
+
+<script id="styNameListTpl" type="text/html">
+    <table id="styNamer_table" class="table table-hover">
+        <thead>
+        <tr>
+            <th>尺码</th>
+            <th>定制件数</th>
+        </tr>
+        <thead>
+        <tbody>
+        {{each list}}
+        <tr>
+            <td>{{$value.name}}</td>
+            <td>{{$value.qty}}</td>
+        </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</script>
+
+<script src="/console/public/vendor/jquery-ui/jquery-ui.min.js" data-name="jquery-ui"></script>
+<script src="/console/public/vendor/datatables/jquery.dataTables.min.js" data-name="dataTables"></script>
+<script src="/console/public/vendor/datatables-bootstrap/dataTables.bootstrap.min.js" data-deps="dataTables"></script>
+<script src="/console/public/vendor/datatables-responsive/dataTables.responsive.min.js" data-deps="dataTables"></script>
+<script src="/console/public/vendor/datatables-buttons/dataTables.buttons.min.js" data-deps="dataTables"></script>
+<script src="/console/public/vendor/datatables-buttons/buttons.print.min.js"></script>
+<script src="/console/public/vendor/datatables-buttons/buttons.html5.min.js"></script>
+<script src="/console/public/vendor/blueimp-tmpl/tmpl.min.js"></script>
+<script src="/console/public/vendor/blueimp-file-upload/jquery.fileupload.js" data-name="fileupload"
+        data-deps="jquery-ui"></script>
+<script src="/console/public/vendor/jszip/jszip.min.js"></script>
+<script src="/console/public/vendor/jstree/jstree.min.js"></script>
+<script src="/console/public/vendor/alertify-js/alertify.min.js"></script>
+<script src="/console/public/vendor/jquery-strength/jquery-strength.min.js"></script>
+
+<script src="/console/public/vendor/dropify/dropify.min.js"></script>
+<script src="/console/public/js/examples/forms/dropify.js" data-deps="fileupload"></script>
+<script src="/console/public/vendor/formvalidation/formValidation.min.js" data-name="formValidation"></script>
+<script src="/console/public/vendor/formvalidation/framework/bootstrap.min.js" data-deps="formValidation"></script>
+<script src="/console/public/themes/classic/global/js/plugins/sticky-header.js"></script>
+<script src="/console/public/themes/classic/global/js/plugins/action-btn.js"></script>
+<script src="/console/public/themes/classic/global/js/plugins/selectable.js"></script>
+<script src="/console/public/themes/classic/base/js/app.js" data-name="app"></script>
+
+<script src="/console/public/vendor/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="/console/res/js/ajaxfileupload.js"></script>
+
+<script src="/console/public/vendor/moment/moment.min.js"></script>
+<script src="/console/res/js/common.js"></script>
+<script src="/console/js/idc/design/embroideryOperateList.js" data-deps="app"></script>
+

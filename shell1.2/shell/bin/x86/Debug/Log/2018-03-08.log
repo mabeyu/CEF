@@ -1,0 +1,365 @@
+当前时间：2018/3/8 17:18:46
+异常信息：未将对象引用设置到对象的实例。
+异常对象：DPS 2000
+调用堆栈：
+在 shell.websocket.ProReadCardInfo(JObject JO, Socket socket) 位置 G:\git\DPS\shell1.2\shell\websocket.cs:行号 1190
+触发方法：Void ProReadCardInfo(Newtonsoft.Json.Linq.JObject, System.Net.Sockets.Socket)
+
+当前时间：2018/3/8 17:26:14
+异常信息：未将对象引用设置到对象的实例。
+异常对象：DPS 2000
+调用堆栈：
+在 shell.websocket.ProReadCardInfo(JObject JO, Socket socket) 位置 G:\git\DPS\shell1.2\shell\websocket.cs:行号 1190
+触发方法：Void ProReadCardInfo(Newtonsoft.Json.Linq.JObject, System.Net.Sockets.Socket)
+
+当前时间：2018/3/8 17:27:55
+异常信息：未将对象引用设置到对象的实例。
+异常对象：DPS 2000
+调用堆栈：
+在 shell.websocket.ProReadCardInfo(JObject JO, Socket socket) 位置 G:\git\DPS\shell1.2\shell\websocket.cs:行号 1190
+触发方法：Void ProReadCardInfo(Newtonsoft.Json.Linq.JObject, System.Net.Sockets.Socket)
+
+当前时间：2018/3/8 19:26:55
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:27:02
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:27:15
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:27:19
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:27:23
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:27:27
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:27:31
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:27:35
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:27:39
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:27:43
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:28:11
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:28:15
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:28:19
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:28:23
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:28:27
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:28:31
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:28:35
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:28:39
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:28:43
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:28:47
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:28:51
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:28:55
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:28:59
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:29:03
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:29:07
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:30:11
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:30:11
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:30:11
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:30:14
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:30:18
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:30:22
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:30:26
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:30:30
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:30:34
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:30:38
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:30:42
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:30:46
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:30:50
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:30:54
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:30:58
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:31:02
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:31:06
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:31:10
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:31:14
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:31:18
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:31:22
+异常信息：IP地址为 192.168.33.250 的控制器上的 总线1 网络连接超时
+异常对象：ComposerSDK
+调用堆栈：
+在 ComposerSDK.BusWorker.InitSocket()
+触发方法：Boolean InitSocket()
+
+当前时间：2018/3/8 19:31:26
+异常信息：由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+异常对象：System
+调用堆栈：
+在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 ComposerSDK.Util.NetUtil.Receive2End(Socket socket, Int16 sendTransationID)
+   在 ComposerSDK.Command.PTL900UDisplayCommand.Invoke(Socket socket)
+   在 ComposerSDK.PTL900U.Invoke(Socket socket)
+   在 ComposerSDK.BusWorker.Run900U()
+触发方法：Int32 Receive(Byte[], Int32, Int32, System.Net.Sockets.SocketFlags)
+
+当前时间：2018/3/8 19:31:28
+异常信息：由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+异常对象：System
+调用堆栈：
+在 System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   在 ComposerSDK.Util.NetUtil.Receive2End(Socket socket, Int16 sendTransationID)
+   在 ComposerSDK.Command.PTL900UDisplayCommand.Invoke(Socket socket)
+   在 ComposerSDK.PTL900U.Invoke(Socket socket)
+   在 ComposerSDK.BusWorker.Run900U()
+触发方法：Int32 Receive(Byte[], Int32, Int32, System.Net.Sockets.SocketFlags)
+

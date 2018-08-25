@@ -1,0 +1,1437 @@
+/**
+ * Admui v1.0.0 (http://www.admui.com/)
+ * Copyright 2015-2017 Admui Team
+ * Licensed under the Admui License 1.0 (http://www.admui.com/about/#license)
+ */
+(function (document, window, $) {
+    'use strict';
+
+    var $content = $("#admui-pageContent");
+    var firstTab = {
+        table: '',
+        $item: '',
+        thisRow: ''
+    }, secondTab = {
+        table: '',
+        $item: '',
+        thisRow: ''
+    };
+
+    var urlLink = {
+        getList: window.idcPath + '/embroideryOperate/getList',
+        addUploadFile: window.idcPath + '/embroidery/addUploadFile',
+        refer: window.idcPath + '/embroidery/refer',
+        startOperate: window.idcPath + '/embroidery/startOperate',
+        finishOperate: window.idcPath + '/embroidery/finishOperate',
+        lotRefer: window.idcPath + '/embroideryOperate/lotRefer',
+    };
+
+    var optionsMap = new Map(), optionsInfoMap = new Map(), optTypeMap = new Map();//一起处理的3个map
+    var stdSizeMap = new Map();
+
+    var csOrdSubModelMap = new Map();
+    var ordOptionModelMap = new Map();
+
+    var styDataMap = new Map();
+    var _isEdit = false;
+    var designImgList = [];
+    var styDataMap = new Map();
+
+    var frontPicture = '', sidePicture = '',g_ordType='';
+
+    var g_operation = {//页面功能键对象
+        editType: '',
+        po: '',
+        csNum: '',
+        styNum: '',
+        businessKey: '',
+        modifyData: {},
+        matInfo: {},//谨慎存取
+        isCopy: false,
+        reset: function () {
+            this.editType = '';
+            this.businessKey = '';
+            this.po = '';
+            this.csNum = '';
+            this.styNum = '';
+            this.matInfo = {};//
+            this.modifyData = {};
+            this.isCopy = false;
+            return this;
+        }
+    };
+
+    window.Content = App.extend({
+        handFirstTable: function (search) {
+            var self = this;
+            var index = 0;
+            /*表格初始化*/
+            firstTab.table = $('#first_table').DataTable($.po('dataTable', {
+                dom: '<"row"<"col-xs-6"<"hidden-xs"B>><"col-xs-6"f>><"row"<"col-xs-12"tr>><"row"<"col-sm-5"i><"col-sm-7"p>>',
+                processing: true,
+                autoWidth: true, //禁用自动调整列宽
+                destroy: true,
+                ajax: function (data, callback, settings) {
+                    index = 0;
+                    var query = jQuery.extend({}, search);
+                    query.pageNo = (data.start / data.length) + 1;//当前页码;
+                    query.pageSize = data.length;
+                    query.flag = 0;
+
+                    common.request({
+                        url: urlLink.getList,
+                        data: query,
+                        success: function (res) {
+                            var list = {
+                                data: res.list,
+                                recordsTotal: res.pageSize,//返回数据全部记录
+                                recordsFiltered: res.totalNum//后台不实现过滤功能，每次查询均视作全部结果
+                            };
+                            callback(list);
+                        }
+                    });
+                },
+
+                rowId: 'id',
+                serverSide: true,
+                deferRender: true,
+                searching: false,
+                stateSave: false,
+                lengthChange: true,
+                displayLength: 25,
+                //scrollX: "100%",
+                responsive: false,
+                ordering: false, // 禁止排序
+                buttons: {
+                    dom: {
+                        container: {
+                            className: 'btn-group btn-group-sm'
+                        },
+                        button: {
+                            className: 'btn btn-default btn-outline'
+                        }
+                    },
+                    buttons: [
+                        {
+                            extend: 'copy',
+                            text: '拷贝'
+                        },
+                        {
+                            extend: 'excel',
+                            text: '导出 Excel'
+                        },
+                        {
+                            extend: 'csv',
+                            text: '导出 CSV'
+                        },
+                        {
+                            extend: 'print',
+                            text: '打印'
+                        }
+                    ]
+                },
+                columns: [
+                    {
+                        "render": function () {
+                            var checkbox = '<span class="checkbox-custom checkbox-primary">' +
+                                '<input type="checkbox" class="contacts-checkbox selectable-item">' +
+                                '<label></label></span>';
+                            return checkbox;
+                        }
+                    },
+                    {
+                        "data": null,
+                        "render": function (data, type, row, meta) {
+                            return ( meta.row + 1);
+                        }
+                    },
+                    {
+                        "data": "poInfo",
+                        "render": function (data, type, row) {
+                            var poInfoJson = JSON.parse(data);
+                            var result = "";
+                            if (poInfoJson !== null) {
+                                for (var i = 0; i < poInfoJson.length; i++) {
+                                    result += '<div><a class="poFirstLink" style="cursor: pointer" orderPo = "'+poInfoJson[i].po+'" orderStyNum = "'+poInfoJson[i].styNum+'">' + poInfoJson[i].po + '</a></div>';
+                                }
+                            }
+                            return result;
+                        }
+                    },
+                    {
+                        "data": "poInfo",
+                        "render": function (data, type, row) {
+                            var poInfoJson = JSON.parse(data);
+                            var result = "";
+                            if (poInfoJson !== null) {
+                                for (var i = 0; i < poInfoJson.length; i++) {
+                                    result += '<div>' + poInfoJson[i].styNum + '</div>';
+                                }
+                            }
+                            return result;
+                        }
+                    },
+                    {
+                        "data": "arriveTime",
+                        "render": function (data, type, row) {
+                            return moment(data).format('YYYY-MM-DD HH:mm');
+                        }
+                    },
+                    {
+                        "data": "sourceInfo",
+                        "render": function (data, type, row) {
+                            var matInfoListJson = JSON.parse(data);
+                            var result = "";
+                            if (matInfoListJson !== null) {
+                                for (var i = 0; i < matInfoListJson.length; i++) {
+                                    result += '<div>' + matInfoListJson[i].qty + '</div>';
+                                }
+                            }
+                            return result;
+                        }
+                    },
+                    {
+                        "data": "poInfo",
+                        "render": function (data, type, row) {
+                            var result = "";
+                            var poInfoJson = JSON.parse(data);
+                            for (var i = 0; i < poInfoJson.length; i++) {
+                                if (poInfoJson[i].typeNameInfo) {
+                                    var typeNameInfo = JSON.parse(poInfoJson[i].typeNameInfo);
+                                    result += "<div><a class='showNotes' style='position: relative;cursor: pointer;' orderPo = '"+poInfoJson[i].po+"' orderStyNum = '"+poInfoJson[i].styNum+"' orderTypeName='"+poInfoJson[i].typeNameInfo+"'><div class='showNotesModal' toggle='showNotesModal'"+row.id+"' style='background:#fff;border: 1px solid #e4eaec;position: absolute;display: none;bottom: 30px;left: -100px;'></div>共"+typeNameInfo.length+"尺码</a><div>";
+                                }else{
+                                    result = "无";
+                                }
+                            }
+                            return result;
+                        }
+                    },
+                    {
+                        "data": "poInfo",
+                        "render": function (data, type, row) {
+                            var poInfoJson = JSON.parse(data);
+                            var result = "";
+                            if (poInfoJson !== null) {
+                                for (var i = 0; i < poInfoJson.length; i++) {
+                                    result += '<div>' + poInfoJson[i].qty + '</div>';
+                                }
+                            }
+                            return result;
+                        }
+                    },
+                    {
+                        "data": "sourceInfo",
+                        "render": function (data, type, row) {
+                            var sourceInfoJson = JSON.parse(data);
+                            var result = "";
+                            if(!common.isEmpty(sourceInfoJson)){
+                                for (var i = 0; i < sourceInfoJson.length; i++) {
+                                    result += '<div>'+ Content.getFileStr(sourceInfoJson[i].uploadFile) + '</div>';
+                                }
+                            }
+                            return result ;
+                        }
+                    },
+                    {
+                        "data": "uploadFile",
+                        "render": function (data, type, row) {
+                            var downBtn = '<button type="button" class="btn btn-sm btn-icon btn-pure btn-default"' + ' data-toggle="downBtn"><i class="icon wb-download" aria-hidden="true"></i></button>';
+                            var openCAD = '<button type="button" class="btn btn-sm  btn-outline btn-success"' + ' data-toggle="openCAD">下载</button>';
+                            return downBtn+"&nbsp&nbsp&nbsp&nbsp"+openCAD;
+                        }
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            var finishOperate = "";
+                            finishOperate += '<button type="button" class="btn btn-sm  btn-outline btn-success"' + ' data-toggle="finishOperate">绣花完成</button>';
+                            return finishOperate;
+                        }
+                    },
+                ],
+                "columnDefs": [
+                    {className: "text-center", "targets": [0,1,5,7]}
+                ],
+                "initComplete": function (settings, json) {
+                    msgOperator.clearTip('绣花操作工程师');
+                    /* $.components.init('dropify');*/
+                    /*$('.dropify').dropify();*/
+                }
+            }));
+        },
+
+        handFirstTableOperation: function () {
+            /*文件上传按钮*/
+            $content.on('click', '.page-users button[data-toggle=uploadBtn]', function () {
+                var $tr;
+                firstTab.$item = $(this).closest('tr');
+                $tr = firstTab.$item.prev();
+                if (firstTab.$item.hasClass('child') && $tr.hasClass('parent')) {
+                    firstTab.$item = $tr;
+                }
+                firstTab.table.thisRow = firstTab.table.row(firstTab.$item).data();
+
+                var id = firstTab.table.thisRow.id;
+                var fileId = "uploadFile" + id;
+                var fileName = $("#" + fileId).val();
+
+                if (typeof(fileName) == "undefined" || fileName == '') {
+                    toastr.error("请先选择上传文件");
+                    return false;
+                }
+
+                var uploadFile = firstTab.table.thisRow.uploadFile;
+                firstTab.table.thisRow.resultFile;
+                var query_f;
+                var url;
+                if (uploadFile == null) {
+                    var styNum = firstTab.table.thisRow.styNum;
+                    var po = firstTab.table.thisRow.po;
+                    query_f = {
+                        "creator": loginUser.loginName,
+                        "businessId": po,
+                        "businessType": "EMBROIDERY",
+                        "multipartTypes":[]
+                    };
+                    url = "/firstUpload";
+
+                } else {
+                    var uploadFileJson = JSON.parse(uploadFile);
+                    var fdfsId = uploadFileJson[0].fdfsId;
+                    var id = firstTab.table.thisRow.id;
+                    query_f = {
+                        "creator": loginUser.loginName,
+                        "fdfsId": fdfsId,
+                        "naturalId": id,
+                        "multipartTypes":[]
+                    };
+                    url = "/upload";
+                }
+                $.ajaxFileUpload({
+                    url: window.fdfsPath + url,
+                    type: 'POST',
+                    data: query_f,
+                    dataType: 'json',
+                    secureuri: false, //一般设置为false
+                    fileElementId: fileId, // 上传文件的id、name属性名
+                    success: function (data) {
+                        if (typeof(data.data) != "undefined") {
+                            firstTab.table.thisRow.resultFile = data.data;
+                            var _query = {
+                                "id": id,
+                                "addUploadFileStr": JSON.stringify(firstTab.table.thisRow.resultFile)
+                            };
+
+                            common.request({
+                                url: urlLink.addUploadFile,
+                                data: _query,
+                                success: function (res) {
+                                    toastr.success("文件上传成功");
+                                    firstTab.table.ajax.reload();//操作完成刷新当前页
+                                    //secondTab.table.ajax.reload();//操作完成刷新当前页
+                                },
+                                error: function (err) {
+                                    toastr.error("文件上传错误");
+                                }
+                            });
+                        } else {
+                            toastr.error("文件上传错误");
+                        }
+
+                    },
+                    error: function (data, status, e) {
+                        toastr.error(e);
+                    }
+                });
+
+            });
+
+            /*文件提交按钮*/
+            $content.on('click', '.page-users button[data-toggle=submitBtn]', function () {
+                var $tr;
+                firstTab.$item = $(this).closest('tr');
+                $tr = firstTab.$item.prev();
+                if (firstTab.$item.hasClass('child') && $tr.hasClass('parent')) {
+                    firstTab.$item = $tr;
+                }
+                firstTab.table.thisRow = firstTab.table.row(firstTab.$item).data();
+
+                var resultFile = firstTab.table.thisRow.resultFile;
+                var uploadFile = firstTab.table.thisRow.uploadFile;
+                var id = firstTab.table.thisRow.id;
+
+                var file = (typeof(resultFile) == "undefined" || resultFile == '') ? uploadFile : resultFile;
+
+                if (typeof(file) == "undefined" || file == '') {
+                    toastr.error("请先上传绣花文件");
+                    return false;
+                }
+
+                alertify.theme('bootstrap')
+                    .confirm("是否确认提交？", function () {
+                        var _query = {
+                            "id": id
+                        };
+                        common.request({
+                            url: urlLink.refer,
+                            data: _query,
+                            success: function (res) {
+                                alertify.theme('bootstrap')
+                                    .alert('订单已经提交成功，相关订单将由DPS系统提交到下一流程');
+                                firstTab.table.ajax.reload();//操作完成刷新当前页
+                            },
+                            error: function (err) {
+                                toastr.error(err.error.message);
+                            }
+                        });
+                    });
+            });
+
+            /*文件下载按钮*/
+            $content.on('click', '.page-users button[data-toggle=downBtn]', function () {
+                var $tr;
+                firstTab.$item = $(this).closest('tr');
+                $tr = firstTab.$item.prev();
+                if (firstTab.$item.hasClass('child') && $tr.hasClass('parent')) {
+                    firstTab.$item = $tr;
+                }
+                firstTab.table.thisRow = firstTab.table.row(firstTab.$item).data();
+                var sourceFile = firstTab.table.thisRow.sourceInfo;
+                var sourceFileJson = JSON.parse(sourceFile);
+                if (sourceFileJson !== null) {
+                    for (var i = 0; i < sourceFileJson.length; i++) {
+                        Content.downLoadFile(sourceFileJson[i].uploadFile);
+                    }
+                }
+            });
+
+            /*用CAD打开按钮*/
+            $content.on('click', '.page-users button[data-toggle=openCAD]', function () {
+                var $tr;
+                firstTab.$item = $(this).closest('tr');
+                $tr = firstTab.$item.prev();
+                if (firstTab.$item.hasClass('child') && $tr.hasClass('parent')) {
+                    firstTab.$item = $tr;
+                }
+                firstTab.table.thisRow = firstTab.table.row(firstTab.$item).data();
+                var sourceInfo = firstTab.table.thisRow.sourceInfo;
+                //var styNum = firstTab.table.thisRow.styNum;
+                var id = firstTab.table.thisRow.id;
+                var poInfo = firstTab.table.thisRow.poInfo;
+                var disNum = firstTab.table.thisRow.disNum;
+                var poInfoJson = JSON.parse(poInfo);
+                var uploadFileJson = JSON.parse(sourceInfo);
+                var path_urlArray = [];
+                var poArr = [],poList = [];
+                if (uploadFileJson !== null) {
+                    for (var i = 0; i < uploadFileJson.length; i++) {
+                        var po = uploadFileJson[i].po;
+                        poArr.push(po);
+                        var orderPO = poArr[0]+'('+poInfoJson[0].styNum+')';
+                        var arr = Content.getFileArr(uploadFileJson[i].uploadFile);
+                        path_urlArray = path_urlArray.concat(arr);
+                    }
+                }
+                if (!common.isEmpty(poInfoJson)) {
+                    for(var i = 0;i<poInfoJson.length;i++){
+                        poList.push(poInfoJson[i].po);
+                    }
+                }
+                var query_f = {
+                    "jsonStr":path_urlArray,
+                    "creator": loginUser.loginName,
+                    "businessId": poInfoJson[0].po,
+                    "id":id,
+                    "type":"embroidery"
+                };
+                shellWebSocket.send(query_f);
+                /*common.request({
+                    url: window.housePath+"embroidery",
+                    type:"POST",
+                    data: JSON.stringify(query_f),
+                    dataType: 'json',
+                    success: function (res) {
+                        if(res.data == "0000"){
+                            toastr.success("打开成功");
+                        }else{
+                            toastr.error("打开失败");
+                        }
+                    },
+                    error: function (err) {
+                        toastr.error(err.error.message);
+                    }
+                });*/
+            });
+
+            /*绣花开始按钮*/
+            $content.on('click', '.page-users button[data-toggle=startOperate]', function () {
+                var $tr;
+                firstTab.$item = $(this).closest('tr');
+                $tr = firstTab.$item.prev();
+                if (firstTab.$item.hasClass('child') && $tr.hasClass('parent')) {
+                    firstTab.$item = $tr;
+                }
+                firstTab.table.thisRow = firstTab.table.row(firstTab.$item).data();
+                var sourceFile = firstTab.table.thisRow.sourceFile;
+                var po = firstTab.table.thisRow.po;
+                var id = firstTab.table.thisRow.id;
+                var sourceFileJson = JSON.parse(sourceFile);
+                var path_urlArray = [];
+                for (var i = 0; i < sourceFileJson.length; i++) {
+                    var path_url = sourceFileJson[i].fdfsDir + sourceFileJson[i].fdfsName + '?filename=' + sourceFileJson[i].fileName;
+                    path_urlArray.push(path_url);
+                }
+                var idList = [];
+                idList.push(id)
+                var _query = {
+                    "idList": idList.join(",")
+                };
+                common.request({
+                    url: urlLink.startOperate,
+                    data: _query,
+                    type: "POST",
+                    success: function (res) {
+                        alertify.theme('bootstrap')
+                            .alert('正在进行绣花操作');
+                        $(".page-users button[data-toggle=startOperate]").attr("disabled",true);
+                        $(".page-users button[data-toggle=finishOperate]").attr("disabled",false);
+                        firstTab.table.ajax.reload();//操作完成刷新当前页
+                    },
+                    error: function (err) {
+                        //idArray.push(id);
+                        //toastr.error("文件上传错误");
+                    }
+                });
+            });
+
+            /*绣花完成按钮*/
+            $content.on('click', '.page-users button[data-toggle=finishOperate]', function () {
+                var $tr;
+                firstTab.$item = $(this).closest('tr');
+                $tr = firstTab.$item.prev();
+                if (firstTab.$item.hasClass('child') && $tr.hasClass('parent')) {
+                    firstTab.$item = $tr;
+                }
+                firstTab.table.thisRow = firstTab.table.row(firstTab.$item).data();
+                var sourceInfo = firstTab.table.thisRow.sourceInfo;
+                var id = firstTab.table.thisRow.id;
+                var sourceInfoJson = JSON.parse(sourceInfo);
+                var idList = [];
+                idList.push(id);
+                var _query = {
+                    "idList": idList.join(",")
+                };
+                alertify.theme('bootstrap')
+                    .alert('绣花完成',function(){
+                        common.request({
+                            url: urlLink.lotRefer,
+                            data: _query,
+                            success: function (res) {
+                                firstTab.table.ajax.reload();//操作完成刷新当前页
+                                msgOperator.reduceAndShow('绣花操作工程师',1);//更新右上角item
+                            },
+                            error: function (err) {
+                                toastr.error(err.error.message);
+                            }
+                        });
+                    });
+            });
+
+            /*订单编号  查看款式详情*/
+            $content.on('click', '.page-users .poFirstLink', function () {
+                var $tr;
+                firstTab.$item = $(this).closest('tr');
+                $tr = firstTab.$item.prev();
+                if (firstTab.$item.hasClass('child') && $tr.hasClass('parent')) {
+                    firstTab.$item = $tr;
+                }
+                firstTab.table.thisRow = firstTab.table.row(firstTab.$item).data();
+                var id = firstTab.table.thisRow.id;
+                var poInfoJson = JSON.parse(firstTab.table.thisRow.poInfo);
+                var po = $(this).attr("orderPo");
+                var styNum = $(this).attr("orderStyNum");
+
+                //$.pjax({name: '订单导入详情', url: '/console/page/oma/orderDetail?editType=detailImport&orderDetail=embroideryOperateList'+'&po='+po+'&styNum='+styNum+'&id='+id,container:'#admui-pageContent',replace:true});
+
+                //$.site.contentTabs.buildTag_V1({name: '订单导入详情', url: '/console/page/oma/orderDetail?editType=detailImport&grade=grade'+'&po='+po+'&styNum='+styNum+'&id='+id});
+
+                g_operation.po = $(this).attr("orderPo");
+                g_operation.styNum =  $(this).attr("orderStyNum");
+                g_operation.id = firstTab.table.thisRow.id;
+                $("#addUpdateModal").modal('show');
+                window.Content.initEditModelData();//同步调用
+
+            });
+
+            /*尺码信息*/
+            $content.on('click', '.showNotes', function () {
+                var $tr;
+                firstTab.$item = $(this).closest('tr');
+                $tr = firstTab.$item.prev();
+                if (firstTab.$item.hasClass('child') && $tr.hasClass('parent')) {
+                    firstTab.$item = $tr;
+                }
+                firstTab.table.thisRow = firstTab.table.row(firstTab.$item).data();
+                var poInfo = firstTab.table.thisRow.poInfo;
+                var poInfoJson = JSON.parse(poInfo);
+                var po = $(this).attr("orderPo");
+                var typeName = $(this).attr("orderTypeName");
+                var styNum = $(this).attr("orderStyNum");
+                $("#styNumModal").modal('show');
+                $("#poNumDiv").html(po);
+                $("#styNumDiv").html(styNum);
+                window.Content.styNumTable(JSON.parse(typeName));
+
+            });
+
+            //滑过尺码信息
+            $content.on("mouseover",".showNotes",function(){
+                var $tr;
+                firstTab.$item = $(this).closest('tr');
+                $tr = firstTab.$item.prev();
+                if (firstTab.$item.hasClass('child') && $tr.hasClass('parent')) {
+                    firstTab.$item = $tr;
+                }
+                firstTab.table.thisRow = firstTab.table.row(firstTab.$item).data();
+                var poInfo = firstTab.table.thisRow.poInfo;
+                var poInfoJson = JSON.parse(poInfo);
+                //var typeName = "";
+                //for (var i = 0; i < poInfoJson.length; i++) {
+                //    typeName = poInfoJson[i].typeNameInfo;
+                //}
+                var po = $(this).attr("orderPo");
+                var typeName = $(this).attr("orderTypeName");
+                var styNum = $(this).attr("orderStyNum");
+                $(this).find("div").css("display","block");
+                var data = {list: JSON.parse(typeName)};
+                var html = template('styNameListTpl', data);
+                $("#styNameList").html(html);
+                $(".showNotes").attr("data-content",html);
+                $(".showNotesModal").html(html);
+            });
+            $content.on("mouseleave",".showNotes",function(){
+                var $tr;
+                firstTab.$item = $(this).closest('tr');
+                $tr = firstTab.$item.prev();
+                if (firstTab.$item.hasClass('child') && $tr.hasClass('parent')) {
+                    firstTab.$item = $tr;
+                }
+                firstTab.thisRow = firstTab.table.row(firstTab.$item).data();
+                var id = firstTab.thisRow.id;
+
+                var toggle = $(".showNotesModal").attr("toggle");
+                var showNotesModal = $(".showNotesModal");
+                //console.log($(".showNotesModal").attr("toggle"));
+                $(this).find("div").css("display","none");
+
+            });
+        },
+
+        handSecondTable: function (search) {
+            var self = this;
+            var index = 0;
+            /*表格初始化*/
+            secondTab.table = $('#second_table').DataTable($.po('dataTable', {
+                dom: '<"row"<"col-xs-6"<"hidden-xs"B>><"col-xs-6"f>><"row"<"col-xs-12"tr>><"row"<"col-sm-5"i><"col-sm-7"p>>',
+                processing: true,
+                autoWidth: true, //禁用自动调整列宽
+                destroy: true,
+                ajax: function (data, callback, settings) {
+                    index = 0;
+                    var query = jQuery.extend({}, search);
+                    query.pageNo = (data.start / data.length) + 1;//当前页码;
+                    query.pageSize = data.length;
+                    query.flag = 1;
+
+                    common.request({
+                        url: urlLink.getList,
+                        data: query,
+                        success: function (res) {
+                            var list = {
+                                data: res.list,
+                                recordsTotal: res.pageSize,//返回数据全部记录
+                                recordsFiltered: res.totalNum//后台不实现过滤功能，每次查询均视作全部结果
+                            };
+                            callback(list);
+                        }
+                    });
+                },
+
+                rowId: 'id',
+                serverSide: true,
+                deferRender: true,
+                searching: false,
+                stateSave: false,
+                lengthChange: true,
+                displayLength: 25,
+                //scrollX: "100%",
+                responsive: false,
+                ordering: false, // 禁止排序
+                buttons: {
+                    dom: {
+                        container: {
+                            className: 'btn-group btn-group-sm'
+                        },
+                        button: {
+                            className: 'btn btn-default btn-outline'
+                        }
+                    },
+                    buttons: [
+                        {
+                            extend: 'copy',
+                            text: '拷贝'
+                        },
+                        {
+                            extend: 'excel',
+                            text: '导出 Excel'
+                        },
+                        {
+                            extend: 'csv',
+                            text: '导出 CSV'
+                        },
+                        {
+                            extend: 'print',
+                            text: '打印'
+                        }
+                    ]
+                },
+                columns: [
+                    {
+                        "data": null,
+                        "render": function (data, type, row, meta) {
+                            return ( meta.row + 1);
+                        }
+                    },
+                    {
+                        "data": "poInfo",
+                        "render": function (data, type, row) {
+                            var poInfoJson = JSON.parse(data);
+                            var result = "";
+                            if (poInfoJson !== null) {
+                                for (var i = 0; i < poInfoJson.length; i++) {
+                                    result += '<div><a class="poSecondLink" style="cursor: pointer" orderPo = "'+poInfoJson[i].po+'" orderStyNum = "'+poInfoJson[i].styNum+'">' + poInfoJson[i].po + '</a></div>';
+                                }
+                            }
+                            return result;
+                        }
+                    },
+                    {
+                        "data": "poInfo",
+                        "render": function (data, type, row) {
+                            var poInfoJson = JSON.parse(data);
+                            var result = "";
+                            if (poInfoJson !== null) {
+                                for (var i = 0; i < poInfoJson.length; i++) {
+                                    result += '<div>' + poInfoJson[i].styNum + '</div>';
+                                }
+                            }
+                            return result;
+                        }
+                    },
+                    {
+                        "data": "arriveTime",
+                        "render": function (data, type, row) {
+                            return moment(data).format('YYYY-MM-DD HH:mm');
+                        }
+                    },
+                    {
+                        "data": "sourceInfo",
+                        "render": function (data, type, row) {
+                            var matInfoListJson = JSON.parse(data);
+                            var result = "";
+                            if (matInfoListJson !== null) {
+                                for (var i = 0; i < matInfoListJson.length; i++) {
+                                    result += '<div>' + matInfoListJson[i].qty + '</div>';
+                                }
+                            }
+                            return result;
+                        }
+                    },
+                    {
+                        "data": "poInfo",
+                        "render": function (data, type, row) {
+                            var result = "";
+                            var poInfoJson = JSON.parse(data);
+                            for (var i = 0; i < poInfoJson.length; i++) {
+                                if (poInfoJson[i].typeNameInfo) {
+                                    var typeNameInfo = JSON.parse(poInfoJson[i].typeNameInfo);
+                                    result += "<div><a class='showNotesSuccess' style='position: relative;cursor: pointer;' orderPo = '"+poInfoJson[i].po+"' orderStyNum = '"+poInfoJson[i].styNum+"' orderTypeName='"+poInfoJson[i].typeNameInfo+"'><div class='showNotesModal' toggle='showNotesModal'"+row.id+"' style='background:#fff;border: 1px solid #e4eaec;position: absolute;display: none;bottom: 30px;left: -100px;'></div>共"+typeNameInfo.length+"尺码</a><div>";
+                                }else{
+                                    result = "无";
+                                }
+                            }
+                            return result;
+                        }
+                    },
+                    {
+                        "data": "poInfo",
+                        "render": function (data, type, row) {
+                            var poInfoJson = JSON.parse(data);
+                            var result = "";
+                            if (poInfoJson !== null) {
+                                for (var i = 0; i < poInfoJson.length; i++) {
+                                    result += '<div>' + poInfoJson[i].qty + '</div>';
+                                }
+                            }
+                            return result;
+                        }
+                    },
+                    {
+                        "data": "sourceInfo",
+                        "render": function (data, type, row) {
+                            var sourceInfoJson = JSON.parse(data);
+                            var result = "";
+                            if(!common.isEmpty(sourceInfoJson)){
+                                for (var i = 0; i < sourceInfoJson.length; i++) {
+                                    result += '<div>'+ Content.getFileStr(sourceInfoJson[i].uploadFile) + '</div>';
+                                }
+                            }
+                            return result ;
+                        }
+                    },
+                    {
+                        "data": "editor",
+                    },
+                    {
+                        "data": "editTime",
+                        "render": function (data, type, row) {
+                            return moment(data).format('YYYY-MM-DD HH:mm');
+                        }
+                    }
+                ],
+                "columnDefs": [
+                    {className: "text-center", "targets": [0,4,6]}
+                ],
+                "initComplete": function (settings, json) {
+                    /* $.components.init('dropify');*/
+                    /*$('.dropify').dropify();*/
+                }
+            }));
+        },
+
+        handSecondTableOperation: function () {
+            /*订单编号  查看款式详情*/
+            $content.on('click', '.page-users .poSecondLink', function () {
+                var $tr;
+                secondTab.$item = $(this).closest('tr');
+                $tr = secondTab.$item.prev();
+                if (secondTab.$item.hasClass('child') && $tr.hasClass('parent')) {
+                    secondTab.$item = $tr;
+                }
+                secondTab.table.thisRow = secondTab.table.row(secondTab.$item).data();
+                var id = secondTab.table.thisRow.id;
+                var poInfoJson = JSON.parse(secondTab.table.thisRow.poInfo);
+                var po = $(this).attr("orderPo");
+                var styNum = $(this).attr("orderStyNum");
+                //$.pjax({name: '订单导入详情', url: '/console/page/oma/orderDetail?editType=detailImport&orderDetail=embroideryOperateList'+'&po='+po+'&styNum='+styNum+'&id='+id,container:'#admui-pageContent',replace:true});
+
+                //$.site.contentTabs.buildTag_V1({name: '订单导入详情', url: '/console/page/oma/orderDetail?editType=detailImport&orderDetail=maskList'+'&po='+po+'&styNum='+styNum+'&id='+id});
+
+                g_operation.po = $(this).attr("orderPo");
+                g_operation.styNum =  $(this).attr("orderStyNum");
+                g_operation.id = secondTab.table.thisRow.id;
+                $("#addUpdateModal").modal('show');
+                window.Content.initEditModelData();//同步调用
+
+            });
+
+            /*尺码信息*/
+            $content.on('click', '.showNotesSuccess', function () {
+                var $tr;
+                secondTab.$item = $(this).closest('tr');
+                $tr = secondTab.$item.prev();
+                if (secondTab.$item.hasClass('child') && $tr.hasClass('parent')) {
+                    secondTab.$item = $tr;
+                }
+                secondTab.table.thisRow = secondTab.table.row(secondTab.$item).data();
+                var poInfo = secondTab.table.thisRow.poInfo;
+                var poInfoJson = JSON.parse(poInfo);
+                var po = $(this).attr("orderPo");
+                var typeName = $(this).attr("orderTypeName");
+                var styNum = $(this).attr("orderStyNum");
+                var id = $(this).attr("orderId");
+                $("#styNumModal").modal('show');
+                $("#poNumDiv").html(po);
+                $("#styNumDiv").html(styNum);
+                window.Content.styNumTable(JSON.parse(typeName));
+
+            });
+
+            //滑过尺码信息
+            $content.on("mouseover",".showNotesSuccess",function(){
+                var $tr;
+                secondTab.$item = $(this).closest('tr');
+                $tr = secondTab.$item.prev();
+                if (secondTab.$item.hasClass('child') && $tr.hasClass('parent')) {
+                    secondTab.$item = $tr;
+                }
+                secondTab.table.thisRow = secondTab.table.row(secondTab.$item).data();
+                var poInfo = secondTab.table.thisRow.poInfo;
+                var poInfoJson = JSON.parse(poInfo);
+                var po = $(this).attr("orderPo");
+                var typeName = $(this).attr("orderTypeName");
+                var styNum = $(this).attr("orderStyNum");
+                $(this).find("div").css("display","block");
+                var data = {list: JSON.parse(typeName)};
+                var html = template('styNameListTpl', data);
+                $("#styNameList").html(html);
+                $(".showNotesSuccess").attr("data-content",html);
+                $(".showNotesModal").html(html);
+            });
+            $content.on("mouseleave",".showNotesSuccess",function(){
+                var $tr;
+                secondTab.$item = $(this).closest('tr');
+                $tr = secondTab.$item.prev();
+                if (secondTab.$item.hasClass('child') && $tr.hasClass('parent')) {
+                    secondTab.$item = $tr;
+                }
+                secondTab.thisRow = secondTab.table.row(secondTab.$item).data();
+                var id = secondTab.thisRow.id;
+
+                var toggle = $(".showNotesModal").attr("toggle");
+                var showNotesModal = $(".showNotesModal");
+                //console.log($(".showNotesModal").attr("toggle"));
+                $(this).find("div").css("display","none");
+
+            });
+        },
+
+        //查看尺码信息
+        styNumTable: function (typeNameList) {
+            var self = this;
+            /*表格初始化*/
+            $('#styNum_table').DataTable($.po('dataTable', {
+                detailBtnprocessing: true,
+                autoWidth: false, //禁用自动调整列宽
+                destroy: true,
+                data: typeNameList,
+                serverSide: false,
+                deferRender: true,
+                searching: false,
+                stateSave: false,
+                //retrieve: true,
+                info: false,
+                paging: false,
+                ordering: false,
+                lengthChange: false,
+                displayLength: 10,
+                responsive: false,
+                columns: [
+                    {
+                        "data":"name",
+                        "render": function (data, type, row) {
+                            return data;
+                        }
+                    },
+                    {
+                        "data":"qty",
+                        "render": function (data, type, row) {
+                            return data;
+                        }
+                    }
+                ],
+                "columnDefs": [
+                    {className: "text-center", "targets": [0,1]}
+                ],
+                rowCallback: function (row, data) {
+                    //
+                },
+                "initComplete": function (settings, json) {
+                }
+            }));
+        },
+
+        handMainOperation: function () {
+            /*页面主要操作*/
+            $content.on('click', '.page-users a[data-toggle=tab]', function () {
+                var tabName = $(this).attr('aria-controls');
+                if (tabName == 'tab2') {
+                    /*       $('#second_table').attr('style','width: 100%');*/
+                    /*        secondTab.table.draw(false);*/
+                    window.Content.handSecondTable();
+                    window.Content.handSecondTableOperation();
+                }
+            });
+
+            //批量提交订单操作
+            $(".selectable-all").click(function(){
+                if(this.checked){
+                    $(".contacts-checkbox").prop("checked", true);
+                }else{
+                    $(".contacts-checkbox").prop("checked", false);
+                }
+            });
+            $content.on('click', '#batchBtn', function () {
+                var $tr = $('#first_table').find('tbody > tr'),
+                    idList = [],resultFileList = [],uploadFileList = [];
+                if ($tr.find(':checkbox').is(':checked')) {
+                    alertify.theme('bootstrap')
+                        .confirm("您确定要提交吗？", function () {
+                            $tr.each(function () {
+                                if ($(this).find(':checkbox').is(':checked')) {
+                                    idList.push(firstTab.table.row($(this)).data().id);
+                                }
+                            });
+                            common.request({
+                                url: urlLink.lotRefer,
+                                data: {idList: idList.join(",")},
+                                type: 'POST',
+                                success: function (data) {
+                                    toastr.success(data);
+                                    firstTab.table.draw(false);
+                                },
+                                error: function (err) {
+                                    toastr.error(err.error.message);
+                                }
+                            });
+                        });
+                }else{
+                    alertify.theme('bootstrap')
+                        .confirm("请先选择要提交的订单号");
+                }
+            });
+
+            //查找
+            $content.on('click', '#searchBtn', function () {
+                var search = {};
+                search.styNum = $('#searchStyNum').val().trim();
+                search.po = $('#searchPoNum').val().trim();
+                window.Content.handFirstTable(search);
+                window.Content.handSecondTable(search);
+            });
+        },
+        getFileStr: function (data) {
+            var uploadFileList = data;
+            var result = "";
+            if (uploadFileList != null) {
+                result += '<a>';
+                for (var i = 0; i < uploadFileList.length; i++) {
+                    result += uploadFileList[i].fileName;
+                    if (i != uploadFileList.length - 1) {
+                        result += '、';
+                    }
+                }
+                result += '</a>';
+            }
+
+            return result;
+        },
+        downLoadFile: function (sourceFile) {
+            var sourceFileJson = sourceFile;
+            var result = "";
+            for (var i = 0; i < sourceFileJson.length; i++) {
+                var path_url = window.fdfsDownPath + sourceFileJson[i].fdfsDir + sourceFileJson[i].fdfsName + '?filename=' + sourceFileJson[i].fileName;
+                try {
+                    var a = document.getElementById("downMultiFile");
+                    a.href = path_url;
+                    a.download = sourceFileJson[i].fileName;
+                    a.click();
+                } catch (e) {
+                }
+            }
+        },
+        getFileArr: function (sourceFile) {
+            var path_urlArray = [];
+            var uploadFileJson = sourceFile;
+            for (var i = 0; i < uploadFileJson.length; i++) {
+                var path_url = window.fdfsDownPath + uploadFileJson[i].fdfsDir + uploadFileJson[i].fdfsName + '?filename=' + uploadFileJson[i].fileName;
+                path_urlArray.push(path_url);
+            }
+            return path_urlArray;
+        },
+
+        ///////////////////////提供对StyOption封装region begin
+        //初始化款式定制可选项
+        initStyOption: function (styNum, async) {
+            var query = {
+                styNum: styNum,
+                enableOption: 1
+            };
+            //款式定制选项
+            common.request({
+                url: window.basicPath + '/style/getStyleOptionAllList',
+                data: query,
+                async: async,
+                success: function (res, meta) {
+                    optionsMap = new Map();
+                    optionsInfoMap = new Map();
+                    optTypeMap = new Map();
+                    for (var i = 0; i < res.length; i++) {
+                        if (!optTypeMap.has(res[i].optTypeCode)) {
+                            optTypeMap.set(res[i].optTypeCode, res[i].optTypeValue);
+                        }
+
+                        if (!optionsMap.has(res[i].optTypeCode)) {
+                            var list = [];
+                            optionsMap.set(res[i].optTypeCode, list);
+                        }
+
+                        optionsInfoMap.set(res[i].optTypeDtlCode, res[i]);
+                        optionsMap.get(res[i].optTypeCode).push(res[i]);
+                    }
+
+                    $('#optionsBody').html('');
+                    var arr = [];
+                    if(g_operation.editType == "edit"){
+                        console.log(111);
+                        optionsMap.forEach(function (value, key) {
+                            var con5Arr = [];
+                            value.forEach(function (ele, i) {
+                                var inputRadios = null;
+                                if (i % 5 == 0) {
+                                    var optTypeValue = '';
+                                    if (i == 0) {
+                                        optTypeValue = optTypeMap.get(key);
+                                    }
+                                    con5Arr.push('<div class="row form-horizontal"> <label class="col-sm-2 control-label">' + optTypeValue + '</label>');
+                                }
+                                var optTypeDtlValue = ele.optTypeDtlValue;
+                                var optTypeDtlCode = ele.optTypeDtlCode;
+                                if (key == '101')
+                                    inputRadios = 'inputRadios101';
+                                else
+                                    inputRadios = 'inputRadios' + key;
+
+                                con5Arr.push('<div class="col-sm-2 form-group"><div class="radio-custom radio-primary"><input type="radio" checkedControl="0"  name="' + inputRadios + '" optTypeDtlCode="' + optTypeDtlCode + '"><label>' + optTypeDtlValue + '</label></div></div>');
+                                if (i % 5 == 4 || i == value.length - 1) {
+                                    con5Arr.push('</div>');
+                                    arr = arr.concat(con5Arr);
+                                    con5Arr = [];
+                                }
+                            });
+                        });
+                    }else{
+                        optionsMap.forEach(function (value, key) {
+                            var con5Arr = [];
+                            value.forEach(function (ele, i) {
+                                var inputRadios = null;
+                                if (i % 5 == 0) {
+                                    var optTypeValue = '';
+                                    if (i == 0) {
+                                        optTypeValue = optTypeMap.get(key);
+                                    }
+                                    con5Arr.push('<div class="row form-horizontal"> <label class="col-sm-2 control-label">' + optTypeValue + '</label>');
+                                }
+                                var optTypeDtlValue = ele.optTypeDtlValue;
+                                var optTypeDtlCode = ele.optTypeDtlCode;
+                                if (key == '101')
+                                    inputRadios = 'inputRadios101';
+                                else
+                                    inputRadios = 'inputRadios' + optTypeDtlCode;
+
+                                con5Arr.push('<div class="col-sm-2 form-group"><div class="radio-custom radio-primary"><input disabled="disabled" type="radio" checkedControl="0"  name="' + inputRadios + '" optTypeDtlCode="' + optTypeDtlCode + '"><label>' + optTypeDtlValue + '</label></div></div>');
+                                if (i % 5 == 4 || i == value.length - 1) {
+                                    con5Arr.push('</div>');
+                                    arr = arr.concat(con5Arr);
+                                    con5Arr = [];
+                                }
+                            });
+                        });
+                    }
+
+
+                    $('#optionsBody').append(arr.join(''));
+                    $('#optionsBody input[type="radio"]').click(function () {
+                        if ($(this).attr("name") != 'inputRadios101') {
+                            if ($(this).attr("checkedControl") == '0') {
+                                $(this).prop("checked", true);
+                                $(this).attr("checkedControl", '1');
+                            } else {
+                                $(this).prop("checked", false);
+                                $(this).attr("checkedControl", '0');
+                            }
+                        }
+                    });
+                }
+
+            });
+        },
+
+        //初始化标准体型项
+        initStdSize: function (async) {
+            var query = {};
+            //款式定制选项
+            common.request({
+                url: window.omaPath + '/cs/size/getStdSize',
+                data: query,
+                async: async,
+                success: function (res, meta) {
+                    stdSizeMap = new Map();
+                    for (var i = 0; i < res.length; i++) {
+                        stdSizeMap.set(res[i].sizeName, res[i]);
+                    }
+
+                    $('#tpTXHtml').html('');
+                    var arr = [];
+                    var con4Arr = [];
+                    var i = 0, j = 0;
+                    var rowTurn = true;
+                    stdSizeMap.forEach(function (value, key) {
+                        if (j == 0) {
+                            con4Arr.push('<div class="row form-horizontal"><label class="col-sm-1 control-label">部位信息：</label></div>');
+                        }
+
+                        if (j % 6 == 0) {
+                            con4Arr.push('<div class="row form-horizontal">');
+                        }
+                        if (value.paramType == '2' && rowTurn) {
+                            con4Arr.push('</div>');
+                            arr = arr.concat(con4Arr);
+                            con4Arr = [];
+                            j = 6;
+
+                            con4Arr.push('<div class="row form-horizontal"><label class="col-sm-1 control-label">特征信息：</label></div>');
+                            con4Arr.push('<div class="row form-horizontal">');
+                            rowTurn = false;
+                        }
+
+                        var sizeName = value.sizeName;
+                        var sizeNameCN = value.sizeNameCN;
+                        if(value.paramType == '2'){
+                            con4Arr.push('<label class="col-sm-1 control-label" for="csInfoModel-' + sizeName + '">' + '' + '</label><div class="col-sm-1 form-group"><div class="radio-custom radio-primary"><input disabled="disabled" type="radio" checkedControl="0"  id="csSizeModel-' + sizeName + '" name="csSizeModel.' + sizeName + '" ><label>' + sizeNameCN + '</label></div></div>');
+                        }else {
+                            con4Arr.push('<label class="col-sm-1 control-label" for="csInfoModel-' + sizeName + '">' + sizeNameCN + '</label><div class="col-sm-1 form-group"> <input disabled="disabled" class="form-control need" id="csSizeModel-' + sizeName + '" name="csSizeModel.' + sizeName + '" type="text" maxlength="50"/></div>');
+                        }
+                        if (j % 6 == 5 || i == stdSizeMap.size - 1) {
+                            con4Arr.push('</div>');
+                            arr = arr.concat(con4Arr);
+                            con4Arr = [];
+                        }
+                        i++;
+                        j++;
+                    });
+
+                    $('#tpTXHtml').html(arr.join(''));
+
+                    if (g_operation.editType == 'detail') {
+                        $("#tpTXHtml input").attr("disabled", true);
+                    }
+                    if (g_operation.editType == 'detail2') {
+                        $("#tpTXHtml input").attr("disabled", true);
+                    }
+
+                    if (g_operation.editType == 'AuditDetail') {
+                        $("#tpTXHtml input").attr("disabled", true);
+                    }
+                    if (g_operation.editType == 'AuditDetail2') {
+                        $("#tpTXHtml input").attr("disabled", true);
+                    }
+
+                    $('#csSizeBody input[type="radio"]').click(function () {
+                        if ($(this).attr("checkedControl") == '0') {
+                            $(this).prop("checked", true);
+                            $(this).attr("checkedControl", '1');
+                        } else {
+                            $(this).prop("checked", false);
+                            $(this).attr("checkedControl", '0');
+                        }
+                    });
+
+                }
+
+            });
+        },
+
+        //初始化款式信息
+        initStyInfo: function (styNum, async) {
+            var query = {
+                styNum: styNum,
+            };
+            //款式信息
+            common.request({
+                url: window.basicPath + '/style/getStyleByStyNum',
+                data: query,
+                async: async,
+                success: function (res, meta) {
+                    styDataMap = new Map();
+                    styDataMap.set(styNum, res);
+                }
+            });
+        },
+
+        initModelData: function () {
+            $('#addUpdateFrom').formValidation('resetForm', true);
+            //$("#addUpdateModal").modal('show');
+            $("#addUpdateModal input").val("");
+            $("#addUpdateModal select").val("");
+            $("#addUpdateModal input").attr("disabled", false);
+            $("#addUpdateModal select").attr("disabled", false);
+            $('#csOrdMainModel-po').attr("disabled", true);
+            $('#csOrdMainModel-receiver').attr("disabled", true);
+            $('#csOrdMainModel-receiverContact').attr("disabled", true);
+            $('#csOrdMainModel-agreedCycle').attr("disabled", true);
+            $('#uploadCsSizeFrontImageBtn,#uploadCsSizeSideImageBtn,#save').show();
+
+            $('#optionsBody').html('');
+
+            window.Content.initStdSize();
+
+            $("#csInfoModel-gender").val(2);
+            var csSizeFrontImage = '<input type="file" id="csSizeFrontImage" name="files" class="form-control"  data-plugin="dropify" data-default-file="">';
+            $('#csSizeFrontImageDiv').html(csSizeFrontImage);
+            var csSizeSideImage = '<input type="file" id="csSizeSideImage" name="files" class="form-control"  data-plugin="dropify" data-default-file="">';
+            $('#csSizeSideImageDiv').html(csSizeSideImage);
+            $.components.init('dropify');
+        },
+
+        initEditModelData: function () {
+            //$("#addUpdateModal").modal('show');
+            $("#addUpdateModal input").attr("disabled", false);
+            $("#addUpdateModal select").attr("disabled", true);
+            $('#csOrdMainModel-po').attr("disabled", true);
+            $('#csOrdMainModel-receiver').attr("disabled", true);
+            $('#csOrdMainModel-receiverContact').attr("disabled", true);
+            $('#csOrdMainModel-agreedCycle').attr("disabled", true);
+            $('#uploadCsSizeFrontImageBtn,#uploadCsSizeSideImageBtn,#save').hide();
+            $("#addUpdateModal input").val("");
+            $("#addUpdateModal select").val("");
+
+            $('#optionsBody').html('');
+
+            window.Content.initStyOption(g_operation.styNum, false);
+            window.Content.initStdSize(false);
+            window.Content.initStyInfo(g_operation.styNum, false);
+
+            $('#addUpdateModal input:not("#csSizeFrontImage,#csSizeSideImage")').attr("disabled", true);
+            var ordQuery = {po: g_operation.po};
+            window.Content.loadOrderInfo(ordQuery);
+
+            $("#csOrdMainModel-styNum").val(g_operation.styNum);
+        },
+
+        loadOrderInfo: function (ordQuery) {
+            common.request({
+                url: window.omaPath + "/cs/order/getOrderInfo",
+                data: ordQuery,
+                async: false,
+                success: function (data, res) {
+                    var csOrdMainModel = res.csOrdMainModel;
+                    for (var key in csOrdMainModel) {
+                        var value = csOrdMainModel[key];
+                        if (key == "agreedDate")
+                            value = moment(value).format('YYYY-MM-DD');
+                        if (key == "receiveTime")
+                            value = moment(value).format('YYYY-MM-DD HH:mm:ss');
+                        $("#csOrdMainModel-" + key).val(value);
+                    }
+
+                    var ordOptionModel = res.ordOptionModel;
+                    var optionInfo = JSON.parse(ordOptionModel.optionInfo);
+                    if (optionInfo != null) {
+                        $.each(optionInfo.list, function (i, item) {
+                            $("#optionsBody input[optTypeDtlCode=" + item.optTypeDtlCode + "]").attr('checked', true);
+                        });
+                    }
+
+                    var csInfoModel = res.csInfoModel;
+                    for (var key in csInfoModel) {
+                        $("#csInfoModel-" + key).val(csInfoModel[key]);
+                    }
+
+                    var csOrdSubModel = res.csOrdSubModel;
+                    for (var key in csOrdSubModel) {
+                        $("#csOrdSubModel-" + key).val(csOrdSubModel[key]);
+                    }
+
+                    //判断是否是小单快反还是个性化
+                    if(common.isEmpty(res.csOrdSubModel.typeName)){
+                        $(".csSizeDiv").show();
+                        var csSizeInfo = res.csSizeInfo;
+                        $.each(csSizeInfo.csSizeSubModelList, function (i, item) {
+                            $("#tpTXHtml input[type='text'][name='csSizeModel." + item.sizeName + "']").val(item.sizeValue);
+                            if(item.sizeValue == '1'){
+                                $("#tpTXHtml input[type='radio'][name='csSizeModel." + item.sizeName + "']").attr('checked', true);
+                            }
+                        });
+
+                        var csSizeMainModel = csSizeInfo.csSizeMainModel;
+                        $("#csOrdMainModel-shapeTyle").val(csSizeMainModel.shapeTyle);
+                        frontPicture = csSizeMainModel.frontPicture;
+                        var picdata = JSON.parse(csSizeMainModel.frontPicture);
+                        var csSizeFrontImagePath = "";
+                        if (picdata != null) {
+                            for (var i = 0; i < picdata.length; i++) {
+                                csSizeFrontImagePath = window.fdfsDownPath + "/" + picdata[i].fdfsDir + picdata[i].fdfsName;
+                            }
+                        }
+                        picdata = JSON.parse(csSizeMainModel.sidePicture);
+                        sidePicture = csSizeMainModel.sidePicture;
+                        var csSizeSideImagePath = "";
+                        if (picdata != null) {
+                            for (var i = 0; i < picdata.length; i++) {
+                                csSizeSideImagePath = window.fdfsDownPath + "/" + picdata[i].fdfsDir + picdata[i].fdfsName;
+                            }
+                        }
+                        var csSizeFrontImage = '<a class="inline-block" href="'+csSizeFrontImagePath+'" data-plugin="magnificPopup"><img class="img-responsive" src="'+csSizeFrontImagePath+'"  width="80px" height="80px"></a>';
+                        $('#csSizeFrontImageDiv').html(csSizeFrontImage);
+
+                        var csSizeSideImage = '<a class="inline-block" href="'+csSizeSideImagePath+'" data-plugin="magnificPopup"><img class="img-responsive" src="'+csSizeSideImagePath+'"  width="80px" height="80px"></a>';
+                        $('#csSizeSideImageDiv').html(csSizeSideImage);
+                    }else{
+                        $(".csSizeDiv").hide();
+                        var typeName = res.csOrdSubModel.typeName;
+                        var typeNamejson = JSON.parse(typeName);
+                        $('#optionsBody').append('<div class="row form-horizontal"><label class="col-sm-2 control-label">尺码数量：</label><div id="styModelBody" class="col-sm-2"></div></div>');
+                        for(var key in typeNamejson){
+                            $('#styModelBody').append('<div class="row form-horizontal"> <label class="col-sm-6 control-label">'+ typeNamejson[key].name +'-</label><div class="col-sm-6 form-group">' +
+                                '<input class="form-control need" id="styModel-qty" value="'+ typeNamejson[key].qty +'" type="text" maxlength="50" disabled>' +
+                                '</div><div class="col-sm-1 form-group"></div></div>');
+                        }
+                    }
+
+
+                    //设计调整
+                    var designerFile = csOrdSubModel.designerFile;
+
+                    var designerFileJson = JSON.parse(designerFile);
+                    designImgList =  designerFileJson;
+                    var fullPath;
+                    var csSizeAllImage,csSizeeEmbroideryImage,csSizeOtherImage;
+                    if (designerFileJson != null) {
+                        for (var i = 0; i < designerFileJson.length; i++) {
+                            //if(!common.isEmpty(designerFileJson)){
+                            //    toastr.error("所有选项必须录入");
+                            //    return false;
+                            //}
+                            fullPath = window.fdfsDownPath + "/" + designerFileJson[i].fdfsDir + designerFileJson[i].fdfsName;
+
+                            if (designerFileJson[i].multipartType === 'zt'){
+                                var img = '<a class="inline-block" href="'+fullPath+'" data-plugin="magnificPopup"><img class="img-responsive" src="'+fullPath+'"  width="80px" height="80px"></a>';
+                                $('#csSizeAllImageDiv').html(img);
+                            }
+                            if (designerFileJson[i].multipartType === 'xh'){
+                                var img = '<a class="inline-block" href="'+fullPath+'" data-plugin="magnificPopup"><img class="img-responsive" src="'+fullPath+'"  width="80px" height="80px"></a>';
+                                $('#csSizeeEmbroideryImage').html(img);
+                            }
+                            if (designerFileJson[i].multipartType === 'qt'){
+                                var img = '<a class="inline-block" href="'+fullPath+'" data-plugin="magnificPopup"><img class="img-responsive" src="'+fullPath+'"  width="80px" height="80px"></a>';
+                                $('#csSizeOtherImage').html(img);
+                            }
+                        }
+                    }
+                    $.components.init('magnificPopup');
+
+
+                    var csAddrModel = res.csAddrModel;
+                    for (var key in csAddrModel) {
+                        $("#csAddrModel-" + key).val(csAddrModel[key]);
+                    }
+
+                    if (g_operation.isCopy) {//复制按钮
+                        $('#csOrdMainModel-po').val('');
+                    }
+                }
+            });
+        },
+
+        ////////////////////////提供对StyOption封装region end
+
+        run: function () {
+            this.handFirstTable();
+            this.handFirstTableOperation();
+            this.handMainOperation();
+        }
+    });
+
+
+})(document, window, jQuery);
+

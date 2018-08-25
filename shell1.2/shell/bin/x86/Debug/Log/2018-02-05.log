@@ -1,0 +1,61 @@
+当前时间：2018/2/5 16:05:23
+异常信息：远程服务器返回错误: (404) 未找到。
+异常对象：System
+调用堆栈：
+在 System.Net.HttpWebRequest.GetResponse()
+   在 shell.websocket.DownFile(String path, String adress) 位置 G:\shell\shell1.2\shell\websocket.cs:行号 756
+   在 shell.websocket.Dwon(String path, List`1 strList) 位置 G:\shell\shell1.2\shell\websocket.cs:行号 746
+   在 shell.Form1.fileSystemWatcher1_Created(Object sender, FileSystemEventArgs e) 位置 G:\shell\shell1.2\shell\UI\Form1.cs:行号 238
+触发方法：System.Net.WebResponse GetResponse()
+
+当前时间：2018/2/5 16:15:08
+异常信息：未能找到路径“D:\ETCAD\制版\D20180120-0007(AZQ1620)[16_13_16]”的一部分。
+异常对象：mscorlib
+调用堆栈：
+在 System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   在 System.IO.FileSystemEnumerableIterator`1.CommonInit()
+   在 System.IO.FileSystemEnumerableIterator`1..ctor(String path, String originalUserPath, String searchPattern, SearchOption searchOption, SearchResultHandler`1 resultHandler, Boolean checkHost)
+   在 System.IO.Directory.GetFiles(String path, String searchPattern, SearchOption searchOption)
+   在 shell.check_thread.Check_dir() 位置 G:\shell\shell1.2\shell\check_thread.cs:行号 33
+触发方法：Void WinIOError(Int32, System.String)
+
+当前时间：2018/2/5 16:22:17
+异常信息：给定关键字不在字典中。
+异常对象：mscorlib
+调用堆栈：
+在 System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   在 shell.SnapForm.pictureBox1_MouseUp(Object sender, MouseEventArgs e) 位置 G:\shell\shell1.2\shell\UI\SnapForm.cs:行号 149
+触发方法：TValue get_Item(TKey)
+
+当前时间：2018/2/5 16:22:21
+异常信息：给定关键字不在字典中。
+异常对象：mscorlib
+调用堆栈：
+在 System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   在 shell.SnapForm.pictureBox1_MouseUp(Object sender, MouseEventArgs e) 位置 G:\shell\shell1.2\shell\UI\SnapForm.cs:行号 149
+触发方法：TValue get_Item(TKey)
+
+当前时间：2018/2/5 16:22:53
+异常信息：给定关键字不在字典中。
+异常对象：mscorlib
+调用堆栈：
+在 System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   在 shell.SnapForm.pictureBox1_MouseUp(Object sender, MouseEventArgs e) 位置 G:\shell\shell1.2\shell\UI\SnapForm.cs:行号 149
+触发方法：TValue get_Item(TKey)
+
+当前时间：2018/2/5 16:22:58
+异常信息：给定关键字不在字典中。
+异常对象：mscorlib
+调用堆栈：
+在 System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   在 shell.SnapForm.pictureBox1_MouseUp(Object sender, MouseEventArgs e) 位置 G:\shell\shell1.2\shell\UI\SnapForm.cs:行号 149
+触发方法：TValue get_Item(TKey)
+
+当前时间：2018/2/5 16:23:00
+异常信息：给定关键字不在字典中。
+异常对象：mscorlib
+调用堆栈：
+在 System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)
+   在 shell.SnapForm.pictureBox1_MouseUp(Object sender, MouseEventArgs e) 位置 G:\shell\shell1.2\shell\UI\SnapForm.cs:行号 149
+触发方法：TValue get_Item(TKey)
+

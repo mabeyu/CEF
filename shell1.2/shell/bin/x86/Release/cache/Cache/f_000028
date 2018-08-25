@@ -1,0 +1,1135 @@
+/**
+ * Admui v1.0.0 (http://www.admui.com/)
+ * Copyright 2015-2017 Admui Team
+ * Licensed under the Admui License 1.0 (http://www.admui.com/about/#license)
+ */
+(function (document, window, $) {
+    'use strict';
+
+    var $content = $("#admui-pageContent");
+    var firstTab = {
+        table: '',
+        $item: '',
+        thisRow: ''
+    }, secondTab = {
+        table: '',
+        $item: '',
+        thisRow: ''
+    }, firstTabDetail = {
+        table: '',
+        $item: '',
+        thisRow: ''
+    }, secondTabDetail = {
+        table: '',
+        $item: '',
+        thisRow: ''
+    };
+    var getEmbroideryInfoListMap = new Map();
+    var getEmbroideryInfoList = {};
+    var urlLink = {
+        getEmbroideryInfoList: window.basicPath + '/standardEmbroidery/getList',
+        getEmbroideryInfo: window.basicPath + '/standardEmbroidery/getInfo',
+        addUploadFile: window.basicPath + '/standardEmbroidery/addUploadFile',
+        addUploadFileAgain: window.basicPath + '/standardEmbroidery/addUploadFileAgain',
+    }
+
+    window.Content = App.extend({
+        //未完成列表
+        handFirstTable: function (search) {
+            var self = this;
+            var index = 0;
+            /*表格初始化*/
+            firstTab.table = $('#first_table').DataTable($.po('dataTable', {
+                dom: '<"row"<"col-xs-6"<"hidden-xs"B>><"col-xs-6"f>><"row"<"col-xs-12"tr>><"row"<"col-sm-5"i><"col-sm-7"p>>',
+                processing: true,
+                autoWidth: false, //禁用自动调整列宽
+                destroy: true,
+                ajax: function (data, callback, settings) {
+                    index = 0;
+                    var query = jQuery.extend({}, search);
+                    query.pageNo = (data.start / data.length) + 1;//当前页码;
+                    query.pageSize = data.length;
+                    query.status = 1;
+
+                    common.request({
+                        url: urlLink.getEmbroideryInfoList,
+                        data: query,
+                        success: function (res,meta) {
+                            var countList = meta;
+
+                            var list = {
+                                data: res.list,
+                                recordsTotal: res.pageSize,//返回数据全部记录
+                                recordsFiltered: res.totalNum//后台不实现过滤功能，每次查询均视作全部结果
+                            };
+                            //for(var i=0;i<countList.length;i++){
+                            //    getEmbroideryInfoListMap.set(countList[i].styNum,countList[i]);
+                            //}
+                            //getEmbroideryInfoList = getEmbroideryInfoListMap
+                            //getEmbroideryInfoListMap.forEach(function (value, key) {
+                            //    getEmbroideryInfoList = key;
+                            //});
+                            callback(list);
+                        }
+                    });
+                },
+
+                rowId: 'id',
+                serverSide: true,
+                deferRender: true,
+                searching: false,
+                stateSave: false,
+                lengthChange: true,
+                displayLength: 25,
+                scrollX: "100%",
+                responsive: false,
+                buttons: {
+                    dom: {
+                        container: {
+                            className: 'btn-group btn-group-sm'
+                        },
+                        button: {
+                            className: 'btn btn-default btn-outline'
+                        }
+                    },
+                    buttons: [
+                        {
+                            extend: 'copy',
+                            text: '拷贝'
+                        },
+                        {
+                            extend: 'excel',
+                            text: '导出 Excel'
+                        },
+                        {
+                            extend: 'csv',
+                            text: '导出 CSV'
+                        },
+                        {
+                            extend: 'print',
+                            text: '打印'
+                        }
+                    ]
+                },
+                columns: [
+                    {
+                        "render": function () {
+                            index++;
+                            return index;
+                        }
+                    },
+                    {
+                        "data": "styNum"
+                    },
+                    {
+                        "data": "styName"
+                    },
+                    {
+                        "data": "total"
+                    },
+                    {
+                        "data": "finish"
+                    },
+                    {
+                        "data": "embroideryInfo",
+                        "render": function (data, type, row) {
+                            var setUp = '<button type="button" class="btn btn-sm  btn-outline btn-success"' + ' data-toggle="setUp">设置</button>';
+                            return setUp;
+                        }
+                    }
+                ],
+                "columnDefs": [
+                    {className: "text-center", "targets": [0]}
+                ],
+                "initComplete": function (settings, json) {
+                    msgOperator.clearTip('款式绣花工程师');
+                    /* $.components.init('dropify');*/
+                    /*$('.dropify').dropify();*/
+                }
+            }));
+        },
+
+        //未完成操作
+        handFirstTableOperation: function () {
+
+            /*设置按钮*/
+            $content.on('click', '.page-users button[data-toggle=setUp]', function () {
+                var $tr;
+                firstTab.$item = $(this).closest('tr');
+                $tr = firstTab.$item.prev();
+                if (firstTab.$item.hasClass('child') && $tr.hasClass('parent')) {
+                    firstTab.$item = $tr;
+                }
+                firstTab.table.thisRow = firstTab.table.row(firstTab.$item).data();
+                var styNum = firstTab.table.thisRow.styNum;
+                window.Content.handFirstDetailTable(styNum);
+                $('#firstModal').modal('show');
+            });
+
+            /*未上传文件上传按钮*/
+            $content.on('click', '.page-users button[data-toggle=uploadBtn]', function () {
+                var $tr;
+                firstTab.$item = $(this).closest('tr');
+                $tr = firstTab.$item.prev();
+                if (firstTab.$item.hasClass('child') && $tr.hasClass('parent')) {
+                    firstTab.$item = $tr;
+                }
+                firstTab.table.thisRow = firstTab.table.row(firstTab.$item).data();
+                var styNum = firstTab.table.thisRow.styNum;
+
+
+                var id = firstTab.table.thisRow.id;
+                var fileId = "uploadFile" + id;
+                var fileName = $("#" + fileId).val();
+
+                if (typeof(fileName) == "undefined" || fileName == '') {
+                    toastr.error("请先选择上传文件");
+                    return false;
+                }
+
+                //var uploadFile = firstTab.table.thisRow.uploadFile;
+                var embroideryInfo = firstTab.table.thisRow.embroideryInfo;
+                firstTab.table.thisRow.resultFile;
+                var query_f;
+                var url;
+                if (embroideryInfo == null) {
+                var styNum = firstTab.table.thisRow.styNum;
+                query_f = {
+                    "creator": loginUser.loginName,
+                    "businessId": styNum,
+                    "businessType": "GRADE",
+                    "multipartTypes":[]
+                };
+                url = "/firstUpload";
+
+                } else {
+                     var standardFileListJson = JSON.parse(embroideryInfo.standardFileList);
+                     if(standardFileListJson!=null){
+                         for(var i=0;i<standardFileListJson.length;i++){
+                            var fdfsId = standardFileListJson[i].fdfsId;
+                         }
+                     }
+                     var id = firstTab.table.thisRow.id;
+                     query_f = {
+                         "creator": loginUser.loginName,
+                         "fdfsId": fdfsId,
+                         "naturalId": id,
+                         "multipartTypes":[]
+                     };
+                     url = "/upload";
+                 }
+                $.ajaxFileUpload({
+                    url: window.fdfsPath + url,
+                    type: 'POST',
+                    data: query_f,
+                    dataType: 'json',
+                    secureuri: false, //一般设置为false
+                    fileElementId: fileId, // 上传文件的id、name属性名
+                    success: function (data) {
+                        var standardFileList = {
+                            "standardFileList":data.data
+                        };
+                        if (typeof(data.data) != "undefined") {
+                            firstTab.table.thisRow.resultFile = standardFileList;
+                            var _query = {
+                                "id": id,
+                                "embroideryInfo": JSON.stringify(firstTab.table.thisRow.resultFile)
+                            };
+
+                            common.request({
+                                url: urlLink.updateEmbroideryInfo,
+                                data: _query,
+                                type: "POST",
+                                success: function (res) {
+                                    toastr.success(res);
+                                    firstTab.table.ajax.reload();//操作完成刷新当前页
+                                    msgOperator.reduceAndShow('款式绣花工程师',1);//更新右上角item
+                                },
+                                error: function (err) {
+                                    toastr.error(err.error.message);
+                                }
+                            });
+                        } else {
+                            toastr.error(err.error.message);
+                        }
+
+                    },
+                    error: function (data, status, e) {
+                        toastr.error(e);
+                    }
+                });
+            });
+
+            /*已上传文件上传按钮*/
+            $content.on('click', '.page-users button[data-toggle=uploadBtn2]', function () {
+                var $tr;
+                firstTab.$item = $(this).closest('tr');
+                $tr = firstTab.$item.prev();
+                if (firstTab.$item.hasClass('child') && $tr.hasClass('parent')) {
+                    firstTab.$item = $tr;
+                }
+                firstTab.table.thisRow = firstTab.table.row(firstTab.$item).data();
+                var styNum = firstTab.table.thisRow.styNum;
+
+
+                var id = firstTab.table.thisRow.id;
+                var fileId = "uploadFile2" + id;
+                var fileName = $("#" + fileId).val();
+
+                if (typeof(fileName) == "undefined" || fileName == '') {
+                    toastr.error("请先选择上传文件");
+                    return false;
+                }
+
+                var embroideryInfo = firstTab.table.thisRow.embroideryInfo;
+                firstTab.table.thisRow.resultFile;
+                var query_f;
+                var url;
+                if (embroideryInfo == null) {
+                    var styNum = firstTab.table.thisRow.styNum;
+                    query_f = {
+                        "creator": loginUser.loginName,
+                        "businessId": styNum,
+                        "businessType": "GRADE",
+                        "multipartTypes":[]
+                    };
+                    url = "/firstUpload";
+
+                } else {
+                    var embroideryInfo = JSON.parse(embroideryInfo);
+                    var standardFileListJson = embroideryInfo.standardFileList;
+                    if(standardFileListJson!=null){
+                        for(var i=0;i<standardFileListJson.length;i++){
+                            var fdfsId = standardFileListJson[i].fdfsId;
+                        }
+                    }
+                    var id = firstTab.table.thisRow.id;
+                    query_f = {
+                        "creator": loginUser.loginName,
+                        "fdfsId": fdfsId,
+                        "naturalId": id,
+                        "multipartTypes":[]
+                    };
+                    url = "/upload";
+                }
+                $.ajaxFileUpload({
+                    url: window.fdfsPath + url,
+                    type: 'POST',
+                    data: query_f,
+                    dataType: 'json',
+                    secureuri: false, //一般设置为false
+                    fileElementId: fileId, // 上传文件的id、name属性名
+                    success: function (data) {
+                        var standardFileList = {
+                            "standardFileList":data.data
+                        };
+                        if (typeof(data.data) != "undefined") {
+                            firstTab.table.thisRow.resultFile = standardFileList;
+                            var _query = {
+                                "id": id,
+                                "embroideryInfo": JSON.stringify(firstTab.table.thisRow.resultFile)
+                            };
+
+                            common.request({
+                                url: urlLink.updateEmbroideryInfo,
+                                data: _query,
+                                type: "POST",
+                                success: function (res) {
+                                    toastr.success(res);
+                                    firstTab.table.ajax.reload();//操作完成刷新当前页
+                                },
+                                error: function (err) {
+                                    toastr.error(err.error.message);
+                                }
+                            });
+                        } else {
+                            toastr.error(err.error.message);
+                        }
+
+                    },
+                    error: function (data, status, e) {
+                        toastr.error(e);
+                    }
+                });
+            });
+
+            /*文件修改按钮*/
+            $content.on('click', '.page-users button[data-toggle=editBtn]', function () {
+                var $tr;
+                firstTab.$item = $(this).closest('tr');
+                $tr = firstTab.$item.prev();
+                if (firstTab.$item.hasClass('child') && $tr.hasClass('parent')) {
+                    firstTab.$item = $tr;
+                }
+                firstTab.table.thisRow = firstTab.table.row(firstTab.$item).data();
+                var embroideryInfo = firstTab.table.thisRow.embroideryInfo;
+                var embroideryInfo = JSON.parse(embroideryInfo);
+                var standardFileListJson = embroideryInfo.standardFileList;
+
+                for (var i = 0; i < standardFileListJson.length; i++) {
+                    var path_url = standardFileListJson[i].fdfsDir + standardFileListJson[i].fdfsName + '?filename=' + standardFileListJson[i].fileName;
+                    try {
+                        var a = document.getElementById("downMultiFile");
+                        a.href = window.fdfsDownPath + path_url;
+                        a.download = standardFileListJson[i].fileName;
+                        a.click();
+                    } catch (e) {
+                    }
+
+                }
+            });
+        },
+
+        //未完成的详情
+        handFirstDetailTable: function (styNum) {
+            var self = this;
+            var index = 0;
+            /*表格初始化*/
+            firstTabDetail.table = $('#firstDetail_table').DataTable($.po('dataTable', {
+                //dom: '<"row"<"col-xs-6"<"hidden-xs"B>><"col-xs-6"f>><"row"<"col-xs-12"tr>><"row"<"col-sm-5"i><"col-sm-7"p>>',
+                processing: true,
+                autoWidth: true, //禁用自动调整列宽
+                ajax: function (data, callback, settings) {
+                    index = 0;
+                    var query = {};
+                    query.styNum = styNum;
+                    common.request({
+                        url: urlLink.getEmbroideryInfo,
+                        data: query,
+                        success: function (res) {
+                            var list = {
+                                data: res,
+                                recordsTotal: res.pageSize,//返回数据全部记录
+                                recordsFiltered: res.totalNum//后台不实现过滤功能，每次查询均视作全部结果
+                            };
+                            callback(list);
+                        }
+                    });
+                },
+                destroy:true,
+                rowId: 'id',
+                serverSide: true,
+                deferRender: true,
+                searching: false,
+                stateSave: false,
+                paging: false,
+                lengthChange: false,
+                info: false,
+                displayLength: 25,
+                buttons: {
+                    dom: {
+                        container: {
+                            className: 'btn-group btn-group-sm'
+                        },
+                        button: {
+                            className: 'btn btn-default btn-outline'
+                        }
+                    },
+                    buttons: [
+                        {
+                            extend: 'copy',
+                            text: '拷贝'
+                        },
+                        {
+                            extend: 'excel',
+                            text: '导出 Excel'
+                        },
+                        {
+                            extend: 'csv',
+                            text: '导出 CSV'
+                        },
+                        {
+                            extend: 'print',
+                            text: '打印'
+                        }
+                    ]
+                },
+                columns: [
+                    {
+                        "data": "optTypeDtlCode",
+                        "render": function (data, type, row) {
+                            if (!common.isEmpty(data)) {
+                                return data;
+                            }else{
+                                return null;
+                            }
+                        }
+                    },
+                    {
+                        "data": "optTypeDtlValue",
+                        "render": function (data, type, row) {
+                            if (!common.isEmpty(data)) {
+                                return data;
+                            }else{
+                                return null;
+                            }
+                        }
+                    },
+                    {
+                        data: "embroideryInfo",
+                        "render": function (data, type, row) {
+                            var embroideryInfoJson = JSON.parse(data);
+                            var result = "";
+                            if (embroideryInfoJson != null) {
+                                for (var i = 0; i < embroideryInfoJson.length; i++) {
+                                    result += '<div><a>' + embroideryInfoJson[i].fileName + '</a></div>';
+                                }
+                            }
+                            var upload = '<input type="file" multiple="multiple" class="btn btn-default btn-xs ladda-button" name="files" id="uploadFile' + row.id + '"/>';
+                            return result+upload;
+                        }
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            var upload = '<button type="button" class="btn btn-sm btn-icon btn-pure btn-default"' + ' data-toggle="firstDetailUploadBtn"><i class="icon wb-upload" aria-hidden="true"></i></button>'
+                            return upload;
+                        }
+                    },
+                    {
+                        //"data": "embroideryInfo",
+                        "render": function (data, type, row) {
+                            var uploadBtn = '<button type="button" class="btn btn-sm btn-icon btn-pure btn-default"' + ' data-toggle="firstDownloadBtn"><i class="icon wb-download" aria-hidden="true"></i></button>';
+                            return uploadBtn;
+                        }
+                    }
+                ],
+                "columnDefs": [
+                    //{className: "text-center", "targets": [0]}
+                ],
+                "initComplete": function (settings, json) {
+                    /* $.components.init('dropify');*/
+                    /*$('.dropify').dropify();*/
+                }
+            }));
+        },
+
+        //未完成的详情操作
+        handFirstDetailTableOperation: function(){
+            /*未上传文件上传按钮*/
+            $content.on('click', '#firstDetail_table button[data-toggle=firstDetailUploadBtn]', function () {
+                var $tr;
+                firstTabDetail.$item = $(this).closest('tr');
+                $tr = firstTabDetail.$item.prev();
+                if (firstTabDetail.$item.hasClass('child') && $tr.hasClass('parent')) {
+                    firstTabDetail.$item = $tr;
+                }
+                firstTabDetail.table.thisRow = firstTabDetail.table.row(firstTabDetail.$item).data();
+                var styNum = firstTabDetail.table.thisRow.styNum;
+
+                var id = firstTabDetail.table.thisRow.id;
+                var fileId = "uploadFile" + id;
+                var fileName = $("#" + fileId).val();
+
+                if (typeof(fileName) == "undefined" || fileName == '') {
+                    toastr.error("请先选择上传文件");
+                    return false;
+                }
+
+                var embroideryInfo = firstTabDetail.table.thisRow.embroideryInfo;
+                firstTabDetail.table.thisRow.resultFile;
+                var query_f;
+                var url;
+                if (embroideryInfo == null) {
+                    var styNum = firstTabDetail.table.thisRow.styNum;
+                    query_f = {
+                        "creator": loginUser.loginName,
+                        "businessId": styNum,
+                        "businessType": "GRADE",
+                        "multipartTypes":[]
+                    };
+                    url = "/firstUpload";
+
+                } else {
+                    var standardFileListJson = JSON.parse(embroideryInfo);
+                    if(standardFileListJson!=null){
+                        for(var i=0;i<standardFileListJson.length;i++){
+                            var fdfsId = standardFileListJson[i].fdfsId;
+                        }
+                    }
+                    var id = firstTabDetail.table.thisRow.id;
+                    query_f = {
+                        "creator": loginUser.loginName,
+                        "fdfsId": fdfsId,
+                        "naturalId": id,
+                        "multipartTypes":[]
+                    };
+                    url = "/upload";
+                }
+                $.ajaxFileUpload({
+                    url: window.fdfsPath + url,
+                    type: 'POST',
+                    data: query_f,
+                    dataType: 'json',
+                    secureuri: false, //一般设置为false
+                    fileElementId: fileId, // 上传文件的id、name属性名
+                    success: function (data) {
+                        var standardFileList = {
+                            "standardFileList":data.data
+                        };
+                        if (typeof(data.data) != "undefined") {
+                            firstTabDetail.table.thisRow.resultFile = data.data;
+                            var _query = {
+                                "id": id,
+                                "embroideryInfoStr": JSON.stringify(firstTabDetail.table.thisRow.resultFile)
+                            };
+
+                            common.request({
+                                url: urlLink.addUploadFile,
+                                data: _query,
+                                type: "POST",
+                                success: function (res) {
+                                    toastr.success(res);
+                                    firstTabDetail.table.ajax.reload();//操作完成刷新当前页
+                                    firstTab.table.ajax.reload();//操作完成刷新当前页
+                                },
+                                error: function (err) {
+                                    toastr.error(err.error.message);
+                                }
+                            });
+                        } else {
+                            toastr.error(err.error.message);
+                        }
+
+                    },
+                    error: function (data, status, e) {
+                        toastr.error(e);
+                    }
+                });
+            });
+
+            /*文件下载按钮*/
+            $content.on('click', '#firstDetail_table button[data-toggle=firstDownloadBtn]', function () {
+                var $tr;
+                firstTabDetail.$item = $(this).closest('tr');
+                $tr = firstTabDetail.$item.prev();
+                if (firstTabDetail.$item.hasClass('child') && $tr.hasClass('parent')) {
+                    firstTabDetail.$item = $tr;
+                }
+                firstTabDetail.table.thisRow = firstTabDetail.table.row(firstTabDetail.$item).data();
+                var uploadInfo = firstTabDetail.table.thisRow.embroideryInfo;
+                if (common.isEmpty(uploadInfo)) {
+                    toastr.error("下载文件为空");
+                    return false;
+                }
+                var uploadInfoJson = JSON.parse(uploadInfo);
+                for (var i = 0; i < uploadInfoJson.length; i++) {
+                    var path_url = uploadInfoJson[i].fdfsDir + uploadInfoJson[i].fdfsName + '?filename=' + uploadInfoJson[i].fileName;
+                    try {
+                        var a = document.getElementById("nodownFile");
+                        a.href = window.fdfsDownPath + path_url;
+                        a.download = uploadInfoJson[i].fileName;
+                        a.click();
+                    } catch (e) {
+                    }
+
+                }
+            });
+        },
+
+        //已完成列表
+        handSecondTable: function(search){
+            var self = this;
+            var index = 0;
+            /*表格初始化*/
+            secondTab.table = $('#second_table').DataTable($.po('dataTable', {
+                dom: '<"row"<"col-xs-6"<"hidden-xs"B>><"col-xs-6"f>><"row"<"col-xs-12"tr>><"row"<"col-sm-5"i><"col-sm-7"p>>',
+                processing: true,
+                autoWidth: false, //禁用自动调整列宽
+                destroy: true,
+                ajax: function (data, callback, settings) {
+                    index = 0;
+                    var query = jQuery.extend({}, search);
+                    query.pageNo = (data.start / data.length) + 1;//当前页码;
+                    query.pageSize = data.length;
+                    query.status = 2;
+
+                    common.request({
+                        url: urlLink.getEmbroideryInfoList,
+                        data: query,
+                        success: function (res,meta) {
+                            var countList = meta;
+
+                            var list = {
+                                data: res.list,
+                                recordsTotal: res.pageSize,//返回数据全部记录
+                                recordsFiltered: res.totalNum//后台不实现过滤功能，每次查询均视作全部结果
+                            };
+                            //for(var i=0;i<countList.length;i++){
+                            //    getEmbroideryInfoListMap.set(countList[i].styNum,countList[i]);
+                            //}
+                            //getEmbroideryInfoList = getEmbroideryInfoListMap
+                            //getEmbroideryInfoListMap.forEach(function (value, key) {
+                            //    getEmbroideryInfoList = key;
+                            //});
+                            callback(list);
+                        }
+                    });
+                },
+
+                rowId: 'id',
+                serverSide: true,
+                deferRender: true,
+                searching: false,
+                stateSave: false,
+                lengthChange: true,
+                displayLength: 25,
+                scrollX: "100%",
+                responsive: false,
+                buttons: {
+                    dom: {
+                        container: {
+                            className: 'btn-group btn-group-sm'
+                        },
+                        button: {
+                            className: 'btn btn-default btn-outline'
+                        }
+                    },
+                    buttons: [
+                        {
+                            extend: 'copy',
+                            text: '拷贝'
+                        },
+                        {
+                            extend: 'excel',
+                            text: '导出 Excel'
+                        },
+                        {
+                            extend: 'csv',
+                            text: '导出 CSV'
+                        },
+                        {
+                            extend: 'print',
+                            text: '打印'
+                        }
+                    ]
+                },
+                columns: [
+                    {
+                        "render": function () {
+                            index++;
+                            return index;
+                        }
+                    },
+                    {
+                        "data": "styNum",
+                    },
+                    {
+                        "data": "styName"
+                    },
+                    {
+                        "data": "total"
+                    },
+                    {
+                        "data": "finish"
+                    },
+                    {
+                        "data": "embroideryInfo",
+                        "render": function (data, type, row) {
+                            var setUp = '<button type="button" class="btn btn-sm  btn-outline btn-success"' + ' data-toggle="secondsetUp">设置</button>';
+                            return setUp;
+                        }
+                    }
+                ],
+                "columnDefs": [
+                    {className: "text-center", "targets": [0]}
+                ],
+                "initComplete": function (settings, json) {
+                    /* $.components.init('dropify');*/
+                    /*$('.dropify').dropify();*/
+                }
+            }));
+        },
+
+        //已完成操作
+        handSecondTableOperation: function () {
+            /*设置按钮*/
+            $content.on('click', '.page-users button[data-toggle=secondsetUp]', function () {
+                var $tr;
+                secondTab.$item = $(this).closest('tr');
+                $tr = secondTab.$item.prev();
+                if (secondTab.$item.hasClass('child') && $tr.hasClass('parent')) {
+                    secondTab.$item = $tr;
+                }
+                secondTab.table.thisRow = secondTab.table.row(secondTab.$item).data();
+                var styNum = secondTab.table.thisRow.styNum;
+                window.Content.handSecondDetailTable(styNum);
+                $('#secondModal').modal('show');
+            });
+        },
+
+        //已完成的详情
+        handSecondDetailTable: function (styNum) {
+            var self = this;
+            var index = 0;
+            /*表格初始化*/
+            secondTabDetail.table = $('#secondDetail_table').DataTable($.po('dataTable', {
+                //dom: '<"row"<"col-xs-6"<"hidden-xs"B>><"col-xs-6"f>><"row"<"col-xs-12"tr>><"row"<"col-sm-5"i><"col-sm-7"p>>',
+                processing: true,
+                autoWidth: true, //禁用自动调整列宽
+                ajax: function (data, callback, settings) {
+                    index = 0;
+                    var query = {};
+                    query.styNum = styNum;
+                    common.request({
+                        url: urlLink.getEmbroideryInfo,
+                        data: query,
+                        success: function (res) {
+                            var list = {
+                                data: res,
+                                recordsTotal: res.pageSize,//返回数据全部记录
+                                recordsFiltered: res.totalNum//后台不实现过滤功能，每次查询均视作全部结果
+                            };
+                            callback(list);
+                        }
+                    });
+                },
+                destroy:true,
+                rowId: 'id',
+                serverSide: true,
+                deferRender: true,
+                searching: false,
+                stateSave: false,
+                paging: false,
+                lengthChange: false,
+                info: false,
+                displayLength: 25,
+                buttons: {
+                    dom: {
+                        container: {
+                            className: 'btn-group btn-group-sm'
+                        },
+                        button: {
+                            className: 'btn btn-default btn-outline'
+                        }
+                    },
+                    buttons: [
+                        {
+                            extend: 'copy',
+                            text: '拷贝'
+                        },
+                        {
+                            extend: 'excel',
+                            text: '导出 Excel'
+                        },
+                        {
+                            extend: 'csv',
+                            text: '导出 CSV'
+                        },
+                        {
+                            extend: 'print',
+                            text: '打印'
+                        }
+                    ]
+                },
+                columns: [
+                    {
+                        "data": "optTypeDtlCode",
+                        "render": function (data, type, row) {
+                            if (!common.isEmpty(data)) {
+                                return data;
+                            }else{
+                                return null;
+                            }
+                        }
+                    },
+                    {
+                        "data": "optTypeDtlValue",
+                        "render": function (data, type, row) {
+                            if (!common.isEmpty(data)) {
+                                return data;
+                            }else{
+                                return null;
+                            }
+                        }
+                    },
+                    {
+                        data: "embroideryInfo",
+                        "render": function (data, type, row) {
+                            var embroideryInfoJson = JSON.parse(data);
+                            var result = "";
+                            if (embroideryInfoJson != null) {
+                                for (var i = 0; i < embroideryInfoJson.length; i++) {
+                                    result += '<div><a>' + embroideryInfoJson[i].fileName + '</a></div>';
+                                }
+                            }
+                            var upload = '<input type="file" multiple="multiple" class="btn btn-default btn-xs ladda-button" name="files" id="seconduploadFile' + row.id + '"/>';
+                            return result+upload;
+                        }
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            var upload = '<button type="button" class="btn btn-sm btn-icon btn-pure btn-default"' + ' data-toggle="secondDetailUploadBtn"><i class="icon wb-upload" aria-hidden="true"></i></button>'
+                            return upload;
+                        }
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            var upload = '<button type="button" class="btn btn-sm btn-icon btn-pure btn-default"' + ' data-toggle="addAgainUploadBtn"><i class="icon wb-upload" aria-hidden="true"></i></button>'
+                            return upload;
+                        }
+                    },
+                    {
+                        "render": function (data, type, row) {
+                            var uploadBtn = '<button type="button" class="btn btn-sm btn-icon btn-pure btn-default"' + ' data-toggle="secondDownloadBtn"><i class="icon wb-download" aria-hidden="true"></i></button>';
+                            return uploadBtn;
+                        }
+                    }
+                ],
+                "columnDefs": [
+                    //{className: "text-center", "targets": [0]}
+                ],
+                "initComplete": function (settings, json) {
+                    /* $.components.init('dropify');*/
+                    /*$('.dropify').dropify();*/
+                }
+            }));
+        },
+
+        //已完成详情操作
+        handSecondDetailTableOperation: function(){
+            /*已上传文件上传按钮*/
+            $content.on('click', '#secondDetail_table button[data-toggle=secondDetailUploadBtn]', function () {
+                var $tr;
+                secondTabDetail.$item = $(this).closest('tr');
+                $tr = secondTabDetail.$item.prev();
+                if (secondTabDetail.$item.hasClass('child') && $tr.hasClass('parent')) {
+                    secondTabDetail.$item = $tr;
+                }
+                secondTabDetail.table.thisRow = secondTabDetail.table.row(secondTabDetail.$item).data();
+                var styNum = secondTabDetail.table.thisRow.styNum;
+
+                var id = secondTabDetail.table.thisRow.id;
+                var fileId = "seconduploadFile" + id;
+                var fileName = $("#" + fileId).val();
+
+                if (typeof(fileName) == "undefined" || fileName == '') {
+                    toastr.error("请先选择上传文件");
+                    return false;
+                }
+
+                var embroideryInfo = secondTabDetail.table.thisRow.embroideryInfo;
+                secondTabDetail.table.thisRow.resultFile;
+                var query_f;
+                var url;
+                if (embroideryInfo == null) {
+                    var styNum = secondTabDetail.table.thisRow.styNum;
+                    query_f = {
+                        "creator": loginUser.loginName,
+                        "businessId": styNum,
+                        "businessType": "GRADE",
+                        "multipartTypes":[]
+                    };
+                    url = "/firstUpload";
+
+                } else {
+                    var standardFileListJson = JSON.parse(embroideryInfo);
+                    if(standardFileListJson!=null){
+                        for(var i=0;i<standardFileListJson.length;i++){
+                            var fdfsId = standardFileListJson[i].fdfsId;
+                        }
+                    }
+                    var id = secondTabDetail.table.thisRow.id;
+                    query_f = {
+                        "creator": loginUser.loginName,
+                        "fdfsId": fdfsId,
+                        "naturalId": id,
+                        "multipartTypes":[]
+                    };
+                    url = "/upload";
+                }
+                $.ajaxFileUpload({
+                    url: window.fdfsPath + url,
+                    type: 'POST',
+                    data: query_f,
+                    dataType: 'json',
+                    secureuri: false, //一般设置为false
+                    fileElementId: fileId, // 上传文件的id、name属性名
+                    success: function (data) {
+                        var standardFileList = {
+                            "standardFileList":data.data
+                        };
+                        if (typeof(data.data) != "undefined") {
+                            secondTabDetail.table.thisRow.resultFile = data.data;
+                            var _query = {
+                                "id": id,
+                                "embroideryInfoStr": JSON.stringify(secondTabDetail.table.thisRow.resultFile)
+                            };
+
+                            common.request({
+                                url: urlLink.addUploadFile,
+                                data: _query,
+                                type: "POST",
+                                success: function (res) {
+                                    toastr.success(res);
+                                    secondTabDetail.table.ajax.reload();//操作完成刷新当前页
+                                    secondTab.table.ajax.reload();//操作完成刷新当前页
+                                },
+                                error: function (err) {
+                                    toastr.error(err.error.message);
+                                }
+                            });
+                        } else {
+                            toastr.error(err.error.message);
+                        }
+
+                    },
+                    error: function (data, status, e) {
+                        toastr.error(e);
+                    }
+                });
+            });
+
+            /*追加文件上传按钮*/
+            $content.on('click', '#secondDetail_table button[data-toggle=addAgainUploadBtn]', function () {
+                var $tr;
+                secondTabDetail.$item = $(this).closest('tr');
+                $tr = secondTabDetail.$item.prev();
+                if (secondTabDetail.$item.hasClass('child') && $tr.hasClass('parent')) {
+                    secondTabDetail.$item = $tr;
+                }
+                secondTabDetail.table.thisRow = secondTabDetail.table.row(secondTabDetail.$item).data();
+                var styNum = secondTabDetail.table.thisRow.styNum;
+
+                var id = secondTabDetail.table.thisRow.id;
+                var fileId = "seconduploadFile" + id;
+                var fileName = $("#" + fileId).val();
+
+                if (typeof(fileName) == "undefined" || fileName == '') {
+                    toastr.error("请先选择上传文件");
+                    return false;
+                }
+
+                var embroideryInfo = secondTabDetail.table.thisRow.embroideryInfo;
+                secondTabDetail.table.thisRow.resultFile;
+                var query_f;
+                var url;
+                if (embroideryInfo == null) {
+                    var styNum = secondTabDetail.table.thisRow.styNum;
+                    query_f = {
+                        "creator": loginUser.loginName,
+                        "businessId": styNum,
+                        "businessType": "GRADE",
+                        "multipartTypes":[]
+                    };
+                    url = "/firstUpload";
+
+                } else {
+                    var standardFileListJson = JSON.parse(embroideryInfo);
+                    if(standardFileListJson!=null){
+                        for(var i=0;i<standardFileListJson.length;i++){
+                            var fdfsId = standardFileListJson[i].fdfsId;
+                        }
+                    }
+                    var id = secondTabDetail.table.thisRow.id;
+                    query_f = {
+                        "creator": loginUser.loginName,
+                        "fdfsId": fdfsId,
+                        "naturalId": id,
+                        "multipartTypes":[]
+                    };
+                    url = "/upload";
+                }
+                $.ajaxFileUpload({
+                    url: window.fdfsPath + url,
+                    type: 'POST',
+                    data: query_f,
+                    dataType: 'json',
+                    secureuri: false, //一般设置为false
+                    fileElementId: fileId, // 上传文件的id、name属性名
+                    success: function (data) {
+                        var standardFileList = {
+                            "standardFileList":data.data
+                        };
+                        if (typeof(data.data) != "undefined") {
+                            secondTabDetail.table.thisRow.resultFile = data.data;
+                            var _query = {
+                                "id": id,
+                                "embroideryInfoStr": JSON.stringify(secondTabDetail.table.thisRow.resultFile)
+                            };
+
+                            common.request({
+                                url: urlLink.addUploadFileAgain,
+                                data: _query,
+                                type: "POST",
+                                success: function (res) {
+                                    toastr.success(res);
+                                    secondTabDetail.table.ajax.reload();//操作完成刷新当前页
+                                    secondTab.table.ajax.reload();//操作完成刷新当前页
+                                },
+                                error: function (err) {
+                                    toastr.error(err.error.message);
+                                }
+                            });
+                        } else {
+                            toastr.error(err.error.message);
+                        }
+
+                    },
+                    error: function (data, status, e) {
+                        toastr.error(e);
+                    }
+                });
+            });
+
+            /*文件下载按钮*/
+            $content.on('click', '#secondDetail_table button[data-toggle=secondDownloadBtn]', function () {
+                var $tr;
+                secondTabDetail.$item = $(this).closest('tr');
+                $tr = secondTabDetail.$item.prev();
+                if (secondTabDetail.$item.hasClass('child') && $tr.hasClass('parent')) {
+                    secondTabDetail.$item = $tr;
+                }
+                secondTabDetail.table.thisRow = secondTabDetail.table.row(secondTabDetail.$item).data();
+                var uploadInfo = secondTabDetail.table.thisRow.embroideryInfo;
+                if (common.isEmpty(uploadInfo)) {
+                    toastr.error("下载文件为空");
+                    return false;
+                }
+                var uploadInfoJson = JSON.parse(uploadInfo);
+                for (var i = 0; i < uploadInfoJson.length; i++) {
+                    var path_url = uploadInfoJson[i].fdfsDir + uploadInfoJson[i].fdfsName + '?filename=' + uploadInfoJson[i].fileName;
+                    try {
+                        var a = document.getElementById("downFile");
+                        a.href = window.fdfsDownPath + path_url;
+                        a.download = uploadInfoJson[i].fileName;
+                        a.click();
+                    } catch (e) {
+                    }
+
+                }
+            });
+        },
+
+        handMainOperation: function () {
+            /*页面主要操作*/
+            $content.on('click', '.page-users a[data-toggle=tab]', function () {
+                var tabName = $(this).attr('aria-controls');
+                if (tabName == 'tab2') {
+                    window.Content.handSecondTable();
+                }else{
+                    window.Content.handFirstTable();
+                    window.Content.handFirstTableOperation();
+                }
+            });
+
+            //查找
+            $content.on('click', '#searchBtn', function () {
+                var search = {};
+                search.styNum = $('#searchStyNum').val().trim();
+                window.Content.handFirstTable(search);
+                window.Content.handSecondTable(search);
+            });
+        },
+
+        run: function () {
+            this.handFirstTable();
+            this.handFirstTableOperation();
+            this.handFirstDetailTableOperation();
+            this.handSecondDetailTableOperation();
+            this.handMainOperation();
+            this.handSecondTableOperation();
+        }
+    });
+
+})(document, window, jQuery);
+
